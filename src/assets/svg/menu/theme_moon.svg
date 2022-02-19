@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <defs>
+        <filter id="filter-1">
+            <feColorMatrix in="SourceGraphic" type="matrix" values="0 0 0 0 0.074510 0 0 0 0 0.337255 0 0 0 0 0.345098 0 0 0 1.000000 0"></feColorMatrix>
+        </filter>
+        <filter id="filter-2">
+            <feColorMatrix in="SourceGraphic" type="matrix" values="0 0 0 0 0.090196 0 0 0 0 0.090196 0 0 0 0 0.227451 0 0 0 0.400000 0"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="totoro-swap" transform="translate(-200.000000, -1040.000000)">
+            <g id="moon-line-2" transform="translate(0.000000, 970.000000)" filter="url(#filter-1)">
+                <g transform="translate(200.000000, 70.000000)" id="moon-line" filter="url(#filter-2)">
+                    <g>
+                        <polygon id="路径" points="0 0 24 0 24 24 0 24"></polygon>
+                        <path d="M10,7 C9.99958529,9.84442777 11.7204262,12.4062838 14.3537762,13.4815684 C16.9871263,14.556853 20.0093153,13.9317342 22,11.9 L22,12 C22,17.523 17.523,22 12,22 C6.477,22 2,17.523 2,12 C2,6.477 6.477,2 12,2 L12.1,2 C10.754595,3.31542865 9.99735164,5.11838892 10,7 L10,7 Z M3.99999933,12 C3.99850457,15.6728076 6.49807006,18.8748141 10.0614119,19.7648215 C13.6247537,20.6548289 17.3363575,19.0041715 19.062,15.762 C16.0273256,16.4769455 12.8387967,15.5703746 10.634211,13.365789 C8.42962536,11.1612033 7.52305447,7.97267439 8.238,4.938 C5.62888012,6.32799482 3.99913736,9.04372001 3.99999933,12 L3.99999933,12 Z" id="形状" fill="#17173A" fill-rule="nonzero"></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
