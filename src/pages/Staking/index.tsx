@@ -1,6 +1,9 @@
 import React from 'react'
 import { StakingPage } from './style'
 import InfoIcon from '../../assets/svg/staking/info-icon.svg'
+import BannerBg from '../../assets/svg/staking/banner-bg.png'
+import PageBG from '../../assets/svg/staking/bg.png'
+import ArrowR from '../../assets/svg/staking/arrow-right.svg'
 
 export default function Staking() {
   const allValidators = [
@@ -42,13 +45,31 @@ export default function Staking() {
     }
   ]
   return (
-    <StakingPage>
+    <StakingPage bg={PageBG}>
       <div className="staking-page">
-        <h1 className="banner">
-          Start Earning rewards with ETM<span>3</span> Staking.
-        </h1>
+        <div className="banner">
+          <div>
+            <h1>Start Earning rewards with</h1>
+            <h1>
+              ETM<span>3</span> Staking.
+            </h1>
+            <p>
+              <button className="banner-btn">
+                Become a Delegator{' '}
+                <span>
+                  <img src={ArrowR} alt="" />
+                </span>
+              </button>
+            </p>
+          </div>
+          <div className="banner-bg">
+            <img src={BannerBg} alt="" />
+          </div>
+        </div>
         <div className="account-data card">
-          <div className="card-title">My Account</div>
+          <div className="card-title">
+            <span>My Account</span>
+          </div>
           <div className="card-main">
             <div className="card-main-item">
               <p className="card-main-title">
@@ -72,13 +93,15 @@ export default function Staking() {
               <p className="card-desc"> </p>
             </div>
             <div className="card-main-item-btns">
-              <div className="btn-compound">Compound</div>
-              <div className="btn-claim">Claim</div>
+              {/*<div className="btn-compound">Compound</div>*/}
+              {/*<div className="btn-claim">Claim</div>*/}
             </div>
           </div>
         </div>
         <div className="network-overview card">
-          <div className="card-title">Network Overview</div>
+          <div className="card-title">
+            <span>Network Overview</span>
+          </div>
           <div className="card-main">
             <div className="card-main-item">
               <p className="card-main-title">TOTAL VALIDATORS</p>
@@ -103,8 +126,10 @@ export default function Staking() {
           </div>
         </div>
         <div className="all-validators card">
-          <div className="card-title">All Validators</div>
-          <table>
+          <div className="card-title">
+            <span>All Validators</span>
+          </div>
+          <table className="all-validators-pc">
             <tbody>
               <tr className="table-header">
                 <th>Name</th>
@@ -134,6 +159,40 @@ export default function Staking() {
               ))}
             </tbody>
           </table>
+          <div className="all-validators-h5">
+            {allValidators.map((item, index) => (
+              <div key={index}>
+                <div className="all-validators-h5-t">
+                  <div>
+                    <img src={InfoIcon} alt="" />
+                    <span>{item.name}</span>
+                  </div>
+                </div>
+                <div className="all-validators-h5-v">
+                  <div>
+                    <h2>Total Staked</h2>
+                    <p>{item.totalStaked} ETM</p>
+                  </div>
+                  <div>
+                    <h2>My Staked</h2>
+                    <p>{item.myStaked} ETM</p>
+                  </div>
+                  <div>
+                    <h2>APY</h2>
+                    <p>{item.apy} ETM</p>
+                  </div>
+                </div>
+                <div className="all-validators-h5-b">
+                  <div>
+                    <div className="btn-compound">Compound</div>
+                  </div>
+                  <div>
+                    <div className="btn-claim">Claim</div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </StakingPage>

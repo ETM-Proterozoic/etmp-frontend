@@ -1,21 +1,33 @@
 import { useWeb3React } from '@web3-react/core'
 import { useCallback, useMemo } from 'react'
 import { InjectedConnector } from '@web3-react/injected-connector'
-import { ChainId } from '@totoroswap/sdk'
+import { ClientChainId, multicallConfig } from '../constants/multicall'
 export const injected = new InjectedConnector({
-  supportedChainIds: [ChainId.BSC]
+  supportedChainIds: [ClientChainId.ETM3]
 })
+console.log(multicallConfig.rpc[ClientChainId.ETM3])
 export const networkConf = {
-  [ChainId.BSC]: {
-    chainId: '0x38',
-    chainName: 'Binance Smart Chain',
+  [ClientChainId.ETM3]: {
+    chainId: ClientChainId.ETM3.toString(16),
+    chainName: 'ETM3 Mainnet',
     nativeCurrency: {
-      name: 'BNB',
-      symbol: 'BNB',
+      name: 'ETM3',
+      symbol: 'ETM3',
       decimals: 18
     },
-    rpcUrls: ['https://bsc-dataseed.binance.org/'],
-    blockExplorerUrls: ['https://bscscan.com']
+    rpcUrls: [multicallConfig.rpc[ClientChainId.ETM3].url],
+    blockExplorerUrls: null
+  },
+  [ClientChainId.ETM3Test]: {
+    chainId: ClientChainId.ETM3Test.toString(16),
+    chainName: 'ETM3 Testnet',
+    nativeCurrency: {
+      name: 'ETM3',
+      symbol: 'ETM3',
+      decimals: 18
+    },
+    rpcUrls: [multicallConfig.rpc[ClientChainId.ETM3Test].url],
+    blockExplorerUrls: null
   }
 }
 

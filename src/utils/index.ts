@@ -7,6 +7,7 @@ import { abi as IUniswapV2Router02ABI } from '../constants/abis/IUniswapV2Router
 import { ROUTER_ADDRESS } from '../constants'
 import { ChainId, JSBI, Percent, Token, CurrencyAmount, Currency, ETHER } from '@totoroswap/sdk'
 import { TokenAddressMap } from '../state/lists/hooks'
+import Web3 from 'web3'
 
 // returns the checksummed address if the address is valid, otherwise returns false
 export function isAddress(value: any): string | false {
@@ -101,4 +102,9 @@ export function escapeRegExp(string: string): string {
 export function isTokenOnList(defaultTokens: TokenAddressMap, currency?: Currency): boolean {
   if (currency === ETHER) return true
   return Boolean(currency instanceof Token && defaultTokens[currency.chainId]?.[currency.address])
+}
+
+export function getWeb3Contract(library: any, abi: any, address: string) {
+  const web3 = new Web3(library.provider)
+  return new web3.eth.Contract(abi, address)
 }

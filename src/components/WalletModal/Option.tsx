@@ -1,18 +1,14 @@
 import React from 'react'
 import styled from 'styled-components'
 import { ExternalLink } from '../../theme'
+import ArrowRightIcon from '../../assets/svg/arrow_right.svg'
 
 const InfoCard = styled.button<{ active?: boolean }>`
-  background-color: ${({ theme, active }) => (active ? theme.bg3 : theme.bg2)};
+  background-color: ${({ theme, active }) => (active ? theme.bg3 : theme.bg1)};
   padding: 1rem;
   outline: none;
-  border: 1px solid;
-  border-radius: 12px;
   width: 100% !important;
-  &:focus {
-    box-shadow: 0 0 0 1px ${({ theme }) => theme.primary1};
-  }
-  border-color: ${({ theme, active }) => (active ? 'transparent' : theme.bg3)};
+  border: 0;
 `
 
 const OptionCard = styled(InfoCard as any)`
@@ -34,7 +30,6 @@ const OptionCardClickable = styled(OptionCard as any)<{ clickable?: boolean }>`
   margin-top: 0;
   &:hover {
     cursor: ${({ clickable }) => (clickable ? 'pointer' : '')};
-    border: ${({ clickable, theme }) => (clickable ? `1px solid ${theme.primary1}` : ``)};
   }
   opacity: ${({ disabled }) => (disabled ? '0.5' : '1')};
 `
@@ -65,6 +60,36 @@ const HeaderText = styled.div`
   color: ${props => (props.color === 'blue' ? ({ theme }) => theme.primary1 : ({ theme }) => theme.text1)};
   font-size: 1rem;
   font-weight: 500;
+  img {
+    width: 56px;
+    height: 56px;
+  }
+  .option-c-title {
+    margin-left: 20px;
+    h1 {
+      font-family: PingFang SC;
+      font-style: normal;
+      font-weight: 600;
+      font-size: 18px;
+      line-height: 25px;
+      display: flex;
+      align-items: center;
+
+      color: ${({ theme }) => theme.text1};
+    }
+    p {
+      font-family: PingFang SC;
+      font-style: normal;
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 0;
+      display: flex;
+      align-items: center;
+      color: #bdbdbd;
+      word-wrap: break-word;
+      word-break: break-all;
+    }
+  }
 `
 
 const SubHeader = styled.div`
@@ -97,7 +122,8 @@ export default function Option({
   subheader = null,
   icon,
   active = false,
-  id
+  id,
+  desc
 }: {
   link?: string | null
   clickable?: boolean
@@ -109,6 +135,7 @@ export default function Option({
   icon: string
   active?: boolean
   id: string
+  desc?: React.ReactNode
 }) {
   const content = (
     <OptionCardClickable id={id} onClick={onClick} clickable={clickable && !active} active={active}>
@@ -123,12 +150,17 @@ export default function Option({
           ) : (
             ''
           )}
-          {header}
+          <img src={icon} alt={'Icon'} />
+          <div className="option-c-title">
+            <h1>{header}</h1>
+            <p>{desc}</p>
+          </div>
         </HeaderText>
         {subheader && <SubHeader>{subheader}</SubHeader>}
       </OptionCardLeft>
       <IconWrapper size={size}>
-        <img src={icon} alt={'Icon'} />
+        {/*<img src={icon} alt={'Icon'} />*/}
+        <img src={ArrowRightIcon} alt="" />
       </IconWrapper>
     </OptionCardClickable>
   )

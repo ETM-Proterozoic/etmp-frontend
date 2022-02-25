@@ -20,29 +20,30 @@ function useTokensFromMap(tokenMap: TokenAddressMap, includeUserAdded: boolean):
   return useMemo(() => {
     if (!chainId) return {}
 
-    // reduce to just tokens
-    const mapWithoutUrls = Object.keys(tokenMap[chainId]).reduce<{ [address: string]: Token }>((newMap, address) => {
-      newMap[address] = tokenMap[chainId][address].token
-      return newMap
-    }, {})
-
-    if (includeUserAdded) {
-      return (
-        userAddedTokens
-          // reduce into all ALL_TOKENS filtered by the current chain
-          .reduce<{ [address: string]: Token }>(
-            (tokenMap, token) => {
-              tokenMap[token.address] = token
-              return tokenMap
-            },
-            // must make a copy because reduce modifies the map, and we do not
-            // want to make a copy in every iteration
-            { ...mapWithoutUrls }
-          )
-      )
-    }
-
-    return mapWithoutUrls
+    return {}
+    // // reduce to just tokens
+    // const mapWithoutUrls = Object.keys(tokenMap[chainId]).reduce<{ [address: string]: Token }>((newMap, address) => {
+    //   newMap[address] = tokenMap[chainId][address].token
+    //   return newMap
+    // }, {})
+    //
+    // if (includeUserAdded) {
+    //   return (
+    //     userAddedTokens
+    //       // reduce into all ALL_TOKENS filtered by the current chain
+    //       .reduce<{ [address: string]: Token }>(
+    //         (tokenMap, token) => {
+    //           tokenMap[token.address] = token
+    //           return tokenMap
+    //         },
+    //         // must make a copy because reduce modifies the map, and we do not
+    //         // want to make a copy in every iteration
+    //         { ...mapWithoutUrls }
+    //       )
+    //   )
+    // }
+    //
+    // return mapWithoutUrls
   }, [chainId, userAddedTokens, tokenMap, includeUserAdded])
 }
 

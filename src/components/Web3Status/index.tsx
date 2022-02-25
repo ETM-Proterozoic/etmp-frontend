@@ -80,6 +80,24 @@ const Web3StatusConnected = styled(Web3StatusConnect)<{ pending?: boolean }>`
   width: auto;
   padding: 0 10px;
 `
+const WalletConnected = styled.div`
+  padding: 10px 20px;
+  height: 45px;
+  background: #f4f5f6;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 25px;
+  color: #101225;
+  border-radius: 5px;
+  margin-right: 30px;
+  cursor: pointer;
+  ${({ theme }) => theme.mediaWidth.upToExtraSmall`
+         height: 35px;
+         line-height: 16px;
+         margin-right: 20px;
+        padding: 10px 15px;
+  `}
+`
 
 const Text = styled.p`
   flex: 1 1 auto;
@@ -153,20 +171,18 @@ function Web3StatusInner() {
   const toggleWalletModal = useWalletModalToggle()
 
   if (account) {
-    return (
+    return hasPendingTransactions ? (
       <Web3StatusConnected id="web3-status-connected" onClick={toggleWalletModal} pending={hasPendingTransactions}>
-        {hasPendingTransactions ? (
-          <RowBetween>
-            <Text>{pending?.length} Pending</Text> <Loader stroke="white" />
-          </RowBetween>
-        ) : (
-          <>
-            <TextPc>{ENSName || shortenAddress(account, 4)}</TextPc>
-            <TextH5>{ENSName || shortenAddress(account, 2)}</TextH5>
-          </>
-        )}
+        <RowBetween>
+          <Text>{pending?.length} Pending</Text> <Loader stroke="white" />
+        </RowBetween>
         {connector && <StatusIcon connector={connector} />}
       </Web3StatusConnected>
+    ) : (
+      <WalletConnected onClick={toggleWalletModal}>
+        <TextPc>{ENSName || shortenAddress(account, 4)}</TextPc>
+        <TextH5>{ENSName || shortenAddress(account, 2)}</TextH5>
+      </WalletConnected>
     )
   } else if (error) {
     return (

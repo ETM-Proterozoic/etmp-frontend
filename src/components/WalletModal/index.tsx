@@ -14,13 +14,13 @@ import usePrevious from '../../hooks/usePrevious'
 import { ApplicationModal } from '../../state/application/actions'
 import { useModalOpen, useWalletModalToggle } from '../../state/application/hooks'
 import { ExternalLink } from '../../theme'
+import { ClientChainId } from '../../constants/multicall'
 import AccountDetails from '../AccountDetails'
 
 import Modal from '../Modal'
 import Option from './Option'
 import PendingView from './PendingView'
 import { changeNetwork } from '../../utils/connectWall'
-import { ChainId } from '@totoroswap/sdk'
 
 const CloseIcon = styled.div`
   position: absolute;
@@ -55,8 +55,21 @@ const HeaderRow = styled.div`
   `};
 `
 
+const HeaderRowCenter = styled(HeaderRow)`
+  display: flex;
+  justify-content: center;
+  font-family: PingFang SC;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 25px;
+  margin-top: 32px;
+  padding: 0;
+  color: ${({ theme }) => theme.text1};
+`
+
 const ContentWrapper = styled.div`
-  background-color: ${({ theme }) => theme.bg2};
+  background-color: ${({ theme }) => theme.bg1};
   padding: 2rem;
   border-bottom-left-radius: 20px;
   border-bottom-right-radius: 20px;
@@ -98,11 +111,19 @@ const Blurb = styled.div`
 
 const OptionGrid = styled.div`
   display: grid;
-  grid-gap: 10px;
+  //grid-gap: 10px;
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid #f2f2f2;
   ${({ theme }) => theme.mediaWidth.upToMedium`
     grid-template-columns: 1fr;
-    grid-gap: 10px;
   `};
+  & > button {
+    border-bottom: 1px solid #f2f2f2;
+    &:nth-last-child(1) {
+      border-bottom: 0;
+    }
+  }
 `
 
 const HoverText = styled.div`
@@ -158,7 +179,7 @@ export default function WalletModal({
 
   useEffect(() => {
     if (error instanceof UnsupportedChainIdError && walletModalOpen) {
-      changeNetwork(ChainId.BSC).then(() => {
+      changeNetwork(ClientChainId.ETM3).then(() => {
         toggleWalletModal()
       })
     }
@@ -285,6 +306,7 @@ export default function WalletModal({
             color={option.color}
             link={option.href}
             header={option.name}
+            desc={option.description}
             subheader={null} //use option.descriptio to bring back multi-line
             icon={require('../../assets/images/' + option.iconName)}
           />
@@ -303,7 +325,7 @@ export default function WalletModal({
           <HeaderRow>{error instanceof UnsupportedChainIdError ? 'Wrong Network' : 'Error connecting'}</HeaderRow>
           <ContentWrapper>
             {error instanceof UnsupportedChainIdError ? (
-              <h5>Please connect to the appropriate OKExChain network.</h5>
+              <h5>Please connect to the appropriate ETM3 network.</h5>
             ) : (
               'Error connecting. Try refreshing the page.'
             )}
@@ -339,9 +361,9 @@ export default function WalletModal({
             </HoverText>
           </HeaderRow>
         ) : (
-          <HeaderRow>
-            <HoverText>Connect to a wallet</HoverText>
-          </HeaderRow>
+          <HeaderRowCenter>
+            <HoverText>Login</HoverText>
+          </HeaderRowCenter>
         )}
         <ContentWrapper>
           {walletView === WALLET_VIEWS.PENDING ? (
@@ -354,9 +376,9 @@ export default function WalletModal({
           ) : (
             <OptionGrid>{getOptions()}</OptionGrid>
           )}
-          {walletView !== WALLET_VIEWS.PENDING && (
+          {false && walletView !== WALLET_VIEWS.PENDING && (
             <Blurb>
-              <span>New to OKExChain? &nbsp;</span>{' '}
+              <span>New to ETM3Chain? &nbsp;</span>{' '}
               <ExternalLink href="https://ethereum.org/wallets/">Learn more about wallets</ExternalLink>
             </Blurb>
           )}

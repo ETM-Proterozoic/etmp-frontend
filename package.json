@@ -117,11 +117,11 @@
   },
   "license": "GPL-3.0-or-later",
   "dependencies": {
+    "@chainstarter/multicall-client.js": "^1.0.6",
     "@ethersproject/providers": "^5.4.3",
     "@totoroswap/default-token-list": "^1.0.12",
     "bignumber.js": "^9.0.1",
     "classnames": "^2.3.1",
-    "ethers-multicall-x": "^0.2.3",
     "lodash": "^4.17.21",
     "web3": "^1.5.1"
   }

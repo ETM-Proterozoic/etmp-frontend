@@ -1,13 +1,11 @@
 import React from 'react'
 import styled from 'styled-components'
-import BGImg from '../../assets/images/trees_bg.png'
 
 const SwapBGView = styled.div`
   position: relative;
   width: 100%;
   height: 100%;
   overflow: hidden;
-  background-image: url(${BGImg});
   background-size: 100% auto;
   background-position: left bottom;
   background-repeat: no-repeat;

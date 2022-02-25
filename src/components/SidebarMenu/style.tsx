@@ -13,6 +13,9 @@ export const SidebarMenuView = styled.div`
     overflow-y: auto;
     padding: 20px;
   }
+  ${({ theme }) => theme.mediaWidth.upToLarge`
+    width: 240px;
+  `};
 `
 export const MenuItem = styled(NavLink)<{ src: any }>`
   ${() => FlexCenterH}

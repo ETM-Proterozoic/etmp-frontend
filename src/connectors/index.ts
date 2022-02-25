@@ -2,12 +2,12 @@ import { Web3Provider } from '@ethersproject/providers'
 import { InjectedConnector } from '@web3-react/injected-connector'
 import { WalletConnectConnector } from '@web3-react/walletconnect-connector'
 import { WalletLinkConnector } from '@web3-react/walletlink-connector'
-import { ChainId } from '@totoroswap/sdk'
 // import { PortisConnector } from '@web3-react/portis-connector'
 
 // import { FortmaticConnector } from './Fortmatic'
 import { NetworkConnector } from './NetworkConnector'
 import UNISWAP_LOGO_URL from '../assets/svg/logo.svg'
+import { ClientChainId } from '../constants/multicall'
 
 const NETWORK_URL = process.env.REACT_APP_NETWORK_URL
 const WALLETCONNECT_BRIDGE_URL = process.env.REACT_APP_WALLETCONNECT_BRIDGE_URL
@@ -28,12 +28,12 @@ export function getNetworkLibrary(): Web3Provider {
 }
 
 export const injected = new InjectedConnector({
-  supportedChainIds: [ChainId.BSC]
+  supportedChainIds: [ClientChainId.ETM3]
 })
 
 // mainnet only
 export const walletconnect = new WalletConnectConnector({
-  rpc: { [ChainId.BSC]: NETWORK_URL },
+  rpc: { [ClientChainId.ETM3]: NETWORK_URL },
   bridge: WALLETCONNECT_BRIDGE_URL,
   qrcode: true
   // pollingInterval: 15000
@@ -42,6 +42,6 @@ export const walletconnect = new WalletConnectConnector({
 // mainnet only
 export const walletlink = new WalletLinkConnector({
   url: NETWORK_URL,
-  appName: 'totoroswap',
+  appName: 'ETM3Swap',
   appLogoUrl: UNISWAP_LOGO_URL
 })
