@@ -12,7 +12,7 @@ import DPOSAbi from '../../constants/abis/DPOS.json'
 import DposMineAbi from '../../constants/abis/DposMine.json'
 import { formatAddress, fromWei, numToWei, toFormat } from '../../utils/format'
 import { getWeb3Contract } from '../../utils'
-import { Input, Modal } from 'antd'
+import { Input, message, Modal } from 'antd'
 
 const ADDRESS_INFINITE = '0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF'
 const ADDRESS_0 = '0x0000000000000000000000000000000000000000'
@@ -47,6 +47,8 @@ interface StakingWithoutDelegate {
   apr: string
   staked: string
   rewards: string
+  staked_: string
+  rewards_: string
 }
 interface TotalSupply {
   totalSupply: string
@@ -71,7 +73,9 @@ export default function StakingView() {
     apy: '-',
     apr: '-',
     staked: '0',
-    rewards: '0'
+    staked_: '0',
+    rewards: '0',
+    rewards_: '0'
   })
 
   const calcMyStaking = () => {
@@ -104,7 +108,9 @@ export default function StakingView() {
         apy,
         apr: (apr * 100).toFixed(2),
         staked,
-        rewards
+        rewards,
+        staked_: res[0],
+        rewards_: res[2]
       })
     })
   }
@@ -204,6 +210,23 @@ export default function StakingView() {
       })
       .on('error', () => {
         setStakeLoading(false)
+      })
+  }
+  const withdraw = (delegate: string, value: string) => {
+    if (Number(value) < 0) {
+      return
+    }
+    const contract = getWeb3Contract(library, DPOS.abi, DPOS.address)
+    contract.methods
+      .withdraw(delegate, value)
+      .send({
+        from: account
+      })
+      .on('receipt', () => {
+        message.success('Unstake & Claim success')
+      })
+      .on('error', () => {
+        message.error('Unstake & Claim fail')
       })
   }
   useMemo(() => {
@@ -333,6 +356,10 @@ export default function StakingView() {
               </div>
               <div className="btn-more">
                 <img src={MoreSvg} alt="" />
+                <div className="btn-more-menu">
+                  <div>Convert to Delegate</div>
+                  <div onClick={() => withdraw(ADDRESS_INFINITE, stakingWithoutDelegate.staked_)}>Unstake & Claim</div>
+                </div>
               </div>
             </div>
           </div>
@@ -374,6 +401,12 @@ export default function StakingView() {
                       </div>
                       <div className="btn-more">
                         <img src={MoreSvg} alt="" />
+                        <div className="btn-more-menu">
+                          <div>Convert to another Delegate</div>
+                          <div onClick={() => withdraw(item.address, stakingWithoutDelegate.staked_)}>
+                            Unstake & Claim
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </td>

@@ -13,7 +13,7 @@ export const StakingPage = styled.div<{ bg: any }>`
     width: 100%;
     max-width: 1440px;
     margin: auto;
-    padding: 50px 30px 30px 50px;
+    padding: 50px 30px 130px 50px;
     box-sizing: border-box;
 
     ${({ theme }) => theme.mediaWidth.upToMedium`
@@ -157,12 +157,36 @@ export const StakingPage = styled.div<{ bg: any }>`
     `}
   }
   .btn-more {
+    position: relative;
     width: 36px;
     height: 36px;
     cursor: pointer;
     img {
       width: 100%;
       height: 100%;
+    }
+    .btn-more-menu {
+      position: absolute;
+      right: 0;
+      top: 100%;
+      z-index: 1;
+      transform: translateX(20px);
+      width: 280px;
+      padding: 20px;
+      border-radius: 20px;
+      background: #ffffff;
+      box-shadow: 0px 0px 1px rgba(12, 26, 75, 0.1), 5px 30px 71px rgba(20, 37, 63, 0.08);
+      display: none;
+      div {
+        padding: 10px;
+        margin-bottom: 5px;
+        &:hover {
+          background-color: #f8f9fa;
+        }
+      }
+    }
+    &:hover .btn-more-menu {
+      display: block;
     }
   }
   .network-overview {
@@ -175,7 +199,7 @@ export const StakingPage = styled.div<{ bg: any }>`
     background: ${({ theme }) => theme.bg1};
     //box-shadow: 0px 0px 1px rgba(12, 26, 75, 0.1), 0px 4px 20px -2px rgba(50, 50, 71, 0.08);
     border-radius: 10px;
-    overflow: hidden;
+    //overflow: hidden;
     margin-top: 20px;
     .card-title {
       border-bottom: 1px solid #f2f2f2;
@@ -204,7 +228,7 @@ export const StakingPage = styled.div<{ bg: any }>`
     .card-main {
       padding: 10px 32px;
       display: grid;
-      grid-template-columns: 1fr 1fr 1fr 1fr;
+      grid-template-columns: 1fr 1fr 1fr 150px;
       ${({ theme }) => theme.mediaWidth.upToMedium`
     grid-template-columns: 1fr 1fr;
     `}
