@@ -12,7 +12,7 @@ import DPOSAbi from '../../constants/abis/DPOS.json'
 import DposMineAbi from '../../constants/abis/DposMine.json'
 import { formatAddress, fromWei, numToWei, toFormat } from '../../utils/format'
 import { getWeb3Contract } from '../../utils'
-import { Input, message, Modal } from 'antd'
+import { Input, message, Modal, Tooltip } from 'antd'
 
 const ADDRESS_INFINITE = '0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF'
 const ADDRESS_0 = '0x0000000000000000000000000000000000000000'
@@ -294,20 +294,29 @@ export default function StakingView() {
           <div className="card-main">
             <div className="card-main-item">
               <p className="card-main-title">
-                BALANCE <img src={InfoIcon} alt="" />
+                BALANCE{' '}
+                <Tooltip title="The balance of your account, Including the address balance and the amount of staking.">
+                  <img src={InfoIcon} alt="" />
+                </Tooltip>
               </p>
               <h1> ETM</h1>
               {/*<p className="card-desc">$125670</p>*/}
             </div>
             <div className="card-main-item">
               <p className="card-main-title">
-                STAKING <img src={InfoIcon} alt="" />
+                STAKING
+                <Tooltip title="Including your staking and delegate staking.">
+                  <img src={InfoIcon} alt="" />
+                </Tooltip>
               </p>
               <h1>{myAllStaking} ETM</h1>
             </div>
             <div className="card-main-item">
               <p className="card-main-title">
-                REWARDS <img src={InfoIcon} alt="" />
+                REWARDS{' '}
+                <Tooltip title="The rewards include staking rewards and validators node gas fee rewards.">
+                  <img src={InfoIcon} alt="" />
+                </Tooltip>
               </p>
               <h1>{myAllRewards} ETM</h1>
               <p className="card-desc"> </p>
@@ -327,19 +336,28 @@ export default function StakingView() {
           <div className="card-main">
             <div className="card-main-item">
               <p className="card-main-title">
-                TOTAL STAKING WITHOUT DELEGATE <img src={InfoIcon} alt="" />
+                TOTAL STAKING WITHOUT DELEGATE{' '}
+                <Tooltip title="The staking of you without delegate staking">
+                  <img src={InfoIcon} alt="" />
+                </Tooltip>
               </p>
               <h1>{toFormat(stakingWithoutDelegate.staked)} ETM</h1>
             </div>
             <div className="card-main-item">
               <p className="card-main-title">
-                REWARDS <img src={InfoIcon} alt="" />
+                REWARDS{' '}
+                <Tooltip title="The rewards only of your staking.">
+                  <img src={InfoIcon} alt="" />
+                </Tooltip>
               </p>
               <h1>{toFormat(stakingWithoutDelegate.rewards)}ETM</h1>
             </div>
             <div className="card-main-item">
               <p className="card-main-title">
-                APY <img src={InfoIcon} alt="" />
+                APY{' '}
+                <Tooltip title="Annualized interest rate.">
+                  <img src={InfoIcon} alt="" />
+                </Tooltip>
               </p>
               <h1>{stakingWithoutDelegate.apy} %</h1>
               <p className="card-desc"> </p>
