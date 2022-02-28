@@ -86,5 +86,5 @@ export const splitFormat = (num, fractionDigits) => {
   }
 }
 export const toFormat = value => {
-  return new BigNumber(value).toFormat()
+  return new BigNumber(new BigNumber(value).toFixed(0)).toFormat()
 }

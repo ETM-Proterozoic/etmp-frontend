@@ -1,6 +1,7 @@
 import React, { Suspense } from 'react'
 import { Route, Switch } from 'react-router-dom'
 import styled from 'styled-components'
+import 'antd/dist/antd.css'
 import GoogleAnalyticsReporter from '../components/analytics/GoogleAnalyticsReporter'
 
 import Polling from '../components/Header/Polling'
@@ -16,7 +17,7 @@ import {
 } from './AddLiquidity/redirects'
 
 import Liquidity from './Liquidity'
-import Staking from './Staking'
+import StakingView from './Staking'
 import PoolFinder from './PoolFinder'
 import RemoveLiquidity from './RemoveLiquidity'
 import { RedirectOldRemoveLiquidityPathStructure } from './RemoveLiquidity/redirects'
@@ -53,7 +54,7 @@ export default function App() {
               <Route exact strict path="/find" component={PoolFinder} />
               <Route exact strict path="/bridge" component={Bridge} />
               <Route exact strict path="/liquidity" component={Liquidity} />
-              <Route exact strict path="/staking" component={Staking} />
+              <Route exact strict path="/staking" component={StakingView} />
               <Route exact strict path="/create" component={RedirectToAddLiquidity} />
               <Route exact path="/add" component={AddLiquidity} />
               <Route exact path="/add/:currencyIdA" component={RedirectOldAddLiquidityPathStructure} />

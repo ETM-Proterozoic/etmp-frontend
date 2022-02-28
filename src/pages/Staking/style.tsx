@@ -156,19 +156,27 @@ export const StakingPage = styled.div<{ bg: any }>`
    display: none;
     `}
   }
-  .account-data {
-    margin-top: -50px;
+  .btn-more {
+    width: 36px;
+    height: 36px;
+    cursor: pointer;
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+  .network-overview {
+    margin-top: -50px !important;
     ${({ theme }) => theme.mediaWidth.upToExtraSmall`
-    margin-top: 0px;
+    margin-top: 0px!important;
     `}
   }
-
   .card {
     background: ${({ theme }) => theme.bg1};
     //box-shadow: 0px 0px 1px rgba(12, 26, 75, 0.1), 0px 4px 20px -2px rgba(50, 50, 71, 0.08);
     border-radius: 10px;
     overflow: hidden;
-
+    margin-top: 20px;
     .card-title {
       border-bottom: 1px solid #f2f2f2;
       padding: 0 32px;
@@ -259,6 +267,7 @@ export const StakingPage = styled.div<{ bg: any }>`
       .card-main-item-btns {
         display: flex;
         align-items: center;
+        justify-content: center;
       }
     }
   }
