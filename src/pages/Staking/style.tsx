@@ -400,7 +400,8 @@ export const BtnMoreMenu = styled.div`
   width: 280px;
   padding: 20px;
   border-radius: 20px;
-  background: #ffffff;
+  background: ${({ theme }) => theme.popoverBg};
+  color: ${({ theme }) => theme.text1};
   box-shadow: 0px 0px 1px rgba(12, 26, 75, 0.1), 5px 30px 71px rgba(20, 37, 63, 0.08);
   ${({ theme }) => theme.mediaWidth.upToExtraSmall`
       width: 240px;
@@ -411,13 +412,18 @@ export const BtnMoreMenu = styled.div`
     padding: 10px;
     margin-bottom: 5px;
     cursor: pointer;
-    &:hover {
-      background-color: #f8f9fa;
+    &:hover,
+    &:focus,
+    &:active {
+      background-color: ${({ theme }) => theme.popoverHoverBg};
     }
   }
 `
 export const CoverTo = styled.div`
   width: 280px;
+  background: ${({ theme }) => theme.popoverBg};
+  color: ${({ theme }) => theme.text1};
+  border-radius: 10px;
   .cover-to-main {
     max-height: 220px;
 
@@ -428,8 +434,10 @@ export const CoverTo = styled.div`
       padding: 10px;
       margin-bottom: 5px;
       cursor: pointer;
-      &:hover {
-        background-color: #f8f9fa;
+      &:hover,
+      &:focus,
+      &:active {
+        background-color: ${({ theme }) => theme.popoverHoverBg};
       }
       img {
         width: 36px;
@@ -452,12 +460,12 @@ export const CoverTo = styled.div`
 
     /* Gray/3 */
 
-    color: #34303e;
+    color: ${({ theme }) => theme.text1};
     text-align: center;
     justify-content: center;
     padding: 10px 0;
     &:hover {
-      background: #ffffff;
+      background: transparent;
     }
   }
 `

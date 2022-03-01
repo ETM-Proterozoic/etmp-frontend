@@ -46,8 +46,8 @@ export default function Header() {
             </div>
           )}
           <Switch
-            checkedChildren={<span>dark</span>}
-            unCheckedChildren={<span>light</span>}
+            checkedChildren={<span>light</span>}
+            unCheckedChildren={<span>dark</span>}
             checked={darkMode}
             onChange={toggleDarkMode}
             className="theme-switch"

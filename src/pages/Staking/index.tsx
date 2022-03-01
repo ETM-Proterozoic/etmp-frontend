@@ -145,8 +145,9 @@ export default function StakingView() {
       dposContract.balanceOf(ADDRESS_INFINITE, account)
     ]
     multicallClient(calls).then((res: any) => {
-      console.log(res)
+      // console.log(res)
       const apr = fromWei(res[1]).toNumber()
+      console.log('apr___', apr)
       const apy = (Math.pow(1 + apr, 365) * 100).toFixed(2)
       const rewards = fromWei(res[0]).toFixed(2)
       const staked = fromWei(res[2]).toFixed(2)
@@ -164,7 +165,7 @@ export default function StakingView() {
   const getValidators = () => {
     const calls = [
       stakingContract.validators(),
-      dposContract.totalSupply(),
+      dposMineContract.totalSupply(),
       dposMineContract.balanceOf(ADDRESS_INFINITE)
     ]
     multicallClient(calls).then(async (res: any) => {
@@ -254,11 +255,11 @@ export default function StakingView() {
       return
     }
     setStakeLoading(true)
-    const contract = getWeb3Contract(library, DPosMine.abi, DPosMine.address)
+    const contract = getWeb3Contract(library, DPOS.abi, DPOS.address)
     const stakeValue_ = numToWei(stakeValue, 18)
     console.log(stakeDelegate, stakeValue_)
     contract.methods
-      .depositFor(stakeDelegate)
+      .stake(stakeDelegate)
       .send({
         from: account,
         value: stakeValue_

@@ -92,6 +92,8 @@ export interface Colors {
   stakingBg: any
   stakingBannerColor: Color
   bridgeToBg: Color
+  popoverHoverBg: Color
+  popoverBg: Color
 }
 
 export interface Grids {

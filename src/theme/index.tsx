@@ -130,7 +130,9 @@ export function colors(darkMode: boolean): Colors {
     cardTitleColor: darkMode ? '#ffffff' : '#061024',
     stakingBg: darkMode ? '#061024' : StakingPageBG,
     stakingBannerColor: darkMode ? '#ffffff' : '#2d316a',
-    bridgeToBg: darkMode ? '#0000008f' : '#faf9ff'
+    bridgeToBg: darkMode ? '#0000008f' : '#faf9ff',
+    popoverHoverBg: darkMode ? 'rgba(255,255,255,0.13)' : '#F8F9FA',
+    popoverBg: darkMode ? 'rgba(0,0,0,0.95)' : '#ffffff'
   }
 }
 
