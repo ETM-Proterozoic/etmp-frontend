@@ -35,6 +35,11 @@ export const HeaderView = styled.div`
   .header-right {
     display: flex;
     align-items: center;
+    .theme-switch{
+      margin-right: 20px;
+      background: #cccccc;
+      transform: scale(1.2);
+    }
   }
 `
 export const Logo = styled.img`

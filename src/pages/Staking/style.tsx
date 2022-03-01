@@ -1,12 +1,12 @@
 import styled from 'styled-components'
 
-export const StakingPage = styled.div<{ bg: any }>`
+export const StakingPage = styled.div`
   position: relative;
   z-index: 1;
   width: 100%;
   height: 100%;
   overflow-y: auto;
-  background-image: url(${({ bg }) => bg});
+  background-image: url(${({ theme }) => theme.stakingBg});
   background-size: 100% 100%;
 
   .staking-page {
@@ -42,7 +42,7 @@ export const StakingPage = styled.div<{ bg: any }>`
             font-stretch: normal;
             line-height: 67px;
             letter-spacing: -3px;
-            color: #2d316a;
+            color: ${({ theme }) => theme.stakingBannerColor};
             margin: 10px 0;
             span {
               display: inline;
@@ -104,8 +104,9 @@ export const StakingPage = styled.div<{ bg: any }>`
   .all-validators-h5 {
     display: none;
     padding: 10px;
+    color: ${({ theme }) => theme.text1};
     & > div {
-      border-bottom: 1px solid #f0f0f0;
+      border-bottom: 1px solid ${({ theme }) => theme.borderLine};
       margin: 10px 0;
       padding: 10px 0;
     }
@@ -178,6 +179,8 @@ export const StakingPage = styled.div<{ bg: any }>`
     }
   }
   .network-overview {
+    position: relative;
+    z-index: 1;
     margin-top: -50px !important;
     ${({ theme }) => theme.mediaWidth.upToExtraSmall`
     margin-top: 0px!important;
@@ -190,7 +193,7 @@ export const StakingPage = styled.div<{ bg: any }>`
     //overflow: hidden;
     margin-top: 20px;
     .card-title {
-      border-bottom: 1px solid #f2f2f2;
+      border-bottom: 1px solid ${({ theme }) => theme.borderLine};
       padding: 0 32px;
       ${({ theme }) => theme.mediaWidth.upToSmall`
         padding: 0 20px;
@@ -201,7 +204,7 @@ export const StakingPage = styled.div<{ bg: any }>`
         font-weight: 600;
         font-size: 18px;
         line-height: 116%;
-        color: #061024;
+        color: ${({ theme }) => theme.cardTitleColor};
         padding: 20px 0;
         display: inline-block;
         height: 100%;
@@ -255,7 +258,7 @@ export const StakingPage = styled.div<{ bg: any }>`
           font-size: 24px;
           margin: 5px 0;
           /* identical to box height, or 131% */
-          color: #1d2129;
+          color: ${({ theme }) => theme.text1};
           ${({ theme }) => theme.mediaWidth.upToSmall`
           font-size: 16px;
         `}
@@ -354,6 +357,7 @@ export const StakingPage = styled.div<{ bg: any }>`
             font-weight: 500;
             font-size: 16px;
             line-height: 25px;
+            color: ${({ theme }) => theme.text1};
 
             &:nth-child(1) {
               font-family: PingFang SC;
@@ -361,7 +365,7 @@ export const StakingPage = styled.div<{ bg: any }>`
               font-weight: 500;
               font-size: 14px;
               line-height: 20px;
-              color: #000000;
+              color: ${({ theme }) => theme.text1};
 
               div {
                 display: flex;

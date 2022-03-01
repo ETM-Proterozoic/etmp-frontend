@@ -2,9 +2,9 @@ import React, { useMemo, useState } from 'react'
 import { BtnMoreMenu, StakingPage, CoverTo } from './style'
 import InfoIcon from '../../assets/svg/staking/info-icon.svg'
 import BannerBg from '../../assets/svg/staking/banner-bg.png'
-import PageBG from '../../assets/svg/staking/bg.png'
 // import ArrowR from '../../assets/svg/staking/arrow-right.svg'
 import MoreSvg from '../../assets/svg/staking/more.svg'
+import MoreDarkSvg from '../../assets/svg/staking/more-dark.svg'
 import { ClientContract, multicallClient, multicallConfig } from '../../constants/multicall/index'
 import { useActiveWeb3React } from '../../hooks'
 import StakingAbi from '../../constants/abis/Staking.json'
@@ -14,6 +14,7 @@ import { formatAddress, fromWei, numToWei, toFormat } from '../../utils/format'
 import { getWeb3Contract } from '../../utils'
 import { Input, message, Modal, Popover, Tooltip } from 'antd'
 import { ZERO_ADDRESS } from '../../constants'
+import { useDarkModeManager } from '../../state/user/hooks'
 
 const ADDRESS_INFINITE = '0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF'
 // const ADDRESS_0 = '0x0000000000000000000000000000000000000000'
@@ -108,7 +109,7 @@ export default function StakingView() {
   const [stakeValue, setStakeValue] = useState<string>('')
   const [stakeDelegate, setStakeDelegate] = useState<string | null>(null)
   const [ethBalance, setETHBalance] = useState<number>(0)
-
+  const [darkMode] = useDarkModeManager()
   const [totalData, setTotalData] = useState<TotalSupply>({
     totalSupply: '',
     totalReward: ''
@@ -129,6 +130,7 @@ export default function StakingView() {
       myAllStaking = myAllStaking + Number(validatorsData[i].myStaked)
       myAllRewards = myAllRewards + Number(validatorsData[i].myEarned)
     }
+    console.log('xxx', myAllRewards, stakingWithoutDelegate)
     myAllStaking = myAllStaking + Number(stakingWithoutDelegate.staked)
     myAllRewards = myAllRewards + Number(stakingWithoutDelegate.rewards)
     return { myAllStaking, myAllRewards }
@@ -198,9 +200,9 @@ export default function StakingView() {
             myStaked_ = res2[ii + 2]
             myEarned = fromWei(res2[ii + 3]).toFixed(2)
             myEarned_ = res2[ii + 3]
-            ii += 3
+            ii += 4
           } else {
-            ii += 1
+            ii += 2
           }
           validators.push({
             address,
@@ -214,7 +216,7 @@ export default function StakingView() {
             myEarned_
           })
         }
-        console.log(validators)
+        console.log('validatorsData', validators)
         setValidatorsData(validators)
       })
     })
@@ -316,7 +318,7 @@ export default function StakingView() {
     }
   }, [account])
   return (
-    <StakingPage bg={PageBG}>
+    <StakingPage>
       <div className="staking-page">
         <div className="banner">
           <div>
@@ -473,7 +475,7 @@ export default function StakingView() {
                 )}
               >
                 <div className="btn-more">
-                  <img src={MoreSvg} alt="" />
+                  <img src={darkMode ? MoreDarkSvg : MoreSvg} alt="" />
                 </div>
               </Popover>
             </div>
@@ -489,6 +491,7 @@ export default function StakingView() {
                 <th>Name</th>
                 <th>Total Staked</th>
                 <th>My Staked</th>
+                <th>My Rewards</th>
                 <th>APY</th>
                 <th> </th>
               </tr>
@@ -502,6 +505,7 @@ export default function StakingView() {
                   </td>
                   <td>{toFormat(item.totalSupply)} ETM</td>
                   <td>{toFormat(item.myStaked)} ETM</td>
+                  <td>{toFormat(item.myEarned)} ETM</td>
                   <td>{item.apy} %</td>
                   <td>
                     <div>
@@ -539,7 +543,7 @@ export default function StakingView() {
                         )}
                       >
                         <div className="btn-more">
-                          <img src={MoreSvg} alt="" />
+                          <img src={darkMode ? MoreDarkSvg : MoreSvg} alt="" />
                         </div>
                       </Popover>
                     </div>
@@ -611,7 +615,7 @@ export default function StakingView() {
                         )}
                       >
                         <div className="btn-more">
-                          <img src={MoreSvg} alt="" />
+                          <img src={darkMode ? MoreDarkSvg : MoreSvg} alt="" />
                         </div>
                       </Popover>
                     </div>

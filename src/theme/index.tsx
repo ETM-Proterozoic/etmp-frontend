@@ -8,6 +8,7 @@ import styled, {
 import { useIsDarkMode } from '../state/user/hooks'
 import { Text, TextProps } from 'rebass'
 import { Colors } from './styled'
+import StakingPageBG from '../assets/svg/staking/bg.png'
 
 export * from './components'
 
@@ -64,7 +65,7 @@ export function colors(darkMode: boolean): Colors {
     advancedBG: darkMode ? 'rgba(33,36,41,0.95)' : 'rgba(255,255,255,0.95)',
 
     //primary colors
-    primary1: darkMode ? '#135658' : '#135658',
+    primary1: darkMode ? '#3680E7' : '#495AFF',
     primary2: darkMode ? '#3680E7' : '#495AFF',
     primary3: darkMode ? '#4D8FEA' : '#495AFF',
     primary4: darkMode ? '#2172E5' : '#3285FF',
@@ -123,7 +124,13 @@ export function colors(darkMode: boolean): Colors {
     shadow2: darkMode ? '#427779' : '#427779', //
     shadow3: darkMode ? '#C8C5C3' : '#C8C5C3', //
     shadow4: darkMode ? '#404037' : '#eae8d6', //
-    grayscale1: darkMode ? '0.3' : '0' //
+    grayscale1: darkMode ? '0.3' : '0', ////////////
+    menuActiveBg: darkMode ? '#4c4c4c94' : '#f8f9fa',
+    borderLine: darkMode ? '#6e6e6e' : '#f2f2f2',
+    cardTitleColor: darkMode ? '#ffffff' : '#061024',
+    stakingBg: darkMode ? '#061024' : StakingPageBG,
+    stakingBannerColor: darkMode ? '#ffffff' : '#2d316a',
+    bridgeToBg: darkMode ? '#0000008f' : '#faf9ff'
   }
 }
 

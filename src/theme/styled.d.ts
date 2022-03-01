@@ -85,6 +85,13 @@ export interface Colors {
   yellow1: Color
   yellow2: Color
   blue1: Color
+
+  menuActiveBg: Color
+  borderLine: Color
+  cardTitleColor: Color
+  stakingBg: any
+  stakingBannerColor: Color
+  bridgeToBg: Color
 }
 
 export interface Grids {

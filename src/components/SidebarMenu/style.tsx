@@ -29,8 +29,12 @@ export const MenuItem = styled(NavLink)<{ src: any }>`
   & > div {
     margin: 0 12px 0 16px;
   }
+  &:hover {
+    color: ${({ theme }) => theme.primary1};
+  }
   &.active {
-    background: ${({ theme }) => theme.bgd1};
+    background: ${({ theme }) => theme.menuActiveBg};
+    color: ${({ theme }) => theme.primary1};
     & > div {
       background: url(${({ src }) => src});
     }
