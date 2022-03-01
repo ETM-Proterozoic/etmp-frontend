@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react'
-import { StakingPage } from './style'
+import { BtnMoreMenu, StakingPage, CoverTo } from './style'
 import InfoIcon from '../../assets/svg/staking/info-icon.svg'
 import BannerBg from '../../assets/svg/staking/banner-bg.png'
 import PageBG from '../../assets/svg/staking/bg.png'
@@ -12,10 +12,11 @@ import DPOSAbi from '../../constants/abis/DPOS.json'
 import DposMineAbi from '../../constants/abis/DposMine.json'
 import { formatAddress, fromWei, numToWei, toFormat } from '../../utils/format'
 import { getWeb3Contract } from '../../utils'
-import { Input, message, Modal, Tooltip } from 'antd'
+import { Input, message, Modal, Popover, Tooltip } from 'antd'
+import { ZERO_ADDRESS } from '../../constants'
 
 const ADDRESS_INFINITE = '0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF'
-const ADDRESS_0 = '0x0000000000000000000000000000000000000000'
+// const ADDRESS_0 = '0x0000000000000000000000000000000000000000'
 
 const Staking = {
   address: '0x230761E165EC7f6A46B42CCba786bFC0856F4C41',
@@ -38,8 +39,10 @@ interface ValidatorsData {
   logo: string
   totalSupply: string
   myStaked: string
+  myStaked_: string
   apy: string
   myEarned: string
+  myEarned_: string
   apr: string
 }
 interface StakingWithoutDelegate {
@@ -55,6 +58,45 @@ interface TotalSupply {
   totalReward: string
 }
 
+function CoverToView({
+  validatorsData,
+  validator,
+  coverTo,
+  value
+}: {
+  validatorsData: ValidatorsData[]
+  validator: string
+  coverTo: Function
+  value: string
+}) {
+  return (
+    <CoverTo>
+      <div className="cover-to-title">Convert to</div>
+      <div className="cover-to-main">
+        {validator !== ZERO_ADDRESS && (
+          <div key={ZERO_ADDRESS} onClick={() => coverTo(validator, ZERO_ADDRESS, value)}>
+            <img src={`https://avatars.dicebear.com/api/bottts/${ZERO_ADDRESS}.svg`} alt="" />
+            <span>0x0</span>
+            <span>(Staking Without Delegate)</span>
+          </div>
+        )}
+        {validatorsData.map((item: ValidatorsData) => {
+          if (item.address === validator) {
+            return null
+          } else {
+            return (
+              <div key={item.address} onClick={() => coverTo(validator, item.address, value)}>
+                <img src={item.logo} alt="" />
+                <span>{formatAddress(item.address)}</span>
+              </div>
+            )
+          }
+        })}
+      </div>
+    </CoverTo>
+  )
+}
+
 export default function StakingView() {
   const { account, library } = useActiveWeb3React()
   const [blockNumber, setBlockNumber] = useState<string>('')
@@ -65,6 +107,8 @@ export default function StakingView() {
   const [showStake, setShowStake] = useState<boolean>(false)
   const [stakeValue, setStakeValue] = useState<string>('')
   const [stakeDelegate, setStakeDelegate] = useState<string | null>(null)
+  const [ethBalance, setETHBalance] = useState<number>(0)
+
   const [totalData, setTotalData] = useState<TotalSupply>({
     totalSupply: '',
     totalReward: ''
@@ -147,9 +191,13 @@ export default function StakingView() {
           const totalSupply = fromWei(res2[ii + 1], 18).toFixed(0)
           let myStaked = '0'
           let myEarned = '0'
+          let myStaked_ = '0'
+          let myEarned_ = '0'
           if (account) {
             myStaked = fromWei(res2[ii + 2]).toFixed(2)
+            myStaked_ = res2[ii + 2]
             myEarned = fromWei(res2[ii + 3]).toFixed(2)
+            myEarned_ = res2[ii + 3]
             ii += 3
           } else {
             ii += 1
@@ -161,7 +209,9 @@ export default function StakingView() {
             myStaked,
             myEarned,
             apy,
-            apr: (apr * 100).toFixed(2)
+            apr: (apr * 100).toFixed(2),
+            myStaked_,
+            myEarned_
           })
         }
         console.log(validators)
@@ -172,6 +222,11 @@ export default function StakingView() {
   const getBlockHeight = () => {
     multicallClient.getBlockInfo(multicallConfig.defaultChainId).then((res: any) => {
       setBlockNumber(res.number)
+    })
+  }
+  const getETHBalance = () => {
+    multicallClient.getEthBalance(account, multicallConfig.defaultChainId).then((res: any) => {
+      setETHBalance(Number(fromWei(res, 18).toFixed(3)))
     })
   }
   const onCompoundAll = () => {
@@ -197,16 +252,18 @@ export default function StakingView() {
       return
     }
     setStakeLoading(true)
-    const contract = getWeb3Contract(library, DPOS.abi, DPOS.address)
+    const contract = getWeb3Contract(library, DPosMine.abi, DPosMine.address)
     const stakeValue_ = numToWei(stakeValue, 18)
+    console.log(stakeDelegate, stakeValue_)
     contract.methods
-      .stake(stakeDelegate)
+      .depositFor(stakeDelegate)
       .send({
         from: account,
         value: stakeValue_
       })
       .on('receipt', () => {
         setStakeLoading(false)
+        setShowStake(false)
       })
       .on('error', () => {
         setStakeLoading(false)
@@ -229,6 +286,25 @@ export default function StakingView() {
         message.error('Unstake & Claim fail')
       })
   }
+  // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+  // @ts-ignore
+  const coverTo = (delegate: string, toDelegate: string, value: string) => {
+    if (Number(value) <= 0) {
+      return message.warn('Currently no staking')
+    }
+    const contract = getWeb3Contract(library, DPOS.abi, DPOS.address)
+    contract.methods
+      .transfer(delegate, toDelegate, value)
+      .send({
+        from: account
+      })
+      .on('receipt', () => {
+        message.success('Unstake & Claim success')
+      })
+      .on('error', () => {
+        message.error('Unstake & Claim fail')
+      })
+  }
   useMemo(() => {
     getBlockHeight()
   }, [])
@@ -236,6 +312,7 @@ export default function StakingView() {
     getValidators()
     if (account) {
       getStakingWithoutDelegate()
+      getETHBalance()
     }
   }, [account])
   return (
@@ -299,7 +376,7 @@ export default function StakingView() {
                   <img src={InfoIcon} alt="" />
                 </Tooltip>
               </p>
-              <h1> ETM</h1>
+              <h1>{ethBalance + myAllStaking} ETM</h1>
               {/*<p className="card-desc">$125670</p>*/}
             </div>
             <div className="card-main-item">
@@ -366,19 +443,39 @@ export default function StakingView() {
               <div
                 className="btn-compound"
                 onClick={() => {
-                  setStakeDelegate(ADDRESS_0)
+                  setStakeDelegate(ADDRESS_INFINITE)
                   setShowStake(true)
                 }}
               >
                 Stake
               </div>
-              <div className="btn-more">
-                <img src={MoreSvg} alt="" />
-                <div className="btn-more-menu">
-                  <div>Convert to Delegate</div>
-                  <div onClick={() => withdraw(ADDRESS_INFINITE, stakingWithoutDelegate.staked_)}>Unstake & Claim</div>
+              <Popover
+                placement="bottomRight"
+                content={() => (
+                  <BtnMoreMenu>
+                    <Popover
+                      placement="bottom"
+                      content={
+                        <CoverToView
+                          validatorsData={validatorsData}
+                          validator={ZERO_ADDRESS}
+                          value={stakingWithoutDelegate.staked_}
+                          coverTo={coverTo}
+                        />
+                      }
+                    >
+                      <div>Convert to Delegate</div>
+                    </Popover>
+                    <div onClick={() => withdraw(ADDRESS_INFINITE, stakingWithoutDelegate.staked_)}>
+                      Unstake & Claim
+                    </div>
+                  </BtnMoreMenu>
+                )}
+              >
+                <div className="btn-more">
+                  <img src={MoreSvg} alt="" />
                 </div>
-              </div>
+              </Popover>
             </div>
           </div>
         </div>
@@ -417,15 +514,34 @@ export default function StakingView() {
                       >
                         Delegate
                       </div>
-                      <div className="btn-more">
-                        <img src={MoreSvg} alt="" />
-                        <div className="btn-more-menu">
-                          <div>Convert to another Delegate</div>
-                          <div onClick={() => withdraw(item.address, stakingWithoutDelegate.staked_)}>
-                            Unstake & Claim
-                          </div>
+
+                      <Popover
+                        placement="bottomRight"
+                        content={() => (
+                          <BtnMoreMenu>
+                            <Popover
+                              placement="bottom"
+                              content={
+                                <CoverToView
+                                  validatorsData={validatorsData}
+                                  validator={item.address}
+                                  coverTo={coverTo}
+                                  value={item.myStaked_}
+                                />
+                              }
+                            >
+                              <div>Convert to another Delegate</div>
+                            </Popover>
+                            <div onClick={() => withdraw(item.address, stakingWithoutDelegate.staked_)}>
+                              Unstake & Claim
+                            </div>
+                          </BtnMoreMenu>
+                        )}
+                      >
+                        <div className="btn-more">
+                          <img src={MoreSvg} alt="" />
                         </div>
-                      </div>
+                      </Popover>
                     </div>
                   </td>
                 </tr>
@@ -468,8 +584,36 @@ export default function StakingView() {
                     </div>
                   </div>
                   <div>
-                    <div className="btn-more">
-                      <img src={MoreSvg} alt="" />
+                    <div className="more-popover">
+                      <Popover
+                        trigger="click"
+                        placement="bottomRight"
+                        content={() => (
+                          <BtnMoreMenu>
+                            <Popover
+                              placement="bottom"
+                              content={
+                                <CoverToView
+                                  validatorsData={validatorsData}
+                                  validator={item.address}
+                                  coverTo={coverTo}
+                                  value={item.myStaked_}
+                                />
+                              }
+                            >
+                              <div>Convert to another Delegate</div>
+                            </Popover>
+
+                            <div onClick={() => withdraw(item.address, stakingWithoutDelegate.staked_)}>
+                              Unstake & Claim
+                            </div>
+                          </BtnMoreMenu>
+                        )}
+                      >
+                        <div className="btn-more">
+                          <img src={MoreSvg} alt="" />
+                        </div>
+                      </Popover>
                     </div>
                   </div>
                 </div>

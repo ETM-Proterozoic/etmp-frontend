@@ -42,7 +42,7 @@ export function colors(darkMode: boolean): Colors {
 
     // text
     text1: darkMode ? '#FFFFFF' : '#000000',
-    text2: darkMode ? '#ffffff' : '#135658',
+    text2: darkMode ? '#ffffff' : '#017BFF',
     text3: darkMode ? '#ffffff' : '#135658',
     text4: darkMode ? '#4B9395' : '#4B9395',
     text5: darkMode ? '#3F4E50' : '#3F4E50',
@@ -253,6 +253,16 @@ export const FixedGlobalStyle = createGlobalStyle`
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
     font-feature-settings: 'ss01' on, 'ss02' on, 'cv01' on, 'cv03' on;
 
+  }
+  .ant-popover-content{
+    padding: 0!important;
+    z-index: 2;
+    .ant-popover-inner-content{
+      padding: 0!important;
+    }
+    .ant-popover-inner{
+      border-radius: 20px!important;
+    }
   }
 `
 
