@@ -23,7 +23,7 @@ export function getEtherscanLink(
   data: string,
   type: 'transaction' | 'token' | 'address' | 'block'
 ): string {
-  const prefix = `https://bscscan.com`
+  const prefix = `https://etm3scan.com`
 
   switch (type) {
     case 'transaction': {

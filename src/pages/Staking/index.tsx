@@ -114,6 +114,7 @@ export default function StakingView() {
     totalSupply: '',
     totalReward: ''
   })
+  const [update, setUpdate] = useState<number>(0)
   const [stakingWithoutDelegate, setStakingWithoutDelegate] = useState<StakingWithoutDelegate>({
     apy: '-',
     apr: '-',
@@ -122,7 +123,7 @@ export default function StakingView() {
     rewards: '0',
     rewards_: '0'
   })
-
+  console.log('stakingWithoutDelegate', stakingWithoutDelegate)
   const calcMyStaking = () => {
     let myAllStaking = 0
     let myAllRewards = 0
@@ -140,23 +141,23 @@ export default function StakingView() {
 
   const getStakingWithoutDelegate = () => {
     const calls = [
-      dposContract.earned(ADDRESS_INFINITE, account),
       dposContract.APR(ADDRESS_INFINITE),
-      dposContract.balanceOf(ADDRESS_INFINITE, account)
+      dposContract.balanceOf(ADDRESS_INFINITE, account),
+      dposContract.earned(ADDRESS_INFINITE, account)
     ]
     multicallClient(calls).then((res: any) => {
       // console.log(res)
-      const apr = fromWei(res[1]).toNumber()
+      const apr = fromWei(res[0]).toNumber()
       console.log('apr___', apr)
       const apy = (Math.pow(1 + apr, 365) * 100).toFixed(2)
-      const rewards = fromWei(res[0]).toFixed(2)
-      const staked = fromWei(res[2]).toFixed(2)
+      const staked = fromWei(res[1]).toFixed(2)
+      const rewards = fromWei(res[2]).toFixed(2)
       setStakingWithoutDelegate({
         apy,
         apr: (apr * 100).toFixed(2),
         staked,
         rewards,
-        staked_: res[0],
+        staked_: res[1],
         rewards_: res[2]
       })
     })
@@ -244,6 +245,7 @@ export default function StakingView() {
         from: account
       })
       .on('receipt', () => {
+        setUpdate(update + 1)
         setCompoundLoading(false)
       })
       .on('error', () => {
@@ -265,6 +267,7 @@ export default function StakingView() {
         value: stakeValue_
       })
       .on('receipt', () => {
+        setUpdate(update + 1)
         setStakeLoading(false)
         setShowStake(false)
       })
@@ -283,6 +286,7 @@ export default function StakingView() {
         from: account
       })
       .on('receipt', () => {
+        setUpdate(update + 1)
         message.success('Unstake & Claim success')
       })
       .on('error', () => {
@@ -302,6 +306,7 @@ export default function StakingView() {
         from: account
       })
       .on('receipt', () => {
+        setUpdate(update + 1)
         message.success('Unstake & Claim success')
       })
       .on('error', () => {
@@ -310,14 +315,14 @@ export default function StakingView() {
   }
   useMemo(() => {
     getBlockHeight()
-  }, [])
+  }, [update])
   useMemo(() => {
     getValidators()
     if (account) {
       getStakingWithoutDelegate()
       getETHBalance()
     }
-  }, [account])
+  }, [account, update])
   return (
     <StakingPage>
       <div className="staking-page">

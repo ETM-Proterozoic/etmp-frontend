@@ -8,7 +8,7 @@ export const injected = new InjectedConnector({
 console.log(multicallConfig.rpc[ClientChainId.ETM3])
 export const networkConf = {
   [ClientChainId.ETM3]: {
-    chainId: ClientChainId.ETM3.toString(16),
+    chainId: '0x24',
     chainName: 'ETM3 Mainnet',
     nativeCurrency: {
       name: 'ETM3',
@@ -19,7 +19,7 @@ export const networkConf = {
     blockExplorerUrls: null
   },
   [ClientChainId.ETM3Test]: {
-    chainId: ClientChainId.ETM3Test.toString(16),
+    chainId: '0x25',
     chainName: 'ETM3 Testnet',
     nativeCurrency: {
       name: 'ETM3',

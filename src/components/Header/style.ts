@@ -39,6 +39,7 @@ export const HeaderView = styled.div`
       margin-right: 20px;
       background: #cccccc;
       transform: scale(1.2);
+      min-width: 60px;
     }
   }
 `

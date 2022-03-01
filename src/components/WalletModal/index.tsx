@@ -325,7 +325,16 @@ export default function WalletModal({
           <HeaderRow>{error instanceof UnsupportedChainIdError ? 'Wrong Network' : 'Error connecting'}</HeaderRow>
           <ContentWrapper>
             {error instanceof UnsupportedChainIdError ? (
-              <h5>Please connect to the appropriate ETM3 network.</h5>
+              <h5>
+                Please connect to the appropriate{' '}
+                <strong
+                  style={{ cursor: 'pointer', color: '#017BFF' }}
+                  onClick={() => changeNetwork(ClientChainId.ETM3)}
+                >
+                  ETM3
+                </strong>{' '}
+                network.
+              </h5>
             ) : (
               'Error connecting. Try refreshing the page.'
             )}
