@@ -34,17 +34,12 @@ export const BridgePage = styled.div`
         padding: 20px 30px;
         border-bottom: 1px solid ${({ theme }) => theme.borderLine};
         div:nth-child(1) {
+        }
+        div:nth-last-child(1) {
           flex: 1;
           display: flex;
           align-items: center;
-          img {
-            width: 28px;
-            margin-right: 5px;
-          }
-        }
-        div:nth-last-child(1) {
-          display: flex;
-          align-items: center;
+          justify-content: flex-end;
           strong {
             margin-left: 5px;
           }
@@ -83,13 +78,12 @@ export const BridgePage = styled.div`
       border-radius: 10px;
       & > div {
         &:nth-child(1) {
+        }
+        &:nth-last-child(1) {
           flex: 1;
           display: flex;
           align-items: center;
-        }
-        &:nth-last-child(1) {
-          display: flex;
-          align-items: center;
+          justify-content: flex-end;
           strong {
             margin-left: 5px;
           }
@@ -105,6 +99,37 @@ export const BridgePage = styled.div`
       color: #ffffff;
       cursor: pointer;
       margin: 40px 0 20px 0;
+    }
+    .chain-show {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      img {
+        width: 28px;
+        margin-right: 5px;
+      }
+    }
+  }
+`
+
+export const ChainListView = styled.div`
+  background: ${({ theme }) => theme.popoverBg};
+  color: ${({ theme }) => theme.text1};
+  box-shadow: 0px 0px 1px rgba(12, 26, 75, 0.1), 5px 30px 71px rgba(20, 37, 63, 0.08);
+  padding: 10px 10px;
+  border-radius: 10px;
+  & > div {
+    display: flex;
+    align-items: center;
+    margin: 10px 0;
+    padding: 5px 10px;
+    cursor: pointer;
+    img {
+      width: 28px;
+      margin-right: 5px;
+    }
+    &:hover {
+      background-color: ${({ theme }) => theme.popoverHoverBg};
     }
   }
 `

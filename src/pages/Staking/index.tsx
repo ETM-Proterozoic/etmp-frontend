@@ -20,15 +20,15 @@ const ADDRESS_INFINITE = '0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF'
 // const ADDRESS_0 = '0x0000000000000000000000000000000000000000'
 
 const Staking = {
-  address: '0x230761E165EC7f6A46B42CCba786bFC0856F4C41',
+  address: '0x0000000000000000000000000000000000001001', // '0x230761E165EC7f6A46B42CCba786bFC0856F4C41',
   abi: StakingAbi
 }
 const DPosMine = {
-  address: '0xE5Ee286F8772d3f0BC170725890a31E3BE387c0A',
+  address: '0xE5Ee286F8772d3f0BC170725890a31E3BE387c0A', // '0xE5Ee286F8772d3f0BC170725890a31E3BE387c0A',
   abi: DposMineAbi
 }
 const DPOS = {
-  address: '0x4277283479c9b7F65b72f9138638780B1cB9f32C',
+  address: '0x4277283479c9b7F65b72f9138638780B1cB9f32C', // '0x4277283479c9b7F65b72f9138638780B1cB9f32C',
   abi: DPOSAbi
 }
 
@@ -131,7 +131,6 @@ export default function StakingView() {
       myAllStaking = myAllStaking + Number(validatorsData[i].myStaked)
       myAllRewards = myAllRewards + Number(validatorsData[i].myEarned)
     }
-    console.log('xxx', myAllRewards, stakingWithoutDelegate)
     myAllStaking = myAllStaking + Number(stakingWithoutDelegate.staked)
     myAllRewards = myAllRewards + Number(stakingWithoutDelegate.rewards)
     return { myAllStaking, myAllRewards }
@@ -142,8 +141,8 @@ export default function StakingView() {
   const getStakingWithoutDelegate = () => {
     const calls = [
       dposContract.APR(ADDRESS_INFINITE),
-      dposContract.balanceOf(ADDRESS_INFINITE, account),
-      dposContract.earned(ADDRESS_INFINITE, account)
+      dposContract.balanceOf(ZERO_ADDRESS, account),
+      dposContract.earned(ZERO_ADDRESS, account)
     ]
     multicallClient(calls).then((res: any) => {
       // console.log(res)
@@ -164,11 +163,15 @@ export default function StakingView() {
   }
 
   const getValidators = () => {
+    if (!account) {
+      return
+    }
     const calls = [
       stakingContract.validators(),
-      dposMineContract.totalSupply(),
+      dposContract.totalSupply(),
       dposMineContract.balanceOf(ADDRESS_INFINITE)
     ]
+    console.log('calls', calls)
     multicallClient(calls).then(async (res: any) => {
       console.log('getValidators', res)
       const validators_ = res[0]
@@ -451,7 +454,7 @@ export default function StakingView() {
               <div
                 className="btn-compound"
                 onClick={() => {
-                  setStakeDelegate(ADDRESS_INFINITE)
+                  setStakeDelegate(ZERO_ADDRESS)
                   setShowStake(true)
                 }}
               >

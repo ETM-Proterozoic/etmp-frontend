@@ -14,7 +14,7 @@ ClientChainId.rinkeby = 4
 ClientChainId.ETM3 = 36
 ClientChainId.ETM3Test = 37
 const multicallConfig = config({
-  defaultChainId: ClientChainId.rinkeby,
+  defaultChainId: ClientChainId.ETM3Test,
   allowFailure: false,
   rpc: {
     [ClientChainId.rinkeby]: {
@@ -27,7 +27,7 @@ const multicallConfig = config({
     },
     [ClientChainId.ETM3Test]: {
       url: 'https://testnet-rpc.etm3.com',
-      address: '0xA640039DE7A5f79bBE53553E86C9F5E5434E59df'
+      address: '0xffc5b38A7Dc497ef16121Ac948277a704a79f77b'
     }
   }
 })
