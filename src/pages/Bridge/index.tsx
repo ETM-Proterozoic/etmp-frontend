@@ -354,12 +354,15 @@ export default function BridgePage() {
               </Popover>
             </div>
             <div>
-              <input
-                type="number"
-                placeholder="0.000"
-                value={depositAmount}
-                onChange={e => setDepositAmount(e.currentTarget.value)}
-              />
+              <div>
+                <input
+                  type="number"
+                  placeholder="0.000"
+                  value={depositAmount}
+                  onChange={e => setDepositAmount(e.currentTarget.value)}
+                />
+              </div>
+
               <button style={{ cursor: 'pointer' }} onClick={onMax}>
                 MAX
               </button>

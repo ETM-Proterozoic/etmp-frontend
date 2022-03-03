@@ -17,6 +17,7 @@ export const BridgePageView = styled.div`
     border: 0;
     background: transparent;
   }
+  padding: 10px;
   .bridge-page {
     max-width: 500px;
     min-height: 400px;
@@ -59,8 +60,11 @@ export const BridgePageView = styled.div`
             display: flex;
             align-items: center;
             padding: 0 10px;
-            input {
+            & > div {
               flex: 1;
+              input {
+                width: 100%;
+              }
             }
             button {
               border: 0;
