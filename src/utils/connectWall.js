@@ -7,6 +7,12 @@ export const injected = new InjectedConnector({
 })
 console.log(multicallConfig.rpc[ClientChainId.ETM3])
 export const networkConf = {
+  [ClientChainId.ETH]: {
+    chainId: '0x1'
+  },
+  [ClientChainId.rinkeby]: {
+    chainId: '0x4'
+  },
   [ClientChainId.ETM3]: {
     chainId: '0x24',
     chainName: 'ETM3 Mainnet',
@@ -16,7 +22,7 @@ export const networkConf = {
       decimals: 18
     },
     rpcUrls: [multicallConfig.rpc[ClientChainId.ETM3].url],
-    blockExplorerUrls: 'https://etm3scan.com/'
+    blockExplorerUrls: null //'https://etm3scan.com/'
   },
   [ClientChainId.ETM3Test]: {
     chainId: '0x25',
@@ -27,7 +33,7 @@ export const networkConf = {
       decimals: 18
     },
     rpcUrls: [multicallConfig.rpc[ClientChainId.ETM3Test].url],
-    blockExplorerUrls: 'https://etm3scan.com/'
+    blockExplorerUrls: null //'https://etm3scan.com/'
   }
 }
 
@@ -37,7 +43,7 @@ export const changeNetwork = chainId =>
     if (ethereum && ethereum.isMetaMask) {
       ethereum
         .request({
-          method: 'wallet_addEthereumChain',
+          method: [1, 4].includes(chainId) ? 'wallet_switchEthereumChain' : 'wallet_addEthereumChain',
           params: [
             {
               ...networkConf[chainId]

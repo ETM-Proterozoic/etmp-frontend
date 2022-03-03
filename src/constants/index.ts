@@ -202,3 +202,6 @@ export const TOTORO_TOKEN_INFO = {
   decimals: 18,
   abi: TotoroAbi
 }
+
+export const ADDRESS_INFINITE = '0xffffffffffffffffffffffffffffffffffffffff'
+export const ADDRESS_0 = '0x0000000000000000000000000000000000000000'

@@ -1,18 +1,25 @@
-import React, { useState } from 'react'
-import { BridgePage, ChainListView } from './styleds'
+import React, { useMemo, useState } from 'react'
+import { BridgePageView, ChainListView, TokenListView } from './styleds'
 import { getWeb3Contract } from '../../utils/index'
 import { useActiveWeb3React } from '../../hooks'
-import BadgeAbi from '../../constants/abis/Badge.json'
-import ERC20HandlerAbi from '../../constants/abis/ERC20Handler.json'
+import BridgeAbi from '../../constants/abis/Bridge.json'
 import EthereumLog from '../../assets/images/ethereum-logo.png'
-import { ClientChainId } from '../../constants/multicall'
+import { ClientChainId, ClientContract, multicallClient } from '../../constants/multicall'
 import { ethers } from 'ethers'
-import { Popover } from 'antd'
+import { Button, Popover } from 'antd'
+import { fromWei, numToWei } from '../../utils/format'
+import Web3 from 'web3'
+import { ERC20_ABI } from '../../constants/abis/erc20'
+import ArrowDown from '../../assets/svg/arrow_down2.svg'
+import ArrowDownDark from '../../assets/svg/arrow_down2_dark.svg'
+import { useDarkModeManager } from '../../state/user/hooks'
+import { changeNetwork } from '../../utils/connectWall'
+import { ADDRESS_INFINITE } from '../../constants'
 // import { Select } from 'antd'
 
 // const { Option } = Select
 
-const nameMap = {
+const chainNameMap = {
   [ClientChainId.rinkeby]: {
     icon: EthereumLog,
     name: 'rinkeby chain'
@@ -31,10 +38,13 @@ const nameMap = {
   }
 }
 
-const ERC20Handler = {
-  address: '0xa280EdbE2E8f29f74ec0a494D4F9bfdAb001B95A',
-  abi: ERC20HandlerAbi
+const Bridge = {
+  address: '0x6d4989D1ed6D519aabAE2103060cDeE0fD6Fe30F',
+  abi: BridgeAbi
 }
+
+const ERC20_HANDLER_ADDRESS = '0xa280EdbE2E8f29f74ec0a494D4F9bfdAb001B95A'
+
 interface SupperChainIds {
   [propName: string]: number[]
 }
@@ -43,121 +53,360 @@ const supperChainIds: SupperChainIds = {
   to: [ClientChainId.ETM3Test, ClientChainId.rinkeby]
 }
 
-const fromConfig = [
-  {
-    chainId: ClientChainId.rinkeby,
-    symbol: 'ETH',
-    nativos: true,
-    balance: 123
-  },
-  {
-    chainId: ClientChainId.rinkeby,
-    address: '0x6DD5BeF6Ca6350368e6C5167cB71B933940dC52f',
-    symbol: 'ERC20Custom',
-    nativos: false,
-    balance: 33
-  },
-  {
-    chainId: ClientChainId.ETM3Test,
-    nativos: true,
-    balance: 441
-  },
-  {
-    chainId: ClientChainId.ETM3Test,
-    nativos: false,
-    balance: 441,
-    address: '0x678Fa5e07AEbf02993B3A48E8be6E5170F231b67'
-  }
-]
-if (false) {
-  console.log(fromConfig, ERC20Handler, nameMap)
+interface FromConfig {
+  [propsName: string]: any
 }
 
-const ddd = ethers.utils.hexZeroPad(
-  '0xffffffffffffffffffffffffffffffffffffffff' + ethers.utils.hexlify(37).substr(2),
-  32
-)
-console.log(ddd)
+const fromConfig: FromConfig[] = [
+  {
+    symbol: 'ETH',
+    chainId: ClientChainId.rinkeby,
+    nativos: true,
+    tokenBelong: ClientChainId.rinkeby,
+    address: '0xffffffffffffffffffffffffffffffffffffffff',
+    decimals: 18,
+    correspondAddress: {
+      [ClientChainId.ETM3Test]: {
+        symobl: 'WETH',
+        address: '0x678Fa5e07AEbf02993B3A48E8be6E5170F231b67'
+      }
+    }
+  },
+  {
+    symbol: 'WETH',
+    chainId: ClientChainId.ETM3Test,
+    nativos: false,
+    address: '0x678Fa5e07AEbf02993B3A48E8be6E5170F231b67',
+    decimals: 18,
+    tokenBelong: ClientChainId.rinkeby,
+    correspondAddress: {
+      [ClientChainId.rinkeby]: {
+        symobl: 'ETM3',
+        nativos: true,
+        address: '0xffffffffffffffffffffffffffffffffffffffff'
+      }
+    }
+  },
+  {
+    symbol: 'ETM3',
+    chainId: ClientChainId.ETM3Test,
+    address: '0xffffffffffffffffffffffffffffffffffffffff',
+    decimals: 18,
+    nativos: true,
+    tokenBelong: ClientChainId.ETM3Test,
+    correspondAddress: {
+      [ClientChainId.rinkeby]: {
+        symbol: 'WETM3',
+        address: '0x678Fa5e07AEbf02993B3A48E8be6E5170F231b67'
+      }
+    }
+  },
+  {
+    symbol: 'WETM3',
+    chainId: ClientChainId.rinkeby,
+    address: '0x678Fa5e07AEbf02993B3A48E8be6E5170F231b67',
+    decimals: 18,
+    nativos: false,
+    tokenBelong: ClientChainId.ETM3Test,
+    correspondAddress: {
+      [ClientChainId.ETM3Test]: {
+        symbol: 'ETM3',
+        nativos: true,
+        address: '0xffffffffffffffffffffffffffffffffffffffff'
+      }
+    }
+  },
+  {
+    symbol: 'ERC20Custom',
+    chainId: ClientChainId.rinkeby,
+    address: '0x6DD5BeF6Ca6350368e6C5167cB71B933940dC52f',
+    decimals: 18,
+    tokenBelong: ClientChainId.ETM3Test,
+    correspondAddress: {
+      [ClientChainId.ETM3Test]: {
+        symbol: 'ERC20Custom',
+        address: '0x6DD5BeF6Ca6350368e6C5167cB71B933940dC52f'
+      }
+    },
+    nativos: false
+  },
+  {
+    symbol: 'ERC20Custom',
+    chainId: ClientChainId.ETM3Test,
+    address: '0x6DD5BeF6Ca6350368e6C5167cB71B933940dC52f',
+    decimals: 18,
+    tokenBelong: ClientChainId.ETM3Test,
+    correspondAddress: {
+      [ClientChainId.rinkeby]: {
+        symbol: 'ERC20Custom',
+        address: '0x6DD5BeF6Ca6350368e6C5167cB71B933940dC52f'
+      }
+    },
+    nativos: false
+  }
+]
 
-function ChainList({ direction, onChange }: { direction: string; onChange: Function }) {
+const fromConfigMap = fromConfig.reduce((map: { [propName: string]: any }, item) => {
+  map[`${item.chainId}_${item.address}`] = item
+  return map
+}, {})
+
+function FromChainList({ direction, onChange }: { direction: string; onChange: Function }) {
   return (
     <ChainListView>
       {supperChainIds[direction].map((chain: number) => (
         <div key={chain} onClick={() => onChange(chain)}>
-          <img src={nameMap[chain].icon} alt="" />
-          <span>{nameMap[chain].name}</span>
+          <img src={chainNameMap[chain].icon} alt="" />
+          <span>{chainNameMap[chain].name}</span>
         </div>
       ))}
     </ChainListView>
   )
 }
 
-export default function Bridge() {
-  const { library, account } = useActiveWeb3React()
+function ToChainList({
+  fromChainId,
+  fromToken,
+  onChange
+}: {
+  fromChainId: number
+  fromToken: string
+  onChange: Function
+}) {
+  return (
+    <ChainListView>
+      {supperChainIds.to.map((chain: number) => {
+        if (fromConfigMap[`${fromChainId}_${fromToken}`].correspondAddress[chain]) {
+          return (
+            <div key={chain} onClick={() => onChange(chain)}>
+              <img src={chainNameMap[chain].icon} alt="" />
+              <span>{chainNameMap[chain].name}</span>
+            </div>
+          )
+        }
+        return null
+      })}
+    </ChainListView>
+  )
+}
+
+function FromTokenList({ chainId, onChange }: { chainId: number; onChange: Function }) {
+  return (
+    <TokenListView>
+      {fromConfig.map((item, index) => {
+        if (item.chainId === chainId) {
+          return (
+            <div key={index} onClick={() => onChange(item.address)}>
+              <span>{item.symbol}</span>
+            </div>
+          )
+        }
+        return null
+      })}
+    </TokenListView>
+  )
+}
+
+export default function BridgePage() {
+  const [isDark] = useDarkModeManager()
+  const { library, account, chainId } = useActiveWeb3React()
   const [loading, setLoading] = useState(false)
-  const [fromChainId, setFromChainId] = useState<number>(ClientChainId.rinkeby)
-  const [toChainId] = useState<number>(ClientChainId.ETM3Test)
+  const [fromChainId, setFromChainId] = useState<number>(chainId || ClientChainId.ETH)
+  const [toChainId, setToChainId] = useState<number>(0)
+  const [fromToken, setFromToken] = useState<string>('0xffffffffffffffffffffffffffffffffffffffff')
+  const [depositAmount, setDepositAmount] = useState<string | number>('')
+  const [balanceMap, setBalanceMap] = useState<{ [propsName: string]: string | number }>({})
+  const [approveMap, setApproveMap] = useState<{ [propsName: string]: boolean }>({})
+  const getTokenInfo = () => {
+    const promiseList = []
+    for (let i = 0; i < fromConfig.length; i++) {
+      if (fromConfig[i].nativos) {
+        promiseList.push(multicallClient.getEthBalance(account, fromConfig[i].chainId))
+      } else {
+        const contract = new ClientContract(ERC20_ABI, fromConfig[i].address, fromConfig[i].chainId)
+        promiseList.push(multicallClient([contract.balanceOf(account)]).then((res: string[]) => res[0]))
+        promiseList.push(
+          multicallClient([contract.allowance(account, ERC20_HANDLER_ADDRESS)]).then((res: string[]) => res[0])
+        )
+      }
+    }
+    Promise.all(promiseList).then(res => {
+      const balancesMap_: { [propName: string]: any } = {}
+      const approveMap_: { [propName: string]: any } = {}
+      for (let i = 0, j = 0; i < fromConfig.length; i++, j++) {
+        const key = `${fromConfig[i].chainId}_${fromConfig[i].address}`
+        balancesMap_[key] = Number(fromWei(res[j], fromConfig[i].decimals).toFixed(4))
+        if (fromConfig[i].nativos) {
+          approveMap_[key] = true
+        } else {
+          approveMap_[key] = res[j + 1] > 0
+          j++
+        }
+      }
+      setBalanceMap(balancesMap_)
+      setApproveMap(approveMap_)
+      console.log(res)
+    })
+  }
   const onBadge = () => {
-    console.log(loading)
+    if (!account || !depositAmount || Number(depositAmount) <= 0 || toChainId === 0) {
+      return
+    }
     setLoading(true)
-    const contract = getWeb3Contract(library, BadgeAbi, '')
+    const involveNativos =
+      fromConfigMap[`${fromChainId}_${fromToken}`].nativos ||
+      fromConfigMap[`${fromChainId}_${fromToken}`].correspondAddress[toChainId]?.nativos
+
+    const resourceAddress = involveNativos ? ADDRESS_INFINITE : fromToken
+    const tokenBelong = fromConfigMap[`${fromChainId}_${fromToken}`].tokenBelong
+    const resourceId = ethers.utils.hexZeroPad(resourceAddress + ethers.utils.hexlify(tokenBelong).substr(2), 32)
+    const amount = numToWei(depositAmount, fromConfigMap[`${fromChainId}_${fromToken}`].decimals).toString()
+    const data =
+      '0x' +
+      ethers.utils.hexZeroPad(Web3.utils.numberToHex(amount), 32).substr(2) + // Deposit Amount (32 bytes)
+      ethers.utils.hexZeroPad(ethers.utils.hexlify((account.length - 2) / 2), 32).substr(2) + // len(recipientAddress) (32 bytes)
+      account.substr(2)
+
+    console.log(toChainId, resourceId, data, amount)
+    const contract = getWeb3Contract(library, Bridge.abi, Bridge.address)
     contract.methods
-      .xx()
+      .deposit(toChainId, resourceId, data)
       .send({
-        from: account
+        from: account,
+        value: fromConfigMap[`${fromChainId}_${fromToken}`].nativos ? amount : 0
       })
       .on('receipt', () => {
-        console.log(1)
+        getTokenInfo()
+        setDepositAmount('')
         setLoading(false)
       })
       .on('error', () => {
         setLoading(false)
       })
   }
+  const onApprove = () => {
+    setLoading(true)
+    const contract = getWeb3Contract(library, ERC20_ABI, fromConfigMap[`${fromChainId}_${fromToken}`].address)
+    contract.methods
+      .approve(ERC20_HANDLER_ADDRESS, ADDRESS_INFINITE)
+      .send({
+        from: account
+      })
+      .on('receipt', () => {
+        getTokenInfo()
+        setLoading(false)
+      })
+      .on('error', () => {
+        setLoading(false)
+      })
+  }
+  const onMax = () => {
+    if (balanceMap[`${fromChainId}_${fromToken}`] > 0) {
+      const maxAmount = Number(balanceMap[`${fromChainId}_${fromToken}`]) || 0
+      if (fromConfigMap[`${fromChainId}_${fromToken}`].nativos) {
+        setDepositAmount(Math.max(maxAmount - 0.1, 0))
+      } else {
+        setDepositAmount(maxAmount)
+      }
+    }
+  }
+  useMemo(() => {
+    if (fromChainId === toChainId) {
+      setToChainId(0)
+    }
+  }, [fromChainId])
+  useMemo(() => {
+    if (account) {
+      getTokenInfo()
+    }
+  }, [account])
   return (
-    <BridgePage>
+    <BridgePageView>
       <div className="bridge-page">
-        <button onClick={onBadge} style={{ display: 'none' }}>
-          onBadge
-        </button>
         <p>from</p>
         <div className="bridge-from">
           <div className="bridge-from-title">
             <div>
               <Popover
                 placement="bottom"
-                content={<ChainList direction="from" onChange={(chain: number) => setFromChainId(chain)} />}
+                content={<FromChainList direction="from" onChange={(chain: number) => setFromChainId(chain)} />}
               >
                 <div className="chain-show">
-                  <img src={nameMap[fromChainId].icon} alt="" />
-                  {nameMap[fromChainId].name}
+                  <img src={chainNameMap[fromChainId].icon} alt="" />
+                  {chainNameMap[fromChainId].name}
                 </div>
               </Popover>
             </div>
             <div>
-              Balance <strong>0.123 ETH</strong>
+              Balance{' '}
+              <strong>
+                {balanceMap[`${fromChainId}_${fromToken}`] ?? '-'} {fromConfigMap[`${fromChainId}_${fromToken}`].symbol}
+              </strong>
             </div>
           </div>
           <div className="bridge-from-input">
-            <div>ETH</div>
             <div>
-              <input type="number" placeholder="0.000" />
-              <button>MAX</button>
+              <Popover
+                placement="bottom"
+                content={<FromTokenList chainId={fromChainId} onChange={(token: string) => setFromToken(token)} />}
+              >
+                <span style={{ cursor: 'pointer' }}>{fromConfigMap[`${fromChainId}_${fromToken}`].symbol}</span>
+              </Popover>
+            </div>
+            <div>
+              <input
+                type="number"
+                placeholder="0.000"
+                value={depositAmount}
+                onChange={e => setDepositAmount(e.currentTarget.value)}
+              />
+              <button style={{ cursor: 'pointer' }} onClick={onMax}>
+                MAX
+              </button>
             </div>
           </div>
         </div>
         <p>to</p>
         <div className="bridge-to">
-          <div className="chain-show">
-            <img src={nameMap[toChainId].icon} alt="" />
-            {nameMap[toChainId].name}
-          </div>
-          <div>
-            Balance: <strong>0 ETM3</strong>
-          </div>
+          <Popover
+            placement="bottom"
+            content={
+              <ToChainList
+                fromChainId={fromChainId}
+                fromToken={fromToken}
+                onChange={(chain: number) => setToChainId(chain)}
+              />
+            }
+          >
+            <div className="chain-show">
+              {!chainNameMap[toChainId] ? (
+                <>
+                  select a chain <img src={isDark ? ArrowDownDark : ArrowDown} className="chain-show-arrow" alt="" />
+                </>
+              ) : (
+                <>
+                  <img src={chainNameMap[toChainId].icon} alt="" />
+                  {chainNameMap[toChainId].name}
+                </>
+              )}
+            </div>
+          </Popover>
+          <div>{/*Balance: <strong>0 ETM3</strong>*/}</div>
         </div>
-        <button className="transfer-btn">Transfer</button>
+        {fromChainId !== chainId ? (
+          <Button className="transfer-btn" onClick={() => changeNetwork(fromChainId)}>
+            switch to {chainNameMap[fromChainId].name}
+          </Button>
+        ) : !approveMap[`${fromChainId}_${fromToken}`] && !fromConfigMap[`${fromChainId}_${fromToken}`].nativos ? (
+          <Button loading={loading} className="transfer-btn" onClick={onApprove}>
+            Approve
+          </Button>
+        ) : (
+          <Button loading={loading} className="transfer-btn" onClick={onBadge}>
+            Transfer
+          </Button>
+        )}
       </div>
-    </BridgePage>
+    </BridgePageView>
   )
 }

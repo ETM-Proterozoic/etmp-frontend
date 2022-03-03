@@ -13,11 +13,8 @@ import DposMineAbi from '../../constants/abis/DposMine.json'
 import { formatAddress, fromWei, numToWei, toFormat } from '../../utils/format'
 import { getWeb3Contract } from '../../utils'
 import { Input, message, Modal, Popover, Tooltip } from 'antd'
-import { ZERO_ADDRESS } from '../../constants'
+import { ADDRESS_INFINITE, ZERO_ADDRESS } from '../../constants'
 import { useDarkModeManager } from '../../state/user/hooks'
-
-const ADDRESS_INFINITE = '0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF'
-// const ADDRESS_0 = '0x0000000000000000000000000000000000000000'
 
 const Staking = {
   address: '0x0000000000000000000000000000000000001001', // '0x230761E165EC7f6A46B42CCba786bFC0856F4C41',
