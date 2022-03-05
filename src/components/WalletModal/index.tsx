@@ -47,7 +47,7 @@ const HeaderRow = styled.div`
   ${({ theme }) => theme.flexRowNoWrap};
   padding: 1rem 1rem;
   font-weight: 500;
-  color: ${props => (props.color === 'blue' ? ({ theme }) => theme.primary1 : 'inherit')};
+  color: ${({ theme }) => theme.text1};
   ${({ theme }) => theme.mediaWidth.upToMedium`
     padding: 1rem;
   `};
@@ -71,6 +71,9 @@ const ContentWrapper = styled.div`
   padding: 2rem;
   border-bottom-left-radius: 20px;
   border-bottom-right-radius: 20px;
+  h5 {
+    color: ${({ theme }) => theme.text1};
+  }
 
   ${({ theme }) => theme.mediaWidth.upToMedium`padding: 1rem`};
 `

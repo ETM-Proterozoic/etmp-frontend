@@ -12,6 +12,7 @@ import { useWalletModalToggle } from '../../state/application/hooks'
 import { isTransactionRecent, useAllTransactions } from '../../state/transactions/hooks'
 import { TransactionDetails } from '../../state/transactions/reducer'
 import { shortenAddress } from '../../utils'
+import MetamaskSvg from '../../assets/svg/metamask.svg'
 
 import Identicon from '../Identicon'
 import Loader from '../Loader'
@@ -83,14 +84,21 @@ const Web3StatusConnected = styled(Web3StatusConnect)<{ pending?: boolean }>`
 const WalletConnected = styled.div`
   padding: 10px 20px;
   height: 45px;
-  background: #f4f5f6;
+  background: ${({ theme }) => theme.accountBtnBg};
   font-weight: 500;
   font-size: 18px;
   line-height: 25px;
-  color: #101225;
+  color: ${({ theme }) => theme.text1};
   border-radius: 5px;
   margin-right: 30px;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  img {
+    width: 24px;
+    height: 24px;
+    margin-right: 5px;
+  }
   ${({ theme }) => theme.mediaWidth.upToExtraSmall`
          height: 35px;
          line-height: 16px;
@@ -180,6 +188,7 @@ function Web3StatusInner() {
       </Web3StatusConnected>
     ) : (
       <WalletConnected onClick={toggleWalletModal}>
+        <img src={MetamaskSvg} alt="" />
         <TextPc>{ENSName || shortenAddress(account, 4)}</TextPc>
         <TextH5>{ENSName || shortenAddress(account, 2)}</TextH5>
       </WalletConnected>

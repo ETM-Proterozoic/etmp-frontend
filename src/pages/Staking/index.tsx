@@ -29,6 +29,15 @@ const DPOS = {
   abi: DPOSAbi
 }
 
+const defaultValidators = [
+  '0x09f8600161c309F6c9f8C409b1107D5CDC5D621A',
+  '0x7de4dbBb1f6dB8F4698eF9f6F3FCb08c3B36259e',
+  '0x5496F0b0691EdE9423F1CF1c0974F2dE095f303c',
+  '0xD2aB0fFd566d45DFe8fD2e7fc1DC035dE16b9c5F',
+  '0xeF71EF7AC684CF2EDd003C22afB6b154723cc3d7',
+  '0x88E829F6bd0aac95fcC9303A8998675b3d3c1B17'
+]
+
 const stakingContract = new ClientContract(Staking.abi, Staking.address, multicallConfig.defaultChainId)
 const dposContract = new ClientContract(DPOS.abi, DPOS.address, multicallConfig.defaultChainId)
 const dposMineContract = new ClientContract(DPosMine.abi, DPosMine.address, multicallConfig.defaultChainId)
@@ -168,7 +177,7 @@ export default function StakingView() {
     console.log('calls', calls)
     multicallClient(calls).then(async (res: any) => {
       console.log('getValidators', res)
-      const validators_ = res[0]
+      const validators_ = [...res[0], ...defaultValidators]
       setTotalData({
         totalSupply: fromWei(res[1], 18).toFixed(0),
         totalReward: fromWei(res[2], 18).toFixed(0)

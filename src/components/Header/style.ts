@@ -39,7 +39,18 @@ export const HeaderView = styled.div`
       margin-right: 20px;
       background: ${({ theme }) => theme.themeSwitchBg};
       transform: scale(1.2);
-      min-width: 60px;
+      min-width: 46px;
+      span{
+        font-size: 14px;
+      }
+      .ant-switch-inner{
+        margin: 0 4px 0 24px;
+      }
+      &.ant-switch-checked{
+        .ant-switch-inner {
+          margin: 0 24px 0 4px!important;
+        }
+      }
       &.ant-switch-checked:focus {
         box-shadow: 0 0 0 2px ${({ theme }) => theme.themeSwitchBg};
       }

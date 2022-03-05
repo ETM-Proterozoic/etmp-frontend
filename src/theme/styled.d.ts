@@ -97,6 +97,7 @@ export interface Colors {
   themeSwitchBg: Color
   connectWalletBg: Color
   closeXColor: Color
+  accountBtnBg: Color
 }
 
 export interface Grids {

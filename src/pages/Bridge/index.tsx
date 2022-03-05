@@ -22,19 +22,19 @@ import { ADDRESS_INFINITE } from '../../constants'
 const chainNameMap = {
   [ClientChainId.rinkeby]: {
     icon: EthereumLog,
-    name: 'rinkeby chain'
+    name: 'Rinkeby Chain'
   },
   [ClientChainId.ETH]: {
     icon: EthereumLog,
-    name: 'Ethereum chain'
+    name: 'Ethereum Chain'
   },
   [ClientChainId.ETM3]: {
     icon: EthereumLog,
-    name: 'ETM3 chain'
+    name: 'ETM3 Chain'
   },
   [ClientChainId.ETM3Test]: {
     icon: EthereumLog,
-    name: 'ETM3 testchain'
+    name: 'ETM3 Testchain'
   }
 }
 
@@ -323,7 +323,7 @@ export default function BridgePage() {
   return (
     <BridgePageView>
       <div className="bridge-page">
-        <p>from</p>
+        <p>From</p>
         <div className="bridge-from">
           <div className="bridge-from-title">
             <div>
@@ -369,7 +369,7 @@ export default function BridgePage() {
             </div>
           </div>
         </div>
-        <p>to</p>
+        <p>To</p>
         <div className="bridge-to">
           <Popover
             placement="bottom"
