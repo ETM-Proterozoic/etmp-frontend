@@ -132,7 +132,10 @@ export function colors(darkMode: boolean): Colors {
     stakingBannerColor: darkMode ? '#ffffff' : '#2d316a',
     bridgeToBg: darkMode ? '#0000008f' : '#faf9ff',
     popoverHoverBg: darkMode ? 'rgba(255,255,255,0.13)' : '#F8F9FA',
-    popoverBg: darkMode ? 'rgba(0,0,0,0.95)' : '#ffffff'
+    popoverBg: darkMode ? 'rgba(0,0,0,0.95)' : '#ffffff',
+    themeSwitchBg: darkMode ? '#4D4D4D' : '#4D4D4D',
+    connectWalletBg: darkMode ? '#4C4D4D' : '#27272E',
+    closeXColor: darkMode ? '#cccccc' : '#27272E'
   }
 }
 

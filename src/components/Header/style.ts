@@ -37,9 +37,12 @@ export const HeaderView = styled.div`
     align-items: center;
     .theme-switch{
       margin-right: 20px;
-      background: #cccccc;
+      background: ${({ theme }) => theme.themeSwitchBg};
       transform: scale(1.2);
       min-width: 60px;
+      &.ant-switch-checked:focus {
+        box-shadow: 0 0 0 2px ${({ theme }) => theme.themeSwitchBg};
+      }
     }
   }
 `

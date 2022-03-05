@@ -33,9 +33,7 @@ const CloseIcon = styled.div`
 `
 
 const CloseColor = styled(Close)`
-  path {
-    stroke: ${({ theme }) => theme.text4};
-  }
+  color: ${({ theme }) => theme.closeXColor};
 `
 
 const Wrapper = styled.div`
@@ -114,12 +112,12 @@ const OptionGrid = styled.div`
   //grid-gap: 10px;
   border-radius: 20px;
   overflow: hidden;
-  border: 1px solid #f2f2f2;
+  border: 1px solid ${({ theme }) => theme.borderLine};
   ${({ theme }) => theme.mediaWidth.upToMedium`
     grid-template-columns: 1fr;
   `};
   & > button {
-    border-bottom: 1px solid #f2f2f2;
+    border-bottom: 1px solid ${({ theme }) => theme.borderLine};
     &:nth-last-child(1) {
       border-bottom: 0;
     }

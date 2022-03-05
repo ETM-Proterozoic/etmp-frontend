@@ -94,6 +94,9 @@ export interface Colors {
   bridgeToBg: Color
   popoverHoverBg: Color
   popoverBg: Color
+  themeSwitchBg: Color
+  connectWalletBg: Color
+  closeXColor: Color
 }
 
 export interface Grids {

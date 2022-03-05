@@ -45,7 +45,7 @@ export const Web3StatusConnect = styled.div<{ faded?: boolean }>`
   font-weight: 500;
   font-size: 18px;
 
-  background: linear-gradient(225deg, #29272E 0%, #27272E 100%);
+  background: ${({ theme }) => theme.connectWalletBg};
   border-radius: 8px;
   margin-right: 60px;
   cursor: pointer;

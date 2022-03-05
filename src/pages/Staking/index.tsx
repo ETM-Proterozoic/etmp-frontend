@@ -160,9 +160,6 @@ export default function StakingView() {
   }
 
   const getValidators = () => {
-    if (!account) {
-      return
-    }
     const calls = [
       stakingContract.validators(),
       dposContract.totalSupply(),
