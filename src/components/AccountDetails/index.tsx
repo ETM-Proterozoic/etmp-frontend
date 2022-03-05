@@ -151,9 +151,7 @@ const CloseIcon = styled.div`
 `
 
 const CloseColor = styled(Close)`
-  path {
-    stroke: ${({ theme }) => theme.text4};
-  }
+  color: ${({ theme }) => theme.text1};
 `
 
 const WalletName = styled.div`

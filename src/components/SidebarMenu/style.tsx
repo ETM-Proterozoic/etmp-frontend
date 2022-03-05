@@ -13,6 +13,21 @@ export const SidebarMenuView = styled.div`
     overflow-y: auto;
     padding: 20px;
   }
+  .menu-footer {
+    padding: 30px 20px;
+    display: flex;
+    align-items: center;
+    color: ${({ theme }) => theme.text1};
+    font-family: PingFang SC;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    img {
+      width: 24px;
+      height: 24px;
+      margin-right: 16px;
+    }
+  }
   ${({ theme }) => theme.mediaWidth.upToLarge`
     width: 240px;
   `};

@@ -1,46 +1,21 @@
 import React from 'react'
 import bridgeOff from '../../assets/svg/menu/bridge-off.svg'
+import bridgeOffDark from '../../assets/svg/menu/bridge-off-dark.svg'
 import bridgeOn from '../../assets/svg/menu/bridge-on.svg'
 import stakingOff from '../../assets/svg/menu/staking-off.svg'
+import stakingOffDark from '../../assets/svg/menu/staking-off-dark.svg'
 import stakingOn from '../../assets/svg/menu/staking-on.svg'
 import tokenswapOff from '../../assets/svg/menu/tokenswap-off.svg'
+import tokenswapOffDark from '../../assets/svg/menu/tokenswap-off-dark.svg'
 import tokenswapOn from '../../assets/svg/menu/tokenswap-on.svg'
+import footerIcon from '../../assets/svg/menu/footer-icon.svg'
+import footerIconDark from '../../assets/svg/menu/footer-icon-dark.svg'
 import { SidebarMenuView, MenuItem, ShowSmall, HideSmall, MenuIcon } from './style'
 import Drawer from '../Drawer'
 import { useCloseModals, useModalOpen } from '../../state/application/hooks'
 import { ApplicationModal } from '../../state/application/actions'
+import { useDarkModeManager } from '../../state/user/hooks'
 
-const sidebarMenuList = [
-  {
-    icon: {
-      off: stakingOff,
-      on: stakingOn
-    },
-    name: 'Staking',
-    route: '/staking'
-  },
-  {
-    icon: {
-      off: bridgeOff,
-      on: bridgeOn
-    },
-    name: 'Bridge',
-    route: '/bridge'
-  },
-  {
-    icon: {
-      off: tokenswapOff,
-      on: tokenswapOn
-    },
-    name: 'Token Swap',
-    route: '/swap'
-  }
-  // {
-  //   icon: ,
-  //   name: 'Liquidity',
-  //   route: '/liquidity'
-  // }
-]
 interface MenuProps {
   drawer: boolean
 }
@@ -48,6 +23,40 @@ interface MenuProps {
 export default function SidebarMenu() {
   const open = useModalOpen(ApplicationModal.MENU)
   const toggle = useCloseModals()
+  const [isDark] = useDarkModeManager()
+
+  const sidebarMenuList = [
+    {
+      icon: {
+        off: isDark ? stakingOffDark : stakingOff,
+        on: stakingOn
+      },
+      name: 'Staking',
+      route: '/staking'
+    },
+    {
+      icon: {
+        off: isDark ? bridgeOffDark : bridgeOff,
+        on: bridgeOn
+      },
+      name: 'Bridge',
+      route: '/bridge'
+    },
+    {
+      icon: {
+        off: isDark ? tokenswapOffDark : tokenswapOff,
+        on: tokenswapOn
+      },
+      name: 'Token Swap',
+      route: '/swap'
+    }
+    // {
+    //   icon: ,
+    //   name: 'Liquidity',
+    //   route: '/liquidity'
+    // }
+  ]
+
   const MenuContent = ({ drawer }: MenuProps) => {
     return (
       <SidebarMenuView>
@@ -58,6 +67,10 @@ export default function SidebarMenu() {
               <span>{item.name}</span>
             </MenuItem>
           ))}
+        </div>
+        <div className="menu-footer">
+          <img src={isDark ? footerIconDark : footerIcon} alt="" />
+          Dev Testnet
         </div>
       </SidebarMenuView>
     )
