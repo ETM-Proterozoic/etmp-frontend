@@ -1,7 +1,7 @@
 import { UNSUPPORTED_LIST_URLS } from './../../constants/lists'
-import DEFAULT_TOKEN_LIST from '@totoroswap/default-token-list'
-import { ChainId, Token } from '@totoroswap/sdk'
-import { Tags, TokenInfo, TokenList } from '@totoroswap/token-list'
+import DEFAULT_TOKEN_LIST from '@etm3/default-token-list'
+import { ChainId, Token } from '@etm3/sdk'
+import { Tags, TokenInfo, TokenList } from '@etm3/token-list'
 import { useMemo } from 'react'
 import { useSelector } from 'react-redux'
 import { AppState } from '../index'
@@ -42,7 +42,9 @@ const EMPTY_LIST: TokenAddressMap = {
   [ChainId.ROPSTEN]: {},
   [ChainId.GÖRLI]: {},
   [ChainId.MAINNET]: {},
-  [ChainId.BSC]: {}
+  [ChainId.BSC]: {},
+  [ChainId.ETM3]: {},
+  [ChainId.ETM3Test]: {}
 }
 
 const listCache: WeakMap<TokenList, TokenAddressMap> | null =
@@ -101,7 +103,9 @@ function combineMaps(map1: TokenAddressMap, map2: TokenAddressMap): TokenAddress
     4: { ...map1[4], ...map2[4] },
     5: { ...map1[5], ...map2[5] },
     42: { ...map1[42], ...map2[42] },
-    56: { ...map1[56], ...map2[56] }
+    56: { ...map1[56], ...map2[56] },
+    36: { ...map1[36], ...map2[36] },
+    37: { ...map1[37], ...map2[37] }
   }
 }
 

@@ -1,4 +1,4 @@
-import { ChainId, Currency } from '@totoroswap/sdk'
+import { ChainId, Currency } from '@etm3/sdk'
 import React, { useContext } from 'react'
 import styled, { ThemeContext } from 'styled-components'
 import Modal from '../Modal'

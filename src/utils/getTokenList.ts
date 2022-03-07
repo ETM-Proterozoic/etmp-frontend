@@ -1,5 +1,5 @@
-import { TokenList } from '@totoroswap/token-list'
-import schema from '@totoroswap/token-list/src/tokenlist.schema.json'
+import { TokenList } from '@etm3/token-list'
+import schema from '@etm3/token-list/src/tokenlist.schema.json'
 import Ajv from 'ajv'
 import contenthashToUri from './contenthashToUri'
 import { parseENSAddress } from './parseENSAddress'
@@ -16,7 +16,7 @@ export default async function getTokenList(
   listUrl: string,
   resolveENSContentHash: (ensName: string) => Promise<string>
 ): Promise<TokenList> {
-  console.log("listUrl", listUrl)
+  console.log('listUrl', listUrl)
   const parsedENS = parseENSAddress(listUrl)
   let urls: string[]
   if (parsedENS) {

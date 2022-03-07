@@ -1,5 +1,5 @@
 import { wrappedCurrency } from 'utils/wrappedCurrency'
-import { Currency, Token } from '@totoroswap/sdk'
+import { Currency, Token } from '@etm3/sdk'
 import { useCallback, useState } from 'react'
 import { useActiveWeb3React } from 'hooks'
 import { TOTORO_TOKEN_INFO } from '../constants'

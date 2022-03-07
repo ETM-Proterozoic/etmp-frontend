@@ -1,19 +1,20 @@
 import { useWeb3React } from '@web3-react/core'
 import { useCallback, useMemo } from 'react'
 import { InjectedConnector } from '@web3-react/injected-connector'
-import { ClientChainId, multicallConfig } from '../constants/multicall'
+import { multicallConfig } from '../constants/multicall'
+import { ChainId } from '@etm3/sdk'
 export const injected = new InjectedConnector({
-  supportedChainIds: [ClientChainId.ETM3]
+  supportedChainIds: [ChainId.ETM3]
 })
-console.log(multicallConfig.rpc[ClientChainId.ETM3])
+console.log(multicallConfig.rpc[ChainId.ETM3])
 export const networkConf = {
-  [ClientChainId.ETH]: {
+  [ChainId.MAINNET]: {
     chainId: '0x1'
   },
-  [ClientChainId.rinkeby]: {
+  [ChainId.RINKEBY]: {
     chainId: '0x4'
   },
-  [ClientChainId.ETM3]: {
+  [ChainId.ETM3]: {
     chainId: '0x24',
     chainName: 'ETM3 Mainnet',
     nativeCurrency: {
@@ -21,10 +22,10 @@ export const networkConf = {
       symbol: 'ETM3',
       decimals: 18
     },
-    rpcUrls: [multicallConfig.rpc[ClientChainId.ETM3].url],
+    rpcUrls: [multicallConfig.rpc[ChainId.ETM3].url],
     blockExplorerUrls: ['https://etm3scan.com']
   },
-  [ClientChainId.ETM3Test]: {
+  [ChainId.ETM3Test]: {
     chainId: '0x25',
     chainName: 'ETM3 Testnet',
     nativeCurrency: {
@@ -32,7 +33,7 @@ export const networkConf = {
       symbol: 'ETM3',
       decimals: 18
     },
-    rpcUrls: [multicallConfig.rpc[ClientChainId.ETM3Test].url],
+    rpcUrls: [multicallConfig.rpc[ChainId.ETM3Test].url],
     blockExplorerUrls: ['https://testnet.etm3scan.com']
   }
 }

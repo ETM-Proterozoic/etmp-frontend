@@ -1,4 +1,4 @@
-import { Percent } from '@totoroswap/sdk'
+import { Percent } from '@etm3/sdk'
 import { ALLOWED_PRICE_IMPACT_HIGH, PRICE_IMPACT_WITHOUT_FEE_CONFIRM_MIN } from '../../constants'
 
 /**

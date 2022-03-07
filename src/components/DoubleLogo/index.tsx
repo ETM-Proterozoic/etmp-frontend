@@ -1,4 +1,4 @@
-import { Currency } from '@totoroswap/sdk'
+import { Currency } from '@etm3/sdk'
 import React from 'react'
 import styled from 'styled-components'
 import CurrencyLogo from '../CurrencyLogo'

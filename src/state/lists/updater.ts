@@ -1,5 +1,5 @@
 import { useAllLists } from 'state/lists/hooks'
-import { getVersionUpgrade, minVersionBump, VersionUpgrade } from '@totoroswap/token-list'
+import { getVersionUpgrade, minVersionBump, VersionUpgrade } from '@etm3/token-list'
 import { useCallback, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { useActiveWeb3React } from '../../hooks'

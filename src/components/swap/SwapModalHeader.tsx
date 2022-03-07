@@ -1,4 +1,4 @@
-import { Trade, TradeType } from '@totoroswap/sdk'
+import { Trade, TradeType } from '@etm3/sdk'
 import React, { useContext, useMemo } from 'react'
 import { ArrowDown, AlertTriangle } from 'react-feather'
 import { Text } from 'rebass'

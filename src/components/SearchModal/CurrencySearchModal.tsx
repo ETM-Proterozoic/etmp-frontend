@@ -1,4 +1,4 @@
-import { Currency, Token } from '@totoroswap/sdk'
+import { Currency, Token } from '@etm3/sdk'
 import React, { useCallback, useEffect, useState } from 'react'
 import useLast from '../../hooks/useLast'
 import Modal from '../Modal'
@@ -6,7 +6,7 @@ import { CurrencySearch } from './CurrencySearch'
 import { ImportToken } from './ImportToken'
 import usePrevious from 'hooks/usePrevious'
 import Manage from './Manage'
-import { TokenList } from '@totoroswap/token-list'
+import { TokenList } from '@etm3/token-list'
 import { ImportList } from './ImportList'
 
 interface CurrencySearchModalProps {

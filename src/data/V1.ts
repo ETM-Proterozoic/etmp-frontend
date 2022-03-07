@@ -11,7 +11,7 @@ import {
   Trade,
   TradeType,
   WETH
-} from '@totoroswap/sdk'
+} from '@etm3/sdk'
 import { useMemo } from 'react'
 import { useAllTokens } from '../hooks/Tokens'
 import { useV1FactoryContract } from '../hooks/useContract'

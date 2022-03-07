@@ -1,4 +1,4 @@
-import { Currency, Pair } from '@totoroswap/sdk'
+import { Currency, Pair } from '@etm3/sdk'
 import React, { useState, useCallback } from 'react'
 import styled from 'styled-components'
 import CurrencySearchModal from '../SearchModal/CurrencySearchModal'

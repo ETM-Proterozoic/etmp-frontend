@@ -1,16 +1,16 @@
 import Web3 from 'web3'
-import { ChainId } from '@totoroswap/sdk'
+import { ChainId } from '@etm3/sdk'
 import { ERC20_ABI } from '../abis/erc20'
 import { useMemo, useState } from 'react'
 import { useBlockNumber } from '../../state/application/hooks'
 import { useActiveWeb3React } from '../../hooks'
 import { formatAmount } from '../../utils/format'
-import { ClientChainId, multicallConfig } from '../multicall'
+import { multicallConfig } from '../multicall'
 
 export const getRpcUrl = chainId => {
   const RPC_URLS = {
     [ChainId.BSC]: 'https://bsc-dataseed1.ninicoin.io/',
-    [ClientChainId.ETM3]: multicallConfig.rpc[ClientChainId.ETM3].url
+    [ChainId.ETM3]: multicallConfig.rpc[ChainId.ETM3].url
   }
   return RPC_URLS[chainId]
 }

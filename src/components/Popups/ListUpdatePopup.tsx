@@ -1,4 +1,4 @@
-import { diffTokenLists, TokenList } from '@totoroswap/token-list'
+import { diffTokenLists, TokenList } from '@etm3/token-list'
 import React, { useCallback, useMemo } from 'react'
 import ReactGA from 'react-ga'
 import { useDispatch } from 'react-redux'

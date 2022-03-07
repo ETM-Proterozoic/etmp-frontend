@@ -1,4 +1,4 @@
-import { ChainId, JSBI, Pair, Route, Token, TokenAmount, Trade, TradeType } from '@totoroswap/sdk'
+import { ChainId, JSBI, Pair, Route, Token, TokenAmount, Trade, TradeType } from '@etm3/sdk'
 import { computeTradePriceBreakdown } from './prices'
 
 describe('prices', () => {

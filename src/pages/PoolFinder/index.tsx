@@ -1,4 +1,4 @@
-import { Currency, ETHER, JSBI, TokenAmount } from '@totoroswap/sdk'
+import { Currency, ETHER, JSBI, TokenAmount } from '@etm3/sdk'
 import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { Plus } from 'react-feather'
 import { Text } from 'rebass'

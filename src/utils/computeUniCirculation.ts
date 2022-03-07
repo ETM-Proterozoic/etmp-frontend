@@ -1,4 +1,4 @@
-import { JSBI, Token, TokenAmount } from '@totoroswap/sdk'
+import { JSBI, Token, TokenAmount } from '@etm3/sdk'
 import { BigNumber } from 'ethers'
 import { STAKING_GENESIS } from '../state/stake/hooks'
 

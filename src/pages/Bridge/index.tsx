@@ -4,7 +4,7 @@ import { getWeb3Contract } from '../../utils/index'
 import { useActiveWeb3React } from '../../hooks'
 import BridgeAbi from '../../constants/abis/Bridge.json'
 import EthereumLog from '../../assets/images/ethereum-logo.png'
-import { ClientChainId, ClientContract, multicallClient } from '../../constants/multicall'
+import { ClientContract, multicallClient } from '../../constants/multicall'
 import { ethers } from 'ethers'
 import { Button, Popover } from 'antd'
 import { fromWei, numToWei } from '../../utils/format'
@@ -15,24 +15,27 @@ import ArrowDownDark from '../../assets/svg/arrow_down2_dark.svg'
 import { useDarkModeManager } from '../../state/user/hooks'
 import { changeNetwork } from '../../utils/connectWall'
 import { ADDRESS_INFINITE } from '../../constants'
+import { ChainId } from '@etm3/sdk'
 // import { Select } from 'antd'
 
 // const { Option } = Select
 
-const chainNameMap = {
-  [ClientChainId.rinkeby]: {
+const chainNameMap: {
+  [propsName: number]: any
+} = {
+  [ChainId.RINKEBY]: {
     icon: EthereumLog,
-    name: 'Rinkeby Chain'
+    name: 'RINKEBY Chain'
   },
-  [ClientChainId.ETH]: {
+  [ChainId.MAINNET]: {
     icon: EthereumLog,
     name: 'Ethereum Chain'
   },
-  [ClientChainId.ETM3]: {
+  [ChainId.ETM3]: {
     icon: EthereumLog,
     name: 'ETM3 Chain'
   },
-  [ClientChainId.ETM3Test]: {
+  [ChainId.ETM3Test]: {
     icon: EthereumLog,
     name: 'ETM3 Testchain'
   }
@@ -49,8 +52,8 @@ interface SupperChainIds {
   [propName: string]: number[]
 }
 const supperChainIds: SupperChainIds = {
-  from: [ClientChainId.ETM3Test, ClientChainId.rinkeby],
-  to: [ClientChainId.ETM3Test, ClientChainId.rinkeby]
+  from: [ChainId.ETM3Test, ChainId.RINKEBY],
+  to: [ChainId.ETM3Test, ChainId.RINKEBY]
 }
 
 interface FromConfig {
@@ -60,13 +63,13 @@ interface FromConfig {
 const fromConfig: FromConfig[] = [
   {
     symbol: 'ETH',
-    chainId: ClientChainId.rinkeby,
+    chainId: ChainId.RINKEBY,
     nativos: true,
-    tokenBelong: ClientChainId.rinkeby,
+    tokenBelong: ChainId.RINKEBY,
     address: '0xffffffffffffffffffffffffffffffffffffffff',
     decimals: 18,
     correspondAddress: {
-      [ClientChainId.ETM3Test]: {
+      [ChainId.ETM3Test]: {
         symobl: 'WETH',
         address: '0x678Fa5e07AEbf02993B3A48E8be6E5170F231b67'
       }
@@ -74,13 +77,13 @@ const fromConfig: FromConfig[] = [
   },
   {
     symbol: 'WETH',
-    chainId: ClientChainId.ETM3Test,
+    chainId: ChainId.ETM3Test,
     nativos: false,
     address: '0x678Fa5e07AEbf02993B3A48E8be6E5170F231b67',
     decimals: 18,
-    tokenBelong: ClientChainId.rinkeby,
+    tokenBelong: ChainId.RINKEBY,
     correspondAddress: {
-      [ClientChainId.rinkeby]: {
+      [ChainId.RINKEBY]: {
         symobl: 'ETM3',
         nativos: true,
         address: '0xffffffffffffffffffffffffffffffffffffffff'
@@ -89,13 +92,13 @@ const fromConfig: FromConfig[] = [
   },
   {
     symbol: 'ETM3',
-    chainId: ClientChainId.ETM3Test,
+    chainId: ChainId.ETM3Test,
     address: '0xffffffffffffffffffffffffffffffffffffffff',
     decimals: 18,
     nativos: true,
-    tokenBelong: ClientChainId.ETM3Test,
+    tokenBelong: ChainId.ETM3Test,
     correspondAddress: {
-      [ClientChainId.rinkeby]: {
+      [ChainId.RINKEBY]: {
         symbol: 'WETM3',
         address: '0x678Fa5e07AEbf02993B3A48E8be6E5170F231b67'
       }
@@ -103,13 +106,13 @@ const fromConfig: FromConfig[] = [
   },
   {
     symbol: 'WETM3',
-    chainId: ClientChainId.rinkeby,
+    chainId: ChainId.RINKEBY,
     address: '0x678Fa5e07AEbf02993B3A48E8be6E5170F231b67',
     decimals: 18,
     nativos: false,
-    tokenBelong: ClientChainId.ETM3Test,
+    tokenBelong: ChainId.ETM3Test,
     correspondAddress: {
-      [ClientChainId.ETM3Test]: {
+      [ChainId.ETM3Test]: {
         symbol: 'ETM3',
         nativos: true,
         address: '0xffffffffffffffffffffffffffffffffffffffff'
@@ -118,12 +121,12 @@ const fromConfig: FromConfig[] = [
   },
   {
     symbol: 'ERC20Custom',
-    chainId: ClientChainId.rinkeby,
+    chainId: ChainId.RINKEBY,
     address: '0x6DD5BeF6Ca6350368e6C5167cB71B933940dC52f',
     decimals: 18,
-    tokenBelong: ClientChainId.ETM3Test,
+    tokenBelong: ChainId.ETM3Test,
     correspondAddress: {
-      [ClientChainId.ETM3Test]: {
+      [ChainId.ETM3Test]: {
         symbol: 'ERC20Custom',
         address: '0x6DD5BeF6Ca6350368e6C5167cB71B933940dC52f'
       }
@@ -132,12 +135,12 @@ const fromConfig: FromConfig[] = [
   },
   {
     symbol: 'ERC20Custom',
-    chainId: ClientChainId.ETM3Test,
+    chainId: ChainId.ETM3Test,
     address: '0x6DD5BeF6Ca6350368e6C5167cB71B933940dC52f',
     decimals: 18,
-    tokenBelong: ClientChainId.ETM3Test,
+    tokenBelong: ChainId.ETM3Test,
     correspondAddress: {
-      [ClientChainId.rinkeby]: {
+      [ChainId.RINKEBY]: {
         symbol: 'ERC20Custom',
         address: '0x6DD5BeF6Ca6350368e6C5167cB71B933940dC52f'
       }
@@ -211,7 +214,7 @@ export default function BridgePage() {
   const [isDark] = useDarkModeManager()
   const { library, account, chainId } = useActiveWeb3React()
   const [loading, setLoading] = useState(false)
-  const [fromChainId, setFromChainId] = useState<number>(chainId || ClientChainId.ETH)
+  const [fromChainId, setFromChainId] = useState<number>(chainId || ChainId.MAINNET)
   const [toChainId, setToChainId] = useState<number>(0)
   const [fromToken, setFromToken] = useState<string>('0xffffffffffffffffffffffffffffffffffffffff')
   const [depositAmount, setDepositAmount] = useState<string | number>('')
