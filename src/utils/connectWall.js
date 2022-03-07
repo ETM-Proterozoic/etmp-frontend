@@ -22,7 +22,7 @@ export const networkConf = {
       decimals: 18
     },
     rpcUrls: [multicallConfig.rpc[ClientChainId.ETM3].url],
-    blockExplorerUrls: null //'https://etm3scan.com/'
+    blockExplorerUrls: ['https://etm3scan.com']
   },
   [ClientChainId.ETM3Test]: {
     chainId: '0x25',
@@ -33,7 +33,7 @@ export const networkConf = {
       decimals: 18
     },
     rpcUrls: [multicallConfig.rpc[ClientChainId.ETM3Test].url],
-    blockExplorerUrls: null //'https://etm3scan.com/'
+    blockExplorerUrls: ['https://testnet.etm3scan.com']
   }
 }
 

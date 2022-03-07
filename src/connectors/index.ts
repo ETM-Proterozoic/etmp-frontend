@@ -13,6 +13,8 @@ const NETWORK_URL = process.env.REACT_APP_NETWORK_URL
 const WALLETCONNECT_BRIDGE_URL = process.env.REACT_APP_WALLETCONNECT_BRIDGE_URL
 const REACT_APP_CHAIN_ID = process.env.REACT_APP_CHAIN_ID
 
+console.log('REACT_APP_CHAIN_ID', REACT_APP_CHAIN_ID)
+
 export const NETWORK_CHAIN_ID: number = parseInt(process.env.REACT_APP_CHAIN_ID ?? '1')
 
 if (typeof NETWORK_URL === 'undefined') {
