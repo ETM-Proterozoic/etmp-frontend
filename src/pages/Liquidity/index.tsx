@@ -105,7 +105,7 @@ export default function Liquidity() {
         .filter(stakingPair => stakingPair?.liquidityToken.address === v2Pair.liquidityToken.address).length === 0
     )
   })
-
+  console.log('allV2PairsWithLiquidity', allV2PairsWithLiquidity, stakingPairs)
   return (
     <SwapBG>
       <PageWrapper>
@@ -159,7 +159,7 @@ export default function Liquidity() {
           </DataList>
           {account && allV2PairsWithLiquidity?.length === 0 && stakingPairs?.length === 0 && (
             <Footer>
-              <TButtonPrimary as={Link} height="40px" to="/add/BNB">
+              <TButtonPrimary as={Link} height="40px" to="/add/ETM3">
                 Add Liquidity
               </TButtonPrimary>
             </Footer>

@@ -35,8 +35,8 @@ const MULTICALL_NETWORKS: { [chainId in ChainId]: string } = {
   [ChainId.RINKEBY]: '0x42Ad527de7d4e9d9d011aC45B31D8551f8Fe9821',
   [ChainId.GÖRLI]: '0x77dCa2C955b15e9dE4dbBCf1246B4B85b651e50e',
   [ChainId.BSC]: '0x41263cba59eb80dc200f3e2544eda4ed6a90e76c',
-  [ChainId.ETM3]: multicallConfig.rpc[ChainId.ETM3].url,
-  [ChainId.ETM3Test]: multicallConfig.rpc[ChainId.ETM3Test].url
+  [ChainId.ETM3]: multicallConfig.rpc[ChainId.ETM3].address,
+  [ChainId.ETM3Test]: multicallConfig.rpc[ChainId.ETM3Test].address
 }
 
 export { MULTICALL_ABI, MULTICALL_NETWORKS, multicallClient, ClientContract, multicallConfig }

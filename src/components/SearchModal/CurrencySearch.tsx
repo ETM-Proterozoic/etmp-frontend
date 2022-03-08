@@ -25,6 +25,7 @@ import { Edit } from 'react-feather'
 import useDebounce from 'hooks/useDebounce'
 
 const ContentWrapper = styled(Column)`
+  color: ${({ theme }) => theme.text1};
   width: 100%;
   flex: 1 1;
   position: relative;
@@ -94,7 +95,7 @@ export function CurrencySearch({
 
   const showETH: boolean = useMemo(() => {
     const s = debouncedQuery.toLowerCase().trim()
-    return s === '' || s === 'b' || s === 'bn' || s === 'bnb'
+    return s === '' || s === 'e' || s === 'et' || s === 'etm' || s === 'etm3'
   }, [debouncedQuery])
 
   const tokenComparator = useTokenComparator(invertSearchOrder)
@@ -133,9 +134,9 @@ export function CurrencySearch({
 
   const handleEnter = useCallback(
     (e: KeyboardEvent<HTMLInputElement>) => {
-      if (e.key === 'BNB') {
+      if (e.key === 'ETM3') {
         const s = debouncedQuery.toLowerCase().trim()
-        if (s === 'bnb') {
+        if (s === 'etm3') {
           handleCurrencySelect(ETHER)
         } else if (filteredSortedTokens.length > 0) {
           if (
@@ -158,7 +159,7 @@ export function CurrencySearch({
   // if no results on main list, show option to expand into inactive
   const inactiveTokens = useFoundOnInactiveList(debouncedQuery)
   const filteredInactiveTokens: Token[] = useSortedTokensByQuery(inactiveTokens, debouncedQuery)
-
+  console.log('xxxxx', searchToken, !searchTokenIsAdded, filteredSortedTokens, filteredInactiveTokens)
   return (
     <ContentWrapper>
       <PaddedColumn gap="16px">

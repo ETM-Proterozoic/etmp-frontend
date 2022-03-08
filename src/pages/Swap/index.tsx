@@ -361,7 +361,7 @@ export default function Swap({ history }: RouteComponentProps) {
   }
   const blockNumber = useBlockNumber()
   const routerAddress: any = trade
-    ? trade.route.path.reduce((arr, i) => {
+    ? trade.route.path.reduce((arr: any[], i: { address: string }) => {
         // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
         // @ts-ignore
         arr.push(i.address)

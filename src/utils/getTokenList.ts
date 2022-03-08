@@ -1,8 +1,8 @@
 import { TokenList } from '@etm3/token-list'
 import schema from '@etm3/token-list/src/tokenlist.schema.json'
 import Ajv from 'ajv'
-import contenthashToUri from './contenthashToUri'
-import { parseENSAddress } from './parseENSAddress'
+// import contenthashToUri from './contenthashToUri'
+// import { parseENSAddress } from './parseENSAddress'
 import uriToHttp from './uriToHttp'
 
 const tokenListValidator = new Ajv({ allErrors: true }).compile(schema)
@@ -17,27 +17,27 @@ export default async function getTokenList(
   resolveENSContentHash: (ensName: string) => Promise<string>
 ): Promise<TokenList> {
   console.log('listUrl', listUrl)
-  const parsedENS = parseENSAddress(listUrl)
-  let urls: string[]
-  if (parsedENS) {
-    let contentHashUri
-    try {
-      contentHashUri = await resolveENSContentHash(parsedENS.ensName)
-    } catch (error) {
-      console.debug(`Failed to resolve ENS name: ${parsedENS.ensName}`, error)
-      throw new Error(`Failed to resolve ENS name: ${parsedENS.ensName}`)
-    }
-    let translatedUri
-    try {
-      translatedUri = contenthashToUri(contentHashUri)
-    } catch (error) {
-      console.debug('Failed to translate contenthash to URI', contentHashUri)
-      throw new Error(`Failed to translate contenthash to URI: ${contentHashUri}`)
-    }
-    urls = uriToHttp(`${translatedUri}${parsedENS.ensPath ?? ''}`)
-  } else {
-    urls = uriToHttp(listUrl)
-  }
+  // const parsedENS = parseENSAddress(listUrl)
+  const urls: string[] = uriToHttp(listUrl)
+  // if (parsedENS) {
+  //   let contentHashUri
+  //   try {
+  //     contentHashUri = await resolveENSContentHash(parsedENS.ensName)
+  //   } catch (error) {
+  //     console.debug(`Failed to resolve ENS name: ${parsedENS.ensName}`, error)
+  //     throw new Error(`Failed to resolve ENS name: ${parsedENS.ensName}`)
+  //   }
+  //   let translatedUri
+  //   try {
+  //     translatedUri = contenthashToUri(contentHashUri)
+  //   } catch (error) {
+  //     console.debug('Failed to translate contenthash to URI', contentHashUri)
+  //     throw new Error(`Failed to translate contenthash to URI: ${contentHashUri}`)
+  //   }
+  //   urls = uriToHttp(`${translatedUri}${parsedENS.ensPath ?? ''}`)
+  // } else {
+  //   urls = uriToHttp(listUrl)
+  // }
 
   for (let i = 0; i < urls.length; i++) {
     const url = urls[i]

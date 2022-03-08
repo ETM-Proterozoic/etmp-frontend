@@ -14,6 +14,7 @@ const Card = styled(Box)<{ width?: string; padding?: string; border?: string; bo
 export default Card
 
 export const LightCard = styled(Card)`
+  color: ${({ theme }) => theme.text1};
   background-color: ${({ theme }) => theme.bg1};
 `
 

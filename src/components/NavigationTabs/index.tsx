@@ -29,6 +29,7 @@ const Tabs = styled.div`
 
 const ActiveText = styled.div`
   margin-left: 10px;
+  color: ${({ theme }) => theme.text1};
   & > p:nth-child(1) {
     font-weight: 500;
     font-size: 18px;

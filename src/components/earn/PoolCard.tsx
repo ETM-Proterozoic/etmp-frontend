@@ -74,7 +74,7 @@ export default function PoolCard({ stakingInfo }: { stakingInfo: StakingInfo }) 
 
   const currency0 = unwrappedToken(token0)
   const currency1 = unwrappedToken(token1)
-
+  // stakingInfo.stakedAmount.greaterThan('0')
   const isStaking = Boolean(stakingInfo.stakedAmount.greaterThan('0'))
 
   // get the color of the token

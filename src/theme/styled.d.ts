@@ -98,6 +98,7 @@ export interface Colors {
   connectWalletBg: Color
   closeXColor: Color
   accountBtnBg: Color
+  placeholderColor: Color
 }
 
 export interface Grids {

@@ -36,6 +36,7 @@ const PlusView = styled(ColumnCenter)`
   padding: 2px 0;
 `
 const ButtonDropdownLightGray = styled(ButtonDropdownLight)`
+${({ theme }) => theme.text1}
   background: ${({ theme }) => theme.bg8};
 `
 export default function PoolFinder() {

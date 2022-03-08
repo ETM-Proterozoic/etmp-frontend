@@ -1,13 +1,13 @@
 import { nanoid } from '@reduxjs/toolkit'
-import { ChainId } from '@etm3/sdk'
+// import { ChainId } from '@etm3/sdk'
 import { TokenList } from '@etm3/token-list'
 import { useCallback } from 'react'
 import { useDispatch } from 'react-redux'
-import { getNetworkLibrary, NETWORK_CHAIN_ID } from '../connectors'
+// import { getNetworkLibrary, NETWORK_CHAIN_ID } from '../connectors'
 import { AppDispatch } from '../state'
 import { fetchTokenList } from '../state/lists/actions'
 import getTokenList from '../utils/getTokenList'
-import resolveENSContentHash from '../utils/resolveENSContentHash'
+// import resolveENSContentHash from '../utils/resolveENSContentHash'
 import { useActiveWeb3React } from './index'
 
 export function useFetchListCallback(): (listUrl: string, sendDispatch?: boolean) => Promise<TokenList> {
@@ -16,16 +16,17 @@ export function useFetchListCallback(): (listUrl: string, sendDispatch?: boolean
 
   const ensResolver = useCallback(
     (ensName: string) => {
-      if (!library || chainId !== ChainId.MAINNET) {
-        if (NETWORK_CHAIN_ID === ChainId.MAINNET) {
-          const networkLibrary = getNetworkLibrary()
-          if (networkLibrary) {
-            return resolveENSContentHash(ensName, networkLibrary)
-          }
-        }
-        throw new Error('Could not construct mainnet ENS resolver')
-      }
-      return resolveENSContentHash(ensName, library)
+      // if (!library || chainId !== ChainId.MAINNET) {
+      //   if (NETWORK_CHAIN_ID === ChainId.MAINNET) {
+      //     const networkLibrary = getNetworkLibrary()
+      //     if (networkLibrary) {
+      //       return resolveENSContentHash(ensName, networkLibrary)
+      //     }
+      //   }
+      //   throw new Error('Could not construct mainnet ENS resolver')
+      // }
+      // return resolveENSContentHash(ensName, library)
+      return Promise.resolve('')
     },
     [chainId, library]
   )

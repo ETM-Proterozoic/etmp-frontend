@@ -4,7 +4,7 @@ import IOSIcon from '../assets/images/ios_icon.svg'
 import TotoroAbi from './abis/totoro.json'
 import { injected, walletconnect, walletlink } from '../connectors'
 
-export const ROUTER_ADDRESS = '0xc65eA978F62d0f9Ec6B57C6aC434b1FD114cd3f2'
+export const ROUTER_ADDRESS = '0x415835FeCFfC295E3bbF8eCE52cd4E36A467c286'
 
 export const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000'
 
@@ -30,7 +30,7 @@ export const PROPOSAL_LENGTH_IN_SECS = AVERAGE_BLOCK_TIME_IN_SECS * PROPOSAL_LEN
 
 export const TIMELOCK_ADDRESS = '0x73b50dA49C400e4081e92dCBCB397A01dF3497e4'
 
-const TOTORO_ADDRESS = '0xd94B8f494f61ca71280a2A70E4cf42F3Af331d2E'
+const TOTORO_ADDRESS = '0x6DD5BeF6Ca6350368e6C5167cB71B933940dC52f'
 // A pop-up window is displayed in the breakdown of UIN, the voting authorization pop-up window, the management voting page,
 // the prompt box on the right of successful transaction, and the pool displays the liquidity list
 export const UNI: { [chainId in ChainId]: Token } = {

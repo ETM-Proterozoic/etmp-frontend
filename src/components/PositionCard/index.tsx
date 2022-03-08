@@ -12,7 +12,7 @@ import { currencyId } from '../../utils/currencyId'
 import { unwrappedToken } from '../../utils/wrappedCurrency'
 import { ButtonPrimary, ButtonEmpty, TButtonPrimary } from '../Button'
 import { transparentize } from 'polished'
-import { CardNoise } from '../earn/styled'
+// import { CardNoise } from '../earn/styled'
 
 import { useColor } from '../../hooks/useColor'
 
@@ -62,6 +62,7 @@ const LightCardBody = styled(LightCard)`
   }
 `
 const PositionCardView = styled.div`
+  color: ${({ theme }) => theme.text1};
   position: relative;
   z-index: 1;
   margin: auto;
@@ -224,7 +225,7 @@ export default function FullPositionCard({ pair, border, stakedBalance }: Positi
 
   return (
     <StyledPositionCard border={border} bgColor={backgroundColor}>
-      <CardNoise />
+      {/*<CardNoise />*/}
       <AutoColumn gap="12px">
         <FixedHeightRow>
           <AutoRow gap="8px">

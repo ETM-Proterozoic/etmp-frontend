@@ -7,7 +7,7 @@ import { ArrowDown, Plus } from 'react-feather'
 import ReactGA from 'react-ga'
 import { RouteComponentProps } from 'react-router'
 import { Text } from 'rebass'
-import { ThemeContext } from 'styled-components'
+import styled, { ThemeContext } from 'styled-components'
 import { ButtonPrimary, ButtonLight, ButtonError, ButtonConfirmed } from '../../components/Button'
 import { BlueCard, LightCard } from '../../components/Card'
 import { AutoColumn, ColumnCenter } from '../../components/Column'
@@ -43,6 +43,13 @@ import { Field } from '../../state/burn/actions'
 import { useWalletModalToggle } from '../../state/application/hooks'
 import { useUserSlippageTolerance } from '../../state/user/hooks'
 import { BigNumber } from '@ethersproject/bignumber'
+
+const RemoveLiquidityView = styled.div`
+  width: 100%;
+  height: 100%;
+  padding: 30px 10px;
+  overflow-y: auto;
+`
 
 export default function RemoveLiquidity({
   history,
@@ -123,7 +130,7 @@ export default function RemoveLiquidity({
       { name: 'verifyingContract', type: 'address' }
     ]
     const domain = {
-      name: 'TotoroSwap.com Liquidity Provider Token',
+      name: 'Liquidity Provider Token',
       version: '1',
       chainId: chainId,
       verifyingContract: pair.liquidityToken.address
@@ -199,6 +206,7 @@ export default function RemoveLiquidity({
       throw new Error('missing currency amounts')
     }
     const router = getRouterContract(chainId, library, account)
+    console.log('router', router)
 
     const amountsMin = {
       [Field.CURRENCY_A]: calculateSlippageAmount(currencyAmountA, allowedSlippage)[0],
@@ -292,6 +300,7 @@ export default function RemoveLiquidity({
           })
       )
     )
+    console.log('safeGasEstimates', safeGasEstimates)
 
     const indexOfSuccessfulEstimation = safeGasEstimates.findIndex(safeGasEstimate =>
       BigNumber.isBigNumber(safeGasEstimate)
@@ -472,7 +481,7 @@ export default function RemoveLiquidity({
   )
 
   return (
-    <>
+    <RemoveLiquidityView>
       <AppBody>
         <AddRemoveTabs creating={false} adding={false} />
         <Wrapper>
@@ -576,15 +585,15 @@ export default function RemoveLiquidity({
                               currencyB === ETHER ? WETH[chainId].address : currencyIdB
                             }`}
                           >
-                            Receive WBNB
+                            Receive ETM3
                           </StyledInternalLink>
                         ) : oneCurrencyIsWETH ? (
                           <StyledInternalLink
                             to={`/remove/${
-                              currencyA && currencyEquals(currencyA, WETH[chainId]) ? 'BNB' : currencyIdA
-                            }/${currencyB && currencyEquals(currencyB, WETH[chainId]) ? 'BNB' : currencyIdB}`}
+                              currencyA && currencyEquals(currencyA, WETH[chainId]) ? 'ETM3' : currencyIdA
+                            }/${currencyB && currencyEquals(currencyB, WETH[chainId]) ? 'ETM3' : currencyIdB}`}
                           >
-                            Receive BNB
+                            Receive ETM3
                           </StyledInternalLink>
                         ) : null}
                       </RowBetween>
@@ -698,6 +707,6 @@ export default function RemoveLiquidity({
           <MinimalPositionCard showUnwrapped={oneCurrencyIsWETH} pair={pair} />
         </AutoColumn>
       ) : null}
-    </>
+    </RemoveLiquidityView>
   )
 }

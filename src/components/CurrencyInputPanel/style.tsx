@@ -25,6 +25,7 @@ export const InputRow = styled.div<{ selected: boolean }>`
     display: flex;
     font-size: 14px;
     margin-bottom: 12px;
+    color: ${({ theme }) => theme.text1};
     .input-title-l {
       flex: 1;
       font-weight: 600;

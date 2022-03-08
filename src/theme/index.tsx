@@ -136,7 +136,8 @@ export function colors(darkMode: boolean): Colors {
     themeSwitchBg: darkMode ? '#4D4D4D' : '#4D4D4D',
     connectWalletBg: darkMode ? '#4C4D4D' : '#27272E',
     closeXColor: darkMode ? '#cccccc' : '#27272E',
-    accountBtnBg: darkMode ? '#4D4D4D' : '#F4F5F6'
+    accountBtnBg: darkMode ? '#4D4D4D' : '#F4F5F6',
+    placeholderColor: darkMode ? '#969696' : '#cccccc'
   }
 }
 
