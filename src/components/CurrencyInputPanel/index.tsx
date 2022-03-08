@@ -64,7 +64,6 @@ export default function CurrencyInputPanel({
   const handleDismissSearch = useCallback(() => {
     setModalOpen(false)
   }, [setModalOpen])
-  console.log('currency', currency)
   return (
     <CurrencyInputPanelView id={id}>
       <div className="container">

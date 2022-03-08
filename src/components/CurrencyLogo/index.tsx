@@ -2,7 +2,7 @@ import { Currency, ETHER, Token } from '@etm3/sdk'
 import React, { useMemo } from 'react'
 import styled from 'styled-components'
 
-import BNBLogo from '../../assets/images/bnb-logo.png'
+import BNBLogo from '../../assets/images/ethtoken-logo.png'
 import useHttpLocations from '../../hooks/useHttpLocations'
 import { WrappedTokenInfo } from '../../state/lists/hooks'
 import Logo from '../Logo'

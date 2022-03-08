@@ -68,10 +68,10 @@ export default function SidebarMenu() {
             </MenuItem>
           ))}
         </div>
-        <div className="menu-footer">
+        <a href={'https://testnet-app.etm3.com/'} target="_blank" className="menu-footer" rel="noreferrer">
           <img src={isDark ? footerIconDark : footerIcon} alt="" />
           Dev Testnet
-        </div>
+        </a>
       </SidebarMenuView>
     )
   }

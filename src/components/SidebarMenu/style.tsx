@@ -14,7 +14,7 @@ export const SidebarMenuView = styled.div`
     padding: 20px;
   }
   .menu-footer {
-    padding: 30px 20px;
+    padding: 30px 20px 30px 36px;
     display: flex;
     align-items: center;
     color: ${({ theme }) => theme.text1};
