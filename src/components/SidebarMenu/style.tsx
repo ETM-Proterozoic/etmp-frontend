@@ -37,7 +37,7 @@ export const MenuItem = styled(NavLink)<{ src: any }>`
   height: 44px;
   text-decoration: none;
   background: ${({ theme }) => theme.bg1};
-  color: ${({ theme }) => theme.text3};
+  color: ${({ theme }) => theme.text1};
   font-weight: 500;
   border-radius: 8px;
   margin: 20px 0px;
