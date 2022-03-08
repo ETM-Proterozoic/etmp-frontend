@@ -85,5 +85,5 @@ export const StyledBalanceMax = styled.span`
   font-weight: bold;
   cursor: pointer;
   margin-left: 2px;
-  color: ${({ theme }) => theme.yellow1};
+  color: ${({ theme }) => theme.primary1};
 `

@@ -289,6 +289,7 @@ export default function StakingView() {
       return
     }
     const contract = getWeb3Contract(library, DPOS.abi, DPOS.address)
+    console.log(value)
     contract.methods
       .withdraw(delegate, value)
       .send({
@@ -316,10 +317,10 @@ export default function StakingView() {
       })
       .on('receipt', () => {
         setUpdate(update + 1)
-        message.success('Unstake & Claim success')
+        message.success('success')
       })
       .on('error', () => {
-        message.error('Unstake & Claim fail')
+        message.error('fail')
       })
   }
   useMemo(() => {
@@ -460,6 +461,7 @@ export default function StakingView() {
               <div
                 className="btn-compound"
                 onClick={() => {
+                  setStakeLoading(false)
                   setStakeDelegate(ZERO_ADDRESS)
                   setShowStake(true)
                 }}
@@ -527,6 +529,7 @@ export default function StakingView() {
                       <div
                         className="btn-compound"
                         onClick={() => {
+                          setStakeLoading(false)
                           setStakeDelegate(item.address)
                           setShowStake(true)
                         }}
@@ -551,9 +554,7 @@ export default function StakingView() {
                             >
                               <div>Convert to another Delegate</div>
                             </Popover>
-                            <div onClick={() => withdraw(item.address, stakingWithoutDelegate.staked_)}>
-                              Unstake & Claim
-                            </div>
+                            <div onClick={() => withdraw(item.address, item.myStaked_)}>Unstake & Claim</div>
                           </BtnMoreMenu>
                         )}
                       >
@@ -595,6 +596,7 @@ export default function StakingView() {
                     <div
                       className="btn-compound"
                       onClick={() => {
+                        setStakeLoading(false)
                         setStakeDelegate(item.address)
                         setShowStake(true)
                       }}
