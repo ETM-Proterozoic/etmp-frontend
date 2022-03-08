@@ -147,8 +147,8 @@ export default function StakingView() {
   const getStakingWithoutDelegate = () => {
     const calls = [
       dposContract.APR(ADDRESS_INFINITE),
-      dposContract.balanceOf(ZERO_ADDRESS, account),
-      dposContract.earned(ZERO_ADDRESS, account)
+      dposContract.balanceOf(ADDRESS_INFINITE, account),
+      dposContract.earned(ADDRESS_INFINITE, account)
     ]
     multicallClient(calls).then((res: any) => {
       // console.log(res)
