@@ -42,7 +42,7 @@ const StyledCloseIcon = styled(X)`
   }
 
   > * {
-    stroke: ${({ theme }) => theme.text3};
+    stroke: ${({ theme }) => theme.text1};
   }
 `
 
