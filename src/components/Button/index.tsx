@@ -349,8 +349,9 @@ const ReBase = styled(RebassButton)<{
 `
 export const TButtonPrimary = styled(ReBase)`
   background: ${({ theme, disabled }) => (disabled ? theme.disabled4 : theme.primary1)};
-  box-shadow: 0 4px 0 0 ${({ theme, disabled }) => (disabled ? theme.disabled5 : theme.shadow2)};
+  //box-shadow: 0 4px 0 0 ${({ theme, disabled }) => (disabled ? theme.disabled5 : theme.shadow2)};
   &:hover {
     opacity: 0.95;
+    color: ${({ theme }) => theme.white};
   }
 `

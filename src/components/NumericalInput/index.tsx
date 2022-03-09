@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { escapeRegExp } from '../../utils'
 
-const StyledInput = styled.input<{ error?: boolean; fontSize?: string; align?: string, bgTransparent?:boolean }>`
+const StyledInput = styled.input<{ error?: boolean; fontSize?: string; align?: string; bgTransparent?: boolean }>`
   color: ${({ error, theme }) => (error ? theme.red1 : theme.text1)};
   width: 0;
   position: relative;
@@ -10,7 +10,7 @@ const StyledInput = styled.input<{ error?: boolean; fontSize?: string; align?: s
   outline: none;
   border: none;
   flex: 1 1 auto;
-  background-color: ${({ theme, bgTransparent }) => bgTransparent ? 'transparent' : theme.bg1};
+  background-color: ${({ theme, bgTransparent }) => (bgTransparent ? 'transparent' : theme.bg1)};
   font-size: ${({ fontSize }) => fontSize ?? '24px'};
   text-align: ${({ align }) => align && align};
   white-space: nowrap;
@@ -33,7 +33,7 @@ const StyledInput = styled.input<{ error?: boolean; fontSize?: string; align?: s
   }
 
   ::placeholder {
-    color: ${({ theme }) => theme.text4};
+    color: ${({ theme }) => theme.placeholderColor};
   }
 `
 
@@ -49,7 +49,7 @@ export const Input = React.memo(function InnerInput({
   onUserInput: (input: string) => void
   error?: boolean
   fontSize?: string
-  align?: 'right' | 'left',
+  align?: 'right' | 'left'
   bgTransparent?: boolean
 } & Omit<React.HTMLProps<HTMLInputElement>, 'ref' | 'onChange' | 'as'>) {
   const enforcer = (nextUserInput: string) => {

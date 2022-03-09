@@ -45,13 +45,14 @@ const ActiveText = styled.div`
   }
 `
 const SwapTabs = styled.div`
-  min-width: 240px;
+  min-width: 252px;
+  height: 40px;
   margin: auto auto 40px auto;
   display: flex;
-  box-shadow: 0px 4px 0px 0px ${({ theme }) => theme.shadow3};
+  justify-content: space-between;
+  box-shadow: 0px 0px 1px rgba(12, 26, 75, 0.1), 0px 20px 24px rgba(20, 37, 63, 0.06);
   border-radius: 24px;
-  background: ${({ theme }) => theme.bg12};
-  padding-bottom: 4px;
+  background: ${({ theme }) => theme.bg1};
 `
 const activeClassName = 'ACTIVE'
 
@@ -60,21 +61,19 @@ const StyledNavLink = styled(NavLink).attrs({
 })`
   ${({ theme }) => theme.flexRowNoWrap}
   height: 40px;
-  padding: 0 40px;
+  padding: 0 31px;
   align-items: center;
   justify-content: center;
-  border-radius: 24px;
+  border-radius: 25px;
   outline: none;
   cursor: pointer;
   text-decoration: none;
-  color: ${({ theme }) => theme.primary1};
+  color: ${({ theme }) => theme.text1};
   font-size: 16px;
-  font-weight: bold;
 
   &.${activeClassName} {
     background: ${({ theme }) => theme.primary1};
-    color: ${({ theme }) => theme.text8};
-    box-shadow: 0 4px 0 0 ${({ theme }) => theme.shadow2};
+    color: ${({ theme }) => theme.white};
   }
 
   :hover,
