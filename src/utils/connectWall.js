@@ -6,7 +6,6 @@ import { ChainId } from '@etm3/sdk'
 export const injected = new InjectedConnector({
   supportedChainIds: [ChainId.ETM3]
 })
-console.log(multicallConfig.rpc[ChainId.ETM3])
 export const networkConf = {
   [ChainId.MAINNET]: {
     chainId: '0x1'
