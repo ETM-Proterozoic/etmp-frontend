@@ -102,7 +102,7 @@ function TransactionSubmittedContent({
           {chainId && hash && (
             <ExternalLink href={getEtherscanLink(chainId, hash, 'transaction')}>
               <Text fontWeight={500} fontSize={14} color={theme.primary1}>
-                View on ETM3scan
+                View on ETMPscan
               </Text>
             </ExternalLink>
           )}
@@ -110,11 +110,11 @@ function TransactionSubmittedContent({
             <ButtonLight mt="12px" padding="6px 12px" width="fit-content" onClick={addToken}>
               {!success ? (
                 <RowFixed>
-                  Add ETM3 to Metamask <StyledLogo src={MetaMaskLogo} />
+                  Add ETM to Metamask <StyledLogo src={MetaMaskLogo} />
                 </RowFixed>
               ) : (
                 <RowFixed>
-                  Added ETM3 <CheckCircle size={'16px'} stroke={theme.green1} style={{ marginLeft: '6px' }} />
+                  Added ETM <CheckCircle size={'16px'} stroke={theme.green1} style={{ marginLeft: '6px' }} />
                 </RowFixed>
               )}
             </ButtonLight>

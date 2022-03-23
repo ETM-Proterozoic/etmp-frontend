@@ -329,7 +329,7 @@ export default function WalletModal({
               <h5>
                 Please connect to the appropriate{' '}
                 <strong style={{ cursor: 'pointer', color: '#017BFF' }} onClick={() => changeNetwork(ChainId.ETM3Test)}>
-                  ETM3
+                  ETM/P
                 </strong>{' '}
                 network.
               </h5>
@@ -385,7 +385,7 @@ export default function WalletModal({
           )}
           {false && walletView !== WALLET_VIEWS.PENDING && (
             <Blurb>
-              <span>New to ETM3Chain? &nbsp;</span>{' '}
+              <span>New to ETMPChain? &nbsp;</span>{' '}
               <ExternalLink href="https://ethereum.org/wallets/">Learn more about wallets</ExternalLink>
             </Blurb>
           )}

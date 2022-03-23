@@ -367,12 +367,12 @@ export default function StakingView() {
             </div>
             <div className="card-main-item">
               <p className="card-main-title">TOTAL STAKE</p>
-              <h1>{totalData.totalSupply ? toFormat(totalData.totalSupply) : '-'} ETM3</h1>
+              <h1>{totalData.totalSupply ? toFormat(totalData.totalSupply) : '-'} ETM</h1>
               {/*<p className="card-desc">$</p>*/}
             </div>
             <div className="card-main-item">
               <p className="card-main-title">TOTAL REWARD DISTRIBUTED</p>
-              <h1>{totalData.totalReward ? toFormat(totalData.totalReward) : '-'} ETM3</h1>
+              <h1>{totalData.totalReward ? toFormat(totalData.totalReward) : '-'} ETM</h1>
               {/*<p className="card-desc">$</p>*/}
             </div>
             <div className="card-main-item">
@@ -394,7 +394,7 @@ export default function StakingView() {
                   <img src={InfoIcon} alt="" />
                 </Tooltip>
               </p>
-              <h1>{ethBalance + myAllStaking} ETM3</h1>
+              <h1>{ethBalance + myAllStaking} ETM</h1>
               {/*<p className="card-desc">$125670</p>*/}
             </div>
             <div className="card-main-item">
@@ -404,7 +404,7 @@ export default function StakingView() {
                   <img src={InfoIcon} alt="" />
                 </Tooltip>
               </p>
-              <h1>{myAllStaking} ETM3</h1>
+              <h1>{myAllStaking} ETM</h1>
             </div>
             <div className="card-main-item">
               <p className="card-main-title">
@@ -413,7 +413,7 @@ export default function StakingView() {
                   <img src={InfoIcon} alt="" />
                 </Tooltip>
               </p>
-              <h1>{myAllRewards} ETM3</h1>
+              <h1>{myAllRewards} ETM</h1>
               <p className="card-desc"> </p>
             </div>
             <div className="card-main-item-btns">
@@ -436,7 +436,7 @@ export default function StakingView() {
                   <img src={InfoIcon} alt="" />
                 </Tooltip>
               </p>
-              <h1>{toFormat(stakingWithoutDelegate.staked)} ETM3</h1>
+              <h1>{toFormat(stakingWithoutDelegate.staked)} ETM</h1>
             </div>
             <div className="card-main-item">
               <p className="card-main-title">
@@ -445,7 +445,7 @@ export default function StakingView() {
                   <img src={InfoIcon} alt="" />
                 </Tooltip>
               </p>
-              <h1>{toFormat(stakingWithoutDelegate.rewards)}ETM3</h1>
+              <h1>{toFormat(stakingWithoutDelegate.rewards)}ETM</h1>
             </div>
             <div className="card-main-item">
               <p className="card-main-title">
@@ -520,9 +520,9 @@ export default function StakingView() {
                       <span>{formatAddress(item.address)}</span>
                     </div>
                   </td>
-                  <td>{toFormat(item.totalSupply)} ETM3</td>
-                  <td>{toFormat(item.myStaked)} ETM3</td>
-                  <td>{toFormat(item.myEarned)} ETM3</td>
+                  <td>{toFormat(item.totalSupply)} ETM</td>
+                  <td>{toFormat(item.myStaked)} ETM</td>
+                  <td>{toFormat(item.myEarned)} ETM</td>
                   <td>{item.apy} %</td>
                   <td>
                     <div>
@@ -580,11 +580,11 @@ export default function StakingView() {
                 <div className="all-validators-h5-v">
                   <div>
                     <h2>Total Staked</h2>
-                    <p>{toFormat(item.totalSupply)} ETM3</p>
+                    <p>{toFormat(item.totalSupply)} ETM</p>
                   </div>
                   <div>
                     <h2>My Staked</h2>
-                    <p>{toFormat(item.myStaked)} ETM3</p>
+                    <p>{toFormat(item.myStaked)} ETM</p>
                   </div>
                   <div>
                     <h2>APY</h2>

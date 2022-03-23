@@ -23,7 +23,7 @@ import QuestionHelper from 'components/QuestionHelper'
 import useTheme from 'hooks/useTheme'
 
 function currencyKey(currency: Currency): string {
-  return currency instanceof Token ? currency.address : currency === ETHER ? 'ETM3' : ''
+  return currency instanceof Token ? currency.address : currency === ETHER ? 'ETM' : ''
 }
 
 const StyledBalanceText = styled(Text)`

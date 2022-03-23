@@ -159,7 +159,7 @@ export default function Liquidity() {
           </DataList>
           {account && allV2PairsWithLiquidity?.length === 0 && stakingPairs?.length === 0 && (
             <Footer>
-              <TButtonPrimary as={Link} height="40px" to="/add/ETM3">
+              <TButtonPrimary as={Link} height="40px" to="/add/ETM">
                 Add Liquidity
               </TButtonPrimary>
             </Footer>

@@ -47,6 +47,6 @@ export const walletconnect = new WalletConnectConnector({
 // mainnet only
 export const walletlink = new WalletLinkConnector({
   url: NETWORK_URL,
-  appName: 'ETM3Swap',
+  appName: 'ETMPSwap',
   appLogoUrl: UNISWAP_LOGO_URL
 })

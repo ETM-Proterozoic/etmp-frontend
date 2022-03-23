@@ -33,11 +33,11 @@ const chainNameMap: {
   },
   [ChainId.ETM3]: {
     icon: EthereumLog,
-    name: 'ETM3 Chain'
+    name: 'ETM Chain'
   },
   [ChainId.ETM3Test]: {
     icon: EthereumLog,
-    name: 'ETM3 Testchain'
+    name: 'ETM Testchain'
   }
 }
 
@@ -84,14 +84,14 @@ const fromConfig: FromConfig[] = [
     tokenBelong: ChainId.RINKEBY,
     correspondAddress: {
       [ChainId.RINKEBY]: {
-        symobl: 'ETM3',
+        symobl: 'ETM',
         nativos: true,
         address: '0xffffffffffffffffffffffffffffffffffffffff'
       }
     }
   },
   {
-    symbol: 'ETM3',
+    symbol: 'ETM',
     chainId: ChainId.ETM3Test,
     address: '0xffffffffffffffffffffffffffffffffffffffff',
     decimals: 18,
@@ -99,13 +99,13 @@ const fromConfig: FromConfig[] = [
     tokenBelong: ChainId.ETM3Test,
     correspondAddress: {
       [ChainId.RINKEBY]: {
-        symbol: 'WETM3',
+        symbol: 'WETM',
         address: '0x678Fa5e07AEbf02993B3A48E8be6E5170F231b67'
       }
     }
   },
   {
-    symbol: 'WETM3',
+    symbol: 'WETM',
     chainId: ChainId.RINKEBY,
     address: '0x678Fa5e07AEbf02993B3A48E8be6E5170F231b67',
     decimals: 18,

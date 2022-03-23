@@ -1,6 +1,6 @@
 {
   "name": "@etm3/interface",
-  "description": "ETM3 Interface",
+  "description": "ETM/P Interface",
   "homepage": ".",
   "private": true,
   "devDependencies": {
@@ -120,7 +120,7 @@
   "dependencies": {
     "@chainstarter/multicall-client.js": "^1.0.7",
     "@ethersproject/providers": "^5.4.3",
-    "@etm3/default-token-list": "^1.0.1",
+    "@etm3/default-token-list": "^1.0.2",
     "antd": "^4.18.9",
     "bignumber.js": "^9.0.1",
     "classnames": "^2.3.1",

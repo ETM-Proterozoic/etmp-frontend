@@ -183,7 +183,7 @@ export function useToken(tokenAddress?: string): Token | undefined | null {
 }
 
 export function useCurrency(currencyId: string | undefined): Currency | null | undefined {
-  const isETH = currencyId?.toUpperCase() === 'ETM3'
+  const isETH = currencyId?.toUpperCase() === 'ETM'
   const token = useToken(isETH ? undefined : currencyId)
   return isETH ? ETHER : token
 }

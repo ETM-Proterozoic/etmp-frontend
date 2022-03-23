@@ -134,9 +134,9 @@ export function CurrencySearch({
 
   const handleEnter = useCallback(
     (e: KeyboardEvent<HTMLInputElement>) => {
-      if (e.key === 'ETM3') {
+      if (e.key === 'ETM') {
         const s = debouncedQuery.toLowerCase().trim()
-        if (s === 'etm3') {
+        if (s === 'etm') {
           handleCurrencySelect(ETHER)
         } else if (filteredSortedTokens.length > 0) {
           if (

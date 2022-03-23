@@ -15,10 +15,10 @@ export const networkConf = {
   },
   [ChainId.ETM3]: {
     chainId: '0x24',
-    chainName: 'ETM3 Mainnet',
+    chainName: 'ETM/P Mainnet',
     nativeCurrency: {
-      name: 'ETM3',
-      symbol: 'ETM3',
+      name: 'ETM',
+      symbol: 'ETM',
       decimals: 18
     },
     rpcUrls: [multicallConfig.rpc[ChainId.ETM3].url],
@@ -26,10 +26,10 @@ export const networkConf = {
   },
   [ChainId.ETM3Test]: {
     chainId: '0x25',
-    chainName: 'ETM3 Testnet',
+    chainName: 'ETM/P Testnet',
     nativeCurrency: {
-      name: 'ETM3',
-      symbol: 'ETM3',
+      name: 'ETM',
+      symbol: 'ETM',
       decimals: 18
     },
     rpcUrls: [multicallConfig.rpc[ChainId.ETM3Test].url],
