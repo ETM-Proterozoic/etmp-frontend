@@ -340,7 +340,7 @@ export default function StakingView() {
           <div>
             <h1>Start Earning rewards with</h1>
             <h1>
-              ETM<span>3</span> Staking.
+              ETM<span>/P</span> Staking.
             </h1>
             <p>
               {/*<button className="banner-btn">*/}
