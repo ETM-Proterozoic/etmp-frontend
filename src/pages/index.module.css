@@ -1,0 +1,19 @@
+/**
+ * CSS files with the .module.css suffix will be treated as CSS modules
+ * and scoped locally.
+ */
+
+.homePage{
+    position: relative;
+    width: 100%;
+    background: #FEFEFE;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 120px;
+    overflow-x: hidden;
+}
+@media (max-width: 780px) {
+    .homePage{
+        padding: 0 16px;
+    }
+}
