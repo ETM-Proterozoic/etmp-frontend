@@ -1,4 +1,4 @@
-import { ChainId } from '@etm3/sdk'
+import { ChainId } from '@etmp/sdk'
 import { FortmaticConnector as FortmaticConnectorCore } from '@web3-react/fortmatic-connector'
 
 export const OVERLAY_READY = 'OVERLAY_READY'

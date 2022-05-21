@@ -1,4 +1,4 @@
-import { Currency, ETHER, Token } from '@etm3/sdk'
+import { Currency, ETHER, Token } from '@etmp/sdk'
 
 export function currencyId(currency: Currency): string {
   if (currency === ETHER) return 'ETM'

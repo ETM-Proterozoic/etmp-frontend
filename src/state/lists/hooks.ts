@@ -1,7 +1,7 @@
 import { UNSUPPORTED_LIST_URLS } from './../../constants/lists'
-import DEFAULT_TOKEN_LIST from '@etm3/default-token-list'
-import { ChainId, Token } from '@etm3/sdk'
-import { Tags, TokenInfo, TokenList } from '@etm3/token-list'
+import DEFAULT_TOKEN_LIST from '@etmp/default-token-list'
+import { ChainId, Token } from '@etmp/sdk'
+import { Tags, TokenInfo, TokenList } from '@etmp/token-list'
 import { useMemo } from 'react'
 import { useSelector } from 'react-redux'
 import { AppState } from '../index'
@@ -43,8 +43,8 @@ const EMPTY_LIST: TokenAddressMap = {
   [ChainId.GÖRLI]: {},
   [ChainId.MAINNET]: {},
   [ChainId.BSC]: {},
-  [ChainId.ETM3]: {},
-  [ChainId.ETM3Test]: {}
+  [ChainId.ETMP]: {},
+  [ChainId.ETMPTest]: {}
 }
 
 const listCache: WeakMap<TokenList, TokenAddressMap> | null =

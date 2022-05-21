@@ -2,9 +2,9 @@ import { useWeb3React } from '@web3-react/core'
 import { useCallback, useMemo } from 'react'
 import { InjectedConnector } from '@web3-react/injected-connector'
 import { multicallConfig } from '../constants/multicall'
-import { ChainId } from '@etm3/sdk'
+import { ChainId } from '@etmp/sdk'
 export const injected = new InjectedConnector({
-  supportedChainIds: [ChainId.ETM3]
+  supportedChainIds: [ChainId.ETMP]
 })
 export const networkConf = {
   [ChainId.MAINNET]: {
@@ -13,7 +13,7 @@ export const networkConf = {
   [ChainId.RINKEBY]: {
     chainId: '0x4'
   },
-  [ChainId.ETM3]: {
+  [ChainId.ETMP]: {
     chainId: '0x24',
     chainName: 'ETM/P Mainnet',
     nativeCurrency: {
@@ -21,10 +21,10 @@ export const networkConf = {
       symbol: 'ETM',
       decimals: 18
     },
-    rpcUrls: [multicallConfig.rpc[ChainId.ETM3].url],
+    rpcUrls: [multicallConfig.rpc[ChainId.ETMP].url],
     blockExplorerUrls: ['https://etm3scan.com']
   },
-  [ChainId.ETM3Test]: {
+  [ChainId.ETMPTest]: {
     chainId: '0x25',
     chainName: 'ETM/P Testnet',
     nativeCurrency: {
@@ -32,7 +32,7 @@ export const networkConf = {
       symbol: 'ETM',
       decimals: 18
     },
-    rpcUrls: [multicallConfig.rpc[ChainId.ETM3Test].url],
+    rpcUrls: [multicallConfig.rpc[ChainId.ETMPTest].url],
     blockExplorerUrls: ['https://testnet.etm3scan.com']
   }
 }

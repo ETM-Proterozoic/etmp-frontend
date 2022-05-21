@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Token, Currency } from '@etm3/sdk'
+import { Token, Currency } from '@etmp/sdk'
 import styled from 'styled-components'
 import { TYPE, CloseIcon } from 'theme'
 import Card from 'components/Card'

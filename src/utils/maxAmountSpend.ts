@@ -1,4 +1,4 @@
-import { CurrencyAmount, ETHER, JSBI } from '@etm3/sdk'
+import { CurrencyAmount, ETHER, JSBI } from '@etmp/sdk'
 import { MIN_ETH } from '../constants'
 
 /**

@@ -7,7 +7,7 @@ import { WalletLinkConnector } from '@web3-react/walletlink-connector'
 // import { FortmaticConnector } from './Fortmatic'
 import { NetworkConnector } from './NetworkConnector'
 import UNISWAP_LOGO_URL from '../assets/svg/logo.svg'
-import { ChainId } from '@etm3/sdk'
+import { ChainId } from '@etmp/sdk'
 
 const NETWORK_URL = process.env.REACT_APP_NETWORK_URL
 const WALLETCONNECT_BRIDGE_URL = process.env.REACT_APP_WALLETCONNECT_BRIDGE_URL
@@ -31,7 +31,7 @@ export function getNetworkLibrary(): Web3Provider {
 }
 
 export const injected = new InjectedConnector({
-  supportedChainIds: [ChainId.ETM3Test, ChainId.RINKEBY]
+  supportedChainIds: [ChainId.ETMPTest, ChainId.RINKEBY]
 })
 
 // mainnet only

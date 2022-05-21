@@ -1,4 +1,4 @@
-import { ChainId, JSBI, Percent, Token, WETH } from '@etm3/sdk'
+import { ChainId, JSBI, Percent, Token, WETH } from '@etmp/sdk'
 import { AbstractConnector } from '@web3-react/abstract-connector'
 import IOSIcon from '../assets/images/ios_icon.svg'
 import TotoroAbi from './abis/totoro.json'
@@ -40,8 +40,8 @@ export const UNI: { [chainId in ChainId]: Token } = {
   [ChainId.GÖRLI]: new Token(ChainId.GÖRLI, TOTORO_ADDRESS, 18, 'TOTORO', 'TOTORO'),
   [ChainId.KOVAN]: new Token(ChainId.KOVAN, TOTORO_ADDRESS, 18, 'TOTORO', 'TOTORO'),
   [ChainId.BSC]: new Token(ChainId.BSC, TOTORO_ADDRESS, 18, 'TOTORO', 'TOTORO'),
-  [ChainId.ETM3]: new Token(ChainId.ETM3, TOTORO_ADDRESS, 18, 'TOTORO', 'TOTORO'),
-  [ChainId.ETM3Test]: new Token(ChainId.ETM3Test, TOTORO_ADDRESS, 18, 'TOTORO', 'TOTORO')
+  [ChainId.ETMP]: new Token(ChainId.ETMP, TOTORO_ADDRESS, 18, 'TOTORO', 'TOTORO'),
+  [ChainId.ETMPTest]: new Token(ChainId.ETMPTest, TOTORO_ADDRESS, 18, 'TOTORO', 'TOTORO')
 }
 
 const WETH_ONLY: ChainTokenList = {
@@ -51,8 +51,8 @@ const WETH_ONLY: ChainTokenList = {
   [ChainId.GÖRLI]: [WETH[ChainId.GÖRLI]],
   [ChainId.KOVAN]: [WETH[ChainId.KOVAN]],
   [ChainId.BSC]: [WETH[ChainId.BSC]],
-  [ChainId.ETM3]: [WETH[ChainId.ETM3]],
-  [ChainId.ETM3Test]: [WETH[ChainId.ETM3Test]]
+  [ChainId.ETMP]: [WETH[ChainId.ETMP]],
+  [ChainId.ETMPTest]: [WETH[ChainId.ETMPTest]]
 }
 
 // Composition is used to construct mediation pairs for transactions

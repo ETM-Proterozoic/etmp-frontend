@@ -1,4 +1,4 @@
-import { currencyEquals, Trade } from '@etm3/sdk'
+import { currencyEquals, Trade } from '@etmp/sdk'
 import React, { useCallback, useMemo } from 'react'
 import TransactionConfirmationModal, {
   ConfirmationModalContent,

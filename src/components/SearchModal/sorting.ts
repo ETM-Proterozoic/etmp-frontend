@@ -1,4 +1,4 @@
-import { Token, TokenAmount } from '@etm3/sdk'
+import { Token, TokenAmount } from '@etmp/sdk'
 import { useMemo } from 'react'
 import { useAllTokenBalances } from '../../state/wallet/hooks'
 

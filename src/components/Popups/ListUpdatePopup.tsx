@@ -1,4 +1,4 @@
-import { diffTokenLists, TokenList } from '@etm3/token-list'
+import { diffTokenLists, TokenList } from '@etmp/token-list'
 import React, { useCallback, useMemo } from 'react'
 import ReactGA from 'react-ga'
 import { useDispatch } from 'react-redux'

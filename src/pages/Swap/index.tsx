@@ -1,4 +1,4 @@
-import { ChainId, CurrencyAmount, JSBI, Token, Trade } from '@etm3/sdk'
+import { ChainId, CurrencyAmount, JSBI, Token, Trade } from '@etmp/sdk'
 import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react'
 
 import ReactGA from 'react-ga'

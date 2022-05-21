@@ -20,7 +20,7 @@ import Modal from '../Modal'
 import Option from './Option'
 import PendingView from './PendingView'
 import { changeNetwork } from '../../utils/connectWall'
-import { ChainId } from '@etm3/sdk'
+import { ChainId } from '@etmp/sdk'
 
 const CloseIcon = styled.div`
   position: absolute;
@@ -180,7 +180,7 @@ export default function WalletModal({
 
   useEffect(() => {
     if (error instanceof UnsupportedChainIdError && walletModalOpen) {
-      changeNetwork(ChainId.ETM3Test).then(() => {
+      changeNetwork(ChainId.ETMPTest).then(() => {
         toggleWalletModal()
       })
     }
@@ -328,7 +328,7 @@ export default function WalletModal({
             {error instanceof UnsupportedChainIdError ? (
               <h5>
                 Please connect to the appropriate{' '}
-                <strong style={{ cursor: 'pointer', color: '#017BFF' }} onClick={() => changeNetwork(ChainId.ETM3Test)}>
+                <strong style={{ cursor: 'pointer', color: '#017BFF' }} onClick={() => changeNetwork(ChainId.ETMPTest)}>
                   ETM/P
                 </strong>{' '}
                 network.

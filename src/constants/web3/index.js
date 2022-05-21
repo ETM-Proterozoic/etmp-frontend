@@ -1,5 +1,5 @@
 import Web3 from 'web3'
-import { ChainId } from '@etm3/sdk'
+import { ChainId } from '@etmp/sdk'
 import { ERC20_ABI } from '../abis/erc20'
 import { useMemo, useState } from 'react'
 import { useBlockNumber } from '../../state/application/hooks'
@@ -10,7 +10,7 @@ import { multicallConfig } from '../multicall'
 export const getRpcUrl = chainId => {
   const RPC_URLS = {
     [ChainId.BSC]: 'https://bsc-dataseed1.ninicoin.io/',
-    [ChainId.ETM3]: multicallConfig.rpc[ChainId.ETM3].url
+    [ChainId.ETMP]: multicallConfig.rpc[ChainId.ETMP].url
   }
   return RPC_URLS[chainId]
 }

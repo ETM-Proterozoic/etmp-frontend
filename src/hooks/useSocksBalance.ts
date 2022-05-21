@@ -1,4 +1,4 @@
-import { JSBI } from '@etm3/sdk'
+import { JSBI } from '@etmp/sdk'
 import { useMemo } from 'react'
 import { NEVER_RELOAD, useSingleCallResult } from '../state/multicall/hooks'
 import { useActiveWeb3React } from './index'

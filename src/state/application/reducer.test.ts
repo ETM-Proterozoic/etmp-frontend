@@ -1,4 +1,4 @@
-import { ChainId } from '@etm3/sdk'
+import { ChainId } from '@etmp/sdk'
 import { createStore, Store } from 'redux'
 import { addPopup, ApplicationModal, removePopup, setOpenModal, updateBlockNumber } from './actions'
 import reducer, { ApplicationState } from './reducer'

@@ -1,5 +1,5 @@
-import { TokenList } from '@etm3/token-list'
-import schema from '@etm3/token-list/src/tokenlist.schema.json'
+import { TokenList } from '@etmp/token-list'
+import schema from '@etmp/token-list/src/tokenlist.schema.json'
 import Ajv from 'ajv'
 // import contenthashToUri from './contenthashToUri'
 // import { parseENSAddress } from './parseENSAddress'

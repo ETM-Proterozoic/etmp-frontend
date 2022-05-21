@@ -1,4 +1,4 @@
-import { JSBI, Pair, Percent, TokenAmount } from '@etm3/sdk'
+import { JSBI, Pair, Percent, TokenAmount } from '@etmp/sdk'
 import { darken } from 'polished'
 import React, { useState } from 'react'
 import { ChevronDown, ChevronUp } from 'react-feather'

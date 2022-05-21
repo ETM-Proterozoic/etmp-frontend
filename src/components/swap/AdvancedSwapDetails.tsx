@@ -1,4 +1,4 @@
-import { Trade, TradeType } from '@etm3/sdk'
+import { Trade, TradeType } from '@etmp/sdk'
 import React, { useContext } from 'react'
 import styled, { ThemeContext } from 'styled-components'
 import { Field } from '../../state/swap/actions'

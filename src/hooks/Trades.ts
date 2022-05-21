@@ -1,5 +1,5 @@
 import { isTradeBetter } from 'utils/trades'
-import { Currency, CurrencyAmount, Pair, Token, Trade } from '@etm3/sdk'
+import { Currency, CurrencyAmount, Pair, Token, Trade } from '@etmp/sdk'
 import flatMap from 'lodash.flatmap'
 import { useMemo } from 'react'
 

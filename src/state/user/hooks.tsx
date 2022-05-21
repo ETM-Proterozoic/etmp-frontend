@@ -1,4 +1,4 @@
-import { ChainId, Pair, Token } from '@etm3/sdk'
+import { ChainId, Pair, Token } from '@etmp/sdk'
 import flatMap from 'lodash.flatmap'
 import { useCallback, useMemo } from 'react'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'

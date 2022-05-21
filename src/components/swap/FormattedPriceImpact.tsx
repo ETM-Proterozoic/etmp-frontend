@@ -1,4 +1,4 @@
-import { Percent } from '@etm3/sdk'
+import { Percent } from '@etmp/sdk'
 import React from 'react'
 import { ONE_BIPS } from '../../constants'
 import { warningSeverity } from '../../utils/prices'

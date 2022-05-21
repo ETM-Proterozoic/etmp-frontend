@@ -1,35 +1,35 @@
-// import { ChainId } from '@etm3/sdk'
+import { ChainId } from '@etmp/sdk'
 import MULTICALL_ABI from './abi.json'
 
 import {
   config,
   multicallClient,
   Contract as ClientContract,
-  ChainId,
+  // ChainId,
   Config,
   rpcMap,
   newContract
 } from '@chainstarter/multicall-client.js'
 // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
 // @ts-ignore
-ChainId.ETM3 = 36
+// ChainId.ETMP = 36
 // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
 // @ts-ignore
-ChainId.ETM3Test = 37
+// ChainId.ETMPTest = 37
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
 // @ts-ignore
-ChainId.RINKEBY = 4
+// ChainId.RINKEBY = 4
 const rpc: rpcMap = {
   [ChainId.RINKEBY]: {
     url: 'https://rinkeby.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161',
     address: '0x5ba1e12693dc8f9c48aad8770482f4739beed696'
   },
-  [ChainId.ETM3]: {
+  [ChainId.ETMP]: {
     url: 'https://rpc.etm3.com/',
     address: ''
   },
-  [ChainId.ETM3Test]: {
+  [ChainId.ETMPTest]: {
     url: 'https://testnet-rpc.etm3.com',
     address: '0xffc5b38A7Dc497ef16121Ac948277a704a79f77b'
   }
@@ -57,10 +57,10 @@ const MULTICALL_NETWORKS: { [chainId in ChainId]: string } = {
   [ChainId.BSC]: '0x41263cba59eb80dc200f3e2544eda4ed6a90e76c',
   // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
   // @ts-ignore
-  [ChainId.ETM3]: multicallConfig.rpc[ChainId.ETM3].address,
+  [ChainId.ETMP]: multicallConfig.rpc[ChainId.ETMP].address,
   // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
   // @ts-ignore
-  [ChainId.ETM3Test]: multicallConfig.rpc[ChainId.ETM3Test].address
+  [ChainId.ETMPTest]: multicallConfig.rpc[ChainId.ETMPTest].address
 }
 
 export { MULTICALL_ABI, MULTICALL_NETWORKS, multicallClient, ClientContract, multicallConfig, newContract }

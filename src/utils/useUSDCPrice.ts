@@ -1,4 +1,4 @@
-import { ChainId, Currency, currencyEquals, JSBI, Price, WETH } from '@etm3/sdk'
+import { ChainId, Currency, currencyEquals, JSBI, Price, WETH } from '@etmp/sdk'
 import { useMemo } from 'react'
 import { USDC } from '../constants'
 import { PairState, usePairs } from '../data/Reserves'

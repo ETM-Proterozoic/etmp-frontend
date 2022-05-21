@@ -1,4 +1,4 @@
-import { ChainId, JSBI, Pair, Route, Token, TokenAmount, Trade, TradeType } from '@etm3/sdk'
+import { ChainId, JSBI, Pair, Route, Token, TokenAmount, Trade, TradeType } from '@etmp/sdk'
 import { computeTradePriceBreakdown } from './prices'
 
 describe('prices', () => {

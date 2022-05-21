@@ -1,6 +1,6 @@
 import { Contract } from '@ethersproject/contracts'
 import { abi as STAKING_REWARDS_ABI } from '../constants/abis/StakingRewards.json'
-import { ChainId, WETH } from '@etm3/sdk'
+import { ChainId, WETH } from '@etmp/sdk'
 import { abi as IUniswapV2PairABI } from '../constants/abis/IUniswapV2Pair.json'
 import { useMemo } from 'react'
 import {

@@ -15,7 +15,7 @@ import ArrowDownDark from '../../assets/svg/arrow_down2_dark.svg'
 import { useDarkModeManager } from '../../state/user/hooks'
 import { changeNetwork } from '../../utils/connectWall'
 import { ADDRESS_INFINITE } from '../../constants'
-import { ChainId } from '@etm3/sdk'
+import { ChainId } from '@etmp/sdk'
 // import { Select } from 'antd'
 
 // const { Option } = Select
@@ -31,13 +31,13 @@ const chainNameMap: {
     icon: EthereumLog,
     name: 'Ethereum Chain'
   },
-  [ChainId.ETM3]: {
+  [ChainId.ETMP]: {
     icon: EthereumLog,
-    name: 'ETM Chain'
+    name: 'ETMP Chain'
   },
-  [ChainId.ETM3Test]: {
+  [ChainId.ETMPTest]: {
     icon: EthereumLog,
-    name: 'ETM Testchain'
+    name: 'ETMP Testchain'
   }
 }
 
@@ -52,8 +52,8 @@ interface SupperChainIds {
   [propName: string]: number[]
 }
 const supperChainIds: SupperChainIds = {
-  from: [ChainId.ETM3Test, ChainId.RINKEBY],
-  to: [ChainId.ETM3Test, ChainId.RINKEBY]
+  from: [ChainId.ETMPTest, ChainId.RINKEBY],
+  to: [ChainId.ETMPTest, ChainId.RINKEBY]
 }
 
 interface FromConfig {
@@ -69,7 +69,7 @@ const fromConfig: FromConfig[] = [
     address: '0xffffffffffffffffffffffffffffffffffffffff',
     decimals: 18,
     correspondAddress: {
-      [ChainId.ETM3Test]: {
+      [ChainId.ETMPTest]: {
         symobl: 'WETH',
         address: '0x678Fa5e07AEbf02993B3A48E8be6E5170F231b67'
       }
@@ -77,43 +77,43 @@ const fromConfig: FromConfig[] = [
   },
   {
     symbol: 'WETH',
-    chainId: ChainId.ETM3Test,
+    chainId: ChainId.ETMPTest,
     nativos: false,
     address: '0x678Fa5e07AEbf02993B3A48E8be6E5170F231b67',
     decimals: 18,
     tokenBelong: ChainId.RINKEBY,
     correspondAddress: {
       [ChainId.RINKEBY]: {
-        symobl: 'ETM',
+        symobl: 'ETMP',
         nativos: true,
         address: '0xffffffffffffffffffffffffffffffffffffffff'
       }
     }
   },
   {
-    symbol: 'ETM',
-    chainId: ChainId.ETM3Test,
+    symbol: 'ETMP',
+    chainId: ChainId.ETMPTest,
     address: '0xffffffffffffffffffffffffffffffffffffffff',
     decimals: 18,
     nativos: true,
-    tokenBelong: ChainId.ETM3Test,
+    tokenBelong: ChainId.ETMPTest,
     correspondAddress: {
       [ChainId.RINKEBY]: {
-        symbol: 'WETM',
+        symbol: 'WETMP',
         address: '0x678Fa5e07AEbf02993B3A48E8be6E5170F231b67'
       }
     }
   },
   {
-    symbol: 'WETM',
+    symbol: 'WETMP',
     chainId: ChainId.RINKEBY,
     address: '0x678Fa5e07AEbf02993B3A48E8be6E5170F231b67',
     decimals: 18,
     nativos: false,
-    tokenBelong: ChainId.ETM3Test,
+    tokenBelong: ChainId.ETMPTest,
     correspondAddress: {
-      [ChainId.ETM3Test]: {
-        symbol: 'ETM3',
+      [ChainId.ETMPTest]: {
+        symbol: 'ETMP',
         nativos: true,
         address: '0xffffffffffffffffffffffffffffffffffffffff'
       }
@@ -124,9 +124,9 @@ const fromConfig: FromConfig[] = [
     chainId: ChainId.RINKEBY,
     address: '0x6DD5BeF6Ca6350368e6C5167cB71B933940dC52f',
     decimals: 18,
-    tokenBelong: ChainId.ETM3Test,
+    tokenBelong: ChainId.ETMPTest,
     correspondAddress: {
-      [ChainId.ETM3Test]: {
+      [ChainId.ETMPTest]: {
         symbol: 'ERC20Custom',
         address: '0x6DD5BeF6Ca6350368e6C5167cB71B933940dC52f'
       }
@@ -135,10 +135,10 @@ const fromConfig: FromConfig[] = [
   },
   {
     symbol: 'ERC20Custom',
-    chainId: ChainId.ETM3Test,
+    chainId: ChainId.ETMPTest,
     address: '0x6DD5BeF6Ca6350368e6C5167cB71B933940dC52f',
     decimals: 18,
-    tokenBelong: ChainId.ETM3Test,
+    tokenBelong: ChainId.ETMPTest,
     correspondAddress: {
       [ChainId.RINKEBY]: {
         symbol: 'ERC20Custom',
@@ -399,7 +399,7 @@ export default function BridgePage() {
               )}
             </div>
           </Popover>
-          <div>{/*Balance: <strong>0 ETM3</strong>*/}</div>
+          <div>{/*Balance: <strong>0 ETMP</strong>*/}</div>
         </div>
         {fromChainId !== chainId ? (
           <Button className="transfer-btn" onClick={() => changeNetwork(fromChainId)}>

@@ -1,4 +1,4 @@
-import { Token } from '@etm3/sdk'
+import { Token } from '@etmp/sdk'
 import React from 'react'
 import Modal from '../Modal'
 import { ImportToken } from 'components/SearchModal/ImportToken'
