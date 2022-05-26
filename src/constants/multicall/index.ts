@@ -26,11 +26,11 @@ const rpc: rpcMap = {
     address: '0x5ba1e12693dc8f9c48aad8770482f4739beed696'
   },
   [ChainId.ETMP]: {
-    url: 'https://rpc.etm3.com/',
+    url: 'https://rpc.etm.network/',
     address: ''
   },
   [ChainId.ETMPTest]: {
-    url: 'https://testnet-rpc.etm3.com',
+    url: 'https://testnet-rpc.etm.network',
     address: '0xffc5b38A7Dc497ef16121Ac948277a704a79f77b'
   }
 }
