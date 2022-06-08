@@ -295,7 +295,7 @@ export const StakingPage = styled.div`
   .btn-compound,
   .btn-claim {
     padding: 6px 20px;
-    border-radius: 20px;
+    border-radius: 8px;
     display: flex;
     align-items: center;
     justify-content: center;

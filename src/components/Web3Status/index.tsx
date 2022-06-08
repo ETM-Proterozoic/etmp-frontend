@@ -13,6 +13,7 @@ import { isTransactionRecent, useAllTransactions } from '../../state/transaction
 import { TransactionDetails } from '../../state/transactions/reducer'
 import { shortenAddress } from '../../utils'
 import MetamaskSvg from '../../assets/svg/metamask.svg'
+import ArrowDown from '../../assets/svg/arrow_down3.svg'
 
 import Identicon from '../Identicon'
 import Loader from '../Loader'
@@ -20,6 +21,7 @@ import Loader from '../Loader'
 import { RowBetween } from '../Row'
 import WalletModal from '../WalletModal'
 import { FlexCenter } from '../../theme'
+import { changeNetwork } from '../../utils/connectWall'
 
 const IconWrapper = styled.div<{ size?: number }>`
   ${({ theme }) => theme.flexColumnNoWrap};
@@ -35,7 +37,7 @@ export const Web3StatusConnect = styled.div<{ faded?: boolean }>`
   ${() => FlexCenter}
   background: ${({ theme }) => theme.primary1};
   color: ${({ theme }) => theme.text8};
-  width: 210px;
+  width: 171px;
   height: 45px;
   right: 0px;
   top: calc(50% - 45px/2);
@@ -48,7 +50,7 @@ export const Web3StatusConnect = styled.div<{ faded?: boolean }>`
 
   background: ${({ theme }) => theme.connectWalletBg};
   border-radius: 8px;
-  margin-right: 60px;
+  margin-right: 20px;
   cursor: pointer;
   &:hover {
     opacity: 0.95;
@@ -57,6 +59,77 @@ export const Web3StatusConnect = styled.div<{ faded?: boolean }>`
     height: 35px;
     margin-right: 10px;
   `};
+`
+
+export const Web3SwitchNetwork = styled.button`
+  ${() => FlexCenter}
+  background: ${({ theme }) => theme.primary1};
+  color: ${({ theme }) => theme.text8};
+  width: 171px;
+  min-width: 171px;
+  height: 45px;
+  position: relative;
+  background: #017bff;
+  overflow: visible;
+  border-radius: 8px;
+  border: 0;
+  font-weight: 600;
+  font-size: 18px;
+  margin-right: 20px;
+  cursor: pointer;
+  & > img {
+    margin-left: 5px;
+    width: 10px;
+    height: 10px;
+  }
+  &:hover {
+    .switch-network {
+      display: block;
+    }
+  }
+  .switch-network {
+    display: none;
+    position: absolute;
+    left: 0;
+    top: 100%;
+    z-index: 1;
+    width: 100%;
+    padding-top: 5px;
+    .switch-network-list {
+      background: #017BFF;
+      box-shadow: 0px 0px 1px rgba(12, 26, 75, 0.1), 5px 30px 71px rgba(20, 37, 63, 0.08);
+      border-radius: 20px;
+      color: ${({ theme }) => theme.white};
+      padding: 20px 16px;
+      & > div {
+        text-align: left;
+        padding: 14px 16px;
+        border-radius: 8px;
+        &.active,&:hover{
+          background: rgba(248, 249, 250, 0.2);
+        }
+        margin-top: 10px;
+        &:nth-child(1){
+          margin-top: 0;
+        }
+      }
+    }
+  }
+  ${({ theme }) => theme.mediaWidth.upToMedium`
+          width: 150px;
+          min-width: 150px;
+         .switch-network {
+           .switch-network-list{
+             padding: 10px 8px;
+             & > div {
+              padding: 7px 8px;
+             }
+           }
+         }
+  `}
+  ${({ theme }) => theme.mediaWidth.upToExtraSmall`
+         display: none;
+  `}
 `
 
 const Web3StatusError = styled(Web3StatusConnect)`
@@ -100,7 +173,6 @@ const WalletConnected = styled.div`
     margin-right: 5px;
   }
   ${({ theme }) => theme.mediaWidth.upToExtraSmall`
-         height: 35px;
          line-height: 16px;
          margin-right: 20px;
         padding: 10px 15px;
@@ -203,14 +275,25 @@ function Web3StatusInner() {
   } else {
     return (
       <Web3StatusConnect id="connect-wallet" onClick={toggleWalletModal} faded={!account}>
-        Connect to a Wallet
+        Connect Wallet
       </Web3StatusConnect>
     )
   }
 }
 
+const superNetWork = [
+  {
+    name: 'Proterozoic',
+    chainId: 36
+  },
+  {
+    name: 'Pioneer',
+    chainId: 37
+  }
+]
+
 export default function Web3Status() {
-  const { active, account } = useWeb3React()
+  const { active, account, chainId } = useWeb3React()
   const contextNetwork = useWeb3React(NetworkContextName)
 
   const { ENSName } = useENSName(account ?? undefined)
@@ -224,14 +307,29 @@ export default function Web3Status() {
 
   const pending = sortedRecentTransactions.filter(tx => !tx.receipt).map(tx => tx.hash)
   const confirmed = sortedRecentTransactions.filter(tx => tx.receipt).map(tx => tx.hash)
-
   if (!contextNetwork.active && !active) {
     return null
   }
-
   return (
     <>
       <Web3StatusInner />
+      <Web3SwitchNetwork>
+        <span>Proterozoic</span>
+        <img src={ArrowDown} />
+        <div className="switch-network">
+          <div className="switch-network-list">
+            {superNetWork.map(item => (
+              <div
+                key={item.chainId}
+                onClick={() => changeNetwork(item.chainId)}
+                className={chainId === item.chainId ? 'active' : ''}
+              >
+                {item.name}
+              </div>
+            ))}
+          </div>
+        </div>
+      </Web3SwitchNetwork>
       <WalletModal ENSName={ENSName ?? undefined} pendingTransactions={pending} confirmedTransactions={confirmed} />
     </>
   )

@@ -17,8 +17,8 @@ export const networkConf = {
     chainId: '0x24',
     chainName: 'ETM/P Mainnet',
     nativeCurrency: {
-      name: 'ETM',
-      symbol: 'ETM',
+      name: 'ETMP',
+      symbol: 'ETMP',
       decimals: 18
     },
     rpcUrls: [multicallConfig.rpc[ChainId.ETMP].url],
@@ -28,8 +28,8 @@ export const networkConf = {
     chainId: '0x25',
     chainName: 'ETM/P Testnet',
     nativeCurrency: {
-      name: 'ETM',
-      symbol: 'ETM',
+      name: 'ETMP',
+      symbol: 'ETMP',
       decimals: 18
     },
     rpcUrls: [multicallConfig.rpc[ChainId.ETMPTest].url],

@@ -26,6 +26,7 @@ export const BridgePageView = styled.div`
     margin: 50px auto;
     padding: 20px;
     color: ${({ theme }) => theme.text1};
+    box-shadow: 0px 0px 1px rgb(0 0 0 / 1%), 0px 4px 8px rgb(0 0 0 / 4%), 0px 16px 24px rgb(0 0 0 / 4%), 0px 24px 32px rgb(0 0 0 / 1%);;
     .bridge-from {
       border: 1px solid ${({ theme }) => theme.borderLine};
       border-radius: 10px;
@@ -98,8 +99,8 @@ export const BridgePageView = styled.div`
       width: 100%;
       height: 40px;
       border: 0;
-      border-radius: 30px;
-      background: #4c43fd;
+      border-radius: 8px;
+      background: #017bff;
       color: #ffffff;
       cursor: pointer;
       margin: 40px 0 20px 0;

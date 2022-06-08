@@ -339,7 +339,7 @@ const ReBase = styled(RebassButton)<{
 }>`
   width: ${({ width }) => width || '100%'};
   height: ${({ height }) => height || '100%'};
-  border-radius: 19px;
+  border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
