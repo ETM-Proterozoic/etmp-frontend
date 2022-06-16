@@ -14,10 +14,10 @@ import ArrowDown from '../../assets/svg/arrow_down2.svg'
 import ArrowDownDark from '../../assets/svg/arrow_down2_dark.svg'
 import { useDarkModeManager } from '../../state/user/hooks'
 import { changeNetwork } from '../../utils/connectWall'
-import { ADDRESS_INFINITE } from '../../constants'
 import { ChainId } from '@etmp/sdk'
+import { ADDRESS_INFINITE } from '../../constants'
+import { useBlockNumber } from '../../state/application/hooks'
 // import { Select } from 'antd'
-
 // const { Option } = Select
 
 const chainNameMap: {
@@ -41,12 +41,25 @@ const chainNameMap: {
   }
 }
 
-const Bridge = {
-  address: '0x6d4989D1ed6D519aabAE2103060cDeE0fD6Fe30F',
-  abi: BridgeAbi
+const getBridgeAddress = (chainId?: number) => {
+  switch (chainId) {
+    case ChainId.RINKEBY:
+      return '0x280A50Fa8f2c1Ad50b95773ED884817F40Da3E47'
+    case ChainId.ETMPTest:
+      return '0x13e986488675697c8E1e5A96bd2D142CfB6f51FC'
+  }
+  return '0x13e986488675697c8E1e5A96bd2D142CfB6f51FC'
 }
 
-const ERC20_HANDLER_ADDRESS = '0xa280EdbE2E8f29f74ec0a494D4F9bfdAb001B95A'
+const getErc20HandlerAddress = (chainId?: number) => {
+  switch (chainId) {
+    case ChainId.RINKEBY:
+      return '0xd8277e6E465d83D1113eD3426cfEd0787Ee6993c'
+    case ChainId.ETMPTest:
+      return '0xaE6e282e2a730D74233Dbbf2D8d0b7b3015fd94d'
+  }
+  return '0xaE6e282e2a730D74233Dbbf2D8d0b7b3015fd94d'
+}
 
 interface SupperChainIds {
   [propName: string]: number[]
@@ -60,7 +73,7 @@ interface FromConfig {
   [propsName: string]: any
 }
 
-const fromConfig: FromConfig[] = [
+/*const fromConfig: FromConfig[] = [
   {
     symbol: 'ETH',
     chainId: ChainId.RINKEBY,
@@ -147,6 +160,150 @@ const fromConfig: FromConfig[] = [
     },
     nativos: false
   }
+]*/
+const fromConfig: FromConfig[] = [
+  {
+    symbol: 'ETMP',
+    chainId: ChainId.RINKEBY,
+    address: '0xBABcC18129a112eE7Ee84B2C9A51a0d2AecAe289',
+    decimals: 18,
+    tokenBelong: ChainId.ETMPTest,
+    correspondAddress: {
+      [ChainId.ETMPTest]: {
+        symbol: 'ETMP',
+        address: ADDRESS_INFINITE,
+        nativos: true
+      }
+    },
+    nativos: false
+  },
+  {
+    symbol: 'ETMP',
+    chainId: ChainId.ETMPTest,
+    address: ADDRESS_INFINITE,
+    decimals: 18,
+    tokenBelong: ChainId.ETMPTest,
+    correspondAddress: {
+      [ChainId.RINKEBY]: {
+        symbol: 'ETMP',
+        address: '0xBABcC18129a112eE7Ee84B2C9A51a0d2AecAe289'
+      }
+    },
+    nativos: true
+  },
+  {
+    symbol: 'ETH',
+    chainId: ChainId.RINKEBY,
+    tokenBelong: ChainId.RINKEBY,
+    address: ADDRESS_INFINITE,
+    decimals: 18,
+    correspondAddress: {
+      [ChainId.ETMPTest]: {
+        symobl: 'ETH',
+        address: '0x4E03d0454d435ae0Ea1F794d6354EE5cE1f40299'
+      }
+    },
+    nativos: true
+  },
+  {
+    symbol: 'ETH',
+    chainId: ChainId.ETMPTest,
+    address: '0x4E03d0454d435ae0Ea1F794d6354EE5cE1f40299',
+    decimals: 18,
+    tokenBelong: ChainId.RINKEBY,
+    correspondAddress: {
+      [ChainId.RINKEBY]: {
+        symobl: 'ETH',
+        nativos: true,
+        address: ADDRESS_INFINITE
+      }
+    },
+    nativos: false
+  },
+  {
+    symbol: 'USDC',
+    chainId: ChainId.RINKEBY,
+    address: '0x022eE6E65d719574eb70D11E31E5171DeA1baFC4',
+    decimals: 18,
+    tokenBelong: ChainId.RINKEBY,
+    correspondAddress: {
+      [ChainId.ETMPTest]: {
+        symbol: 'USDC',
+        address: '0x2a6A9AC9a7533D4721746fbd3D5c28e0F8e4397a'
+      }
+    },
+    nativos: false
+  },
+  {
+    symbol: 'USDC',
+    chainId: ChainId.ETMPTest,
+    address: '0x2a6A9AC9a7533D4721746fbd3D5c28e0F8e4397a',
+    decimals: 18,
+    tokenBelong: ChainId.RINKEBY,
+    correspondAddress: {
+      [ChainId.RINKEBY]: {
+        symbol: 'USDC',
+        address: '0x022eE6E65d719574eb70D11E31E5171DeA1baFC4'
+      }
+    },
+    nativos: false
+  },
+  {
+    symbol: 'USDT',
+    chainId: ChainId.RINKEBY,
+    address: '0xd23685FB217533B95A0f78aae1f0ea3967e12DcA',
+    decimals: 18,
+    tokenBelong: ChainId.RINKEBY,
+    correspondAddress: {
+      [ChainId.ETMPTest]: {
+        symbol: 'USDT',
+        address: '0x5Fd09f185e3732FF9B32f4A2E62Cef574a25D30a'
+      }
+    },
+    nativos: false
+  },
+  {
+    symbol: 'USDT',
+    chainId: ChainId.ETMPTest,
+    address: '0x5Fd09f185e3732FF9B32f4A2E62Cef574a25D30a',
+    decimals: 18,
+    tokenBelong: ChainId.RINKEBY,
+    correspondAddress: {
+      [ChainId.RINKEBY]: {
+        symbol: 'USDT',
+        address: '0xd23685FB217533B95A0f78aae1f0ea3967e12DcA'
+      }
+    },
+    nativos: false
+  },
+  {
+    symbol: 'WBTC',
+    chainId: ChainId.RINKEBY,
+    address: '0xAF52bA958Ef5aeDEa6185a857e53D1A68bD467d7',
+    decimals: 18,
+    tokenBelong: ChainId.RINKEBY,
+    correspondAddress: {
+      [ChainId.ETMPTest]: {
+        symbol: 'WBTC',
+        address: '0x5a40882275ceA4CdEf15dbE12f5E52F03BdD0192'
+      }
+    },
+    nativos: false
+  },
+  {
+    symbol: 'WBTC',
+    chainId: ChainId.ETMPTest,
+    address: '0x5a40882275ceA4CdEf15dbE12f5E52F03BdD0192',
+    decimals: 18,
+    tokenBelong: ChainId.RINKEBY,
+    correspondAddress: {
+      [ChainId.RINKEBY]: {
+        symbol: 'WBTC',
+        address: '0xAF52bA958Ef5aeDEa6185a857e53D1A68bD467d7'
+      }
+    },
+    nativos: false
+  }
 ]
 
 const fromConfigMap = fromConfig.reduce((map: { [propName: string]: any }, item) => {
@@ -216,10 +373,11 @@ export default function BridgePage() {
   const [loading, setLoading] = useState(false)
   const [fromChainId, setFromChainId] = useState<number>(chainId || ChainId.MAINNET)
   const [toChainId, setToChainId] = useState<number>(0)
-  const [fromToken, setFromToken] = useState<string>('0xffffffffffffffffffffffffffffffffffffffff')
+  const [fromToken, setFromToken] = useState<string>(ADDRESS_INFINITE)
   const [depositAmount, setDepositAmount] = useState<string | number>('')
   const [balanceMap, setBalanceMap] = useState<{ [propsName: string]: string | number }>({})
   const [approveMap, setApproveMap] = useState<{ [propsName: string]: boolean }>({})
+  const blockNumber = useBlockNumber()
   const getTokenInfo = () => {
     const promiseList = []
     for (let i = 0; i < fromConfig.length; i++) {
@@ -231,7 +389,7 @@ export default function BridgePage() {
         const contract = newContract(ERC20_ABI, fromConfig[i].address, fromConfig[i].chainId)
         promiseList.push(multicallClient([contract.balanceOf(account)]).then((res: string[]) => res[0]))
         promiseList.push(
-          multicallClient([contract.allowance(account, ERC20_HANDLER_ADDRESS)]).then((res: string[]) => res[0])
+          multicallClient([contract.allowance(account, getErc20HandlerAddress(fromConfig[i].chainId))]).then((res: string[]) => res[0])
         )
       }
     }
@@ -248,9 +406,9 @@ export default function BridgePage() {
           j++
         }
       }
+      console.log('balancesMap_', balancesMap_)
       setBalanceMap(balancesMap_)
       setApproveMap(approveMap_)
-      console.log(res)
     })
   }
   const onBadge = () => {
@@ -262,9 +420,19 @@ export default function BridgePage() {
       fromConfigMap[`${fromChainId}_${fromToken}`].nativos ||
       fromConfigMap[`${fromChainId}_${fromToken}`].correspondAddress[toChainId]?.nativos
 
-    const resourceAddress = involveNativos ? ADDRESS_INFINITE : fromToken
+
     const tokenBelong = fromConfigMap[`${fromChainId}_${fromToken}`].tokenBelong
+    const resourceAddress = involveNativos
+      ? ADDRESS_INFINITE
+      : tokenBelong !== fromChainId
+      ? fromConfigMap[`${fromChainId}_${fromToken}`].correspondAddress[toChainId].address
+      : fromToken
+
     const resourceId = ethers.utils.hexZeroPad(resourceAddress + ethers.utils.hexlify(tokenBelong).substr(2), 32)
+
+
+    console.log('resourceAddress', resourceAddress, fromChainId, fromToken, tokenBelong, resourceId)
+
     const amount = numToWei(depositAmount, fromConfigMap[`${fromChainId}_${fromToken}`].decimals).toString()
     const data =
       '0x' +
@@ -273,7 +441,7 @@ export default function BridgePage() {
       account.substr(2)
 
     console.log(toChainId, resourceId, data, amount)
-    const contract = getWeb3Contract(library, Bridge.abi, Bridge.address)
+    const contract = getWeb3Contract(library, BridgeAbi, getBridgeAddress(chainId))
     contract.methods
       .deposit(toChainId, resourceId, data)
       .send({
@@ -293,7 +461,7 @@ export default function BridgePage() {
     setLoading(true)
     const contract = getWeb3Contract(library, ERC20_ABI, fromConfigMap[`${fromChainId}_${fromToken}`].address)
     contract.methods
-      .approve(ERC20_HANDLER_ADDRESS, ADDRESS_INFINITE)
+      .approve(getErc20HandlerAddress(chainId), ADDRESS_INFINITE)
       .send({
         from: account
       })
@@ -319,12 +487,14 @@ export default function BridgePage() {
     if (fromChainId === toChainId) {
       setToChainId(0)
     }
+    const fromTokenItem = fromConfig.find(item => item.chainId === fromChainId)
+    setFromToken(fromTokenItem?.address)
   }, [fromChainId])
   useMemo(() => {
     if (account) {
       getTokenInfo()
     }
-  }, [account])
+  }, [account, blockNumber])
   return (
     <BridgePageView>
       <div className="bridge-page">
@@ -345,7 +515,8 @@ export default function BridgePage() {
             <div>
               Balance{' '}
               <strong>
-                {balanceMap[`${fromChainId}_${fromToken}`] ?? '-'} {fromConfigMap[`${fromChainId}_${fromToken}`].symbol}
+                {balanceMap[`${fromChainId}_${fromToken}`] ?? '-'}
+                {fromConfigMap[`${fromChainId}_${fromToken}`]?.symbol}
               </strong>
             </div>
           </div>
@@ -355,7 +526,7 @@ export default function BridgePage() {
                 placement="bottom"
                 content={<FromTokenList chainId={fromChainId} onChange={(token: string) => setFromToken(token)} />}
               >
-                <span style={{ cursor: 'pointer' }}>{fromConfigMap[`${fromChainId}_${fromToken}`].symbol}</span>
+                <span style={{ cursor: 'pointer' }}>{fromConfigMap[`${fromChainId}_${fromToken}`]?.symbol}</span>
               </Popover>
             </div>
             <div>
@@ -405,7 +576,7 @@ export default function BridgePage() {
           <Button className="transfer-btn" onClick={() => changeNetwork(fromChainId)}>
             switch to {chainNameMap[fromChainId].name}
           </Button>
-        ) : !approveMap[`${fromChainId}_${fromToken}`] && !fromConfigMap[`${fromChainId}_${fromToken}`].nativos ? (
+        ) : !approveMap[`${fromChainId}_${fromToken}`] && !fromConfigMap[`${fromChainId}_${fromToken}`]?.nativos ? (
           <Button loading={loading} className="transfer-btn" onClick={onApprove}>
             Approve
           </Button>

@@ -86,5 +86,13 @@ export const splitFormat = (num, fractionDigits) => {
   }
 }
 export const toFormat = value => {
-  return new BigNumber(new BigNumber(value).toFixed(0)).toFormat()
+  let d = 0
+  if (value < 1) {
+    d = 6
+  } else if (value < 100) {
+    d = 2
+  } else if (value < 10000) {
+    d = 0
+  }
+  return new BigNumber(new BigNumber(value).toFixed(d)).toFormat()
 }

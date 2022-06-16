@@ -105,6 +105,8 @@ export function isTokenOnList(defaultTokens: TokenAddressMap, currency?: Currenc
 }
 
 export function getWeb3Contract(library: any, abi: any, address: string) {
-  const web3 = new Web3(library.provider)
+  // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+  // @ts-ignore
+  const web3 = new Web3(window.ethereum)
   return new web3.eth.Contract(abi, address)
 }

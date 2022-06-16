@@ -8,7 +8,7 @@ import { WrappedTokenInfo } from '../../state/lists/hooks'
 import Logo from '../Logo'
 
 export const getTokenLogoURL = (address: string) =>
-  `https://raw.githubusercontent.com/totoroswap/default-token-list/master/icons/${address}.png`
+  `https://raw.githubusercontent.com/ETM-Proterozoic/swap-default-token-list/main/icons/${address}.png`
 
 const StyledEthereumLogo = styled.img<{ size: string }>`
   width: ${({ size }) => size};

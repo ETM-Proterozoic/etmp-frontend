@@ -15,17 +15,18 @@ import { getWeb3Contract } from '../../utils'
 import { Input, message, Modal, Popover, Tooltip } from 'antd'
 import { ADDRESS_INFINITE, ZERO_ADDRESS } from '../../constants'
 import { useDarkModeManager } from '../../state/user/hooks'
+// import BigNumber from 'bignumber.js'
 //
 // const Staking = {
 //   address: '0x0000000000000000000000000000000000001001', // '0x230761E165EC7f6A46B42CCba786bFC0856F4C41',
 //   abi: StakingAbi
 // }
 const DPosMine = {
-  address: '0xE5Ee286F8772d3f0BC170725890a31E3BE387c0A', // '0xE5Ee286F8772d3f0BC170725890a31E3BE387c0A',
+  address: '0x282D78cb6d8471Fb54D8dCEA005067C50E9Ce702',
   abi: DposMineAbi
 }
 const DPOS = {
-  address: '0x4277283479c9b7F65b72f9138638780B1cB9f32C', // '0x4277283479c9b7F65b72f9138638780B1cB9f32C',
+  address: '0x062170863e2f6284ec1C43016Bf0CCEF3d2bf2aC',
   abi: DPOSAbi
 }
 
@@ -38,7 +39,8 @@ const defaultValidators = [
   "0x266578098c78B0cF335eC9e3066BA9caC4bc2115",
   "0xc8F2Fd8FbAc7307277C6b0010549fc322efC1962",
   "0x10C1793852C2162825336813D9C2E28Cd849bfad",
-  "0x2dCF21F18d1828904A029141F54b7473063c32Ac"]
+  "0x2dCF21F18d1828904A029141F54b7473063c32Ac"
+  ]
 
 const dposContract = newContract(DPOS.abi, DPOS.address, multicallConfig.defaultChainId)
 console.log('dposContract', dposContract)
@@ -155,8 +157,8 @@ export default function StakingView() {
     multicallClient(calls).then((res: any) => {
       // console.log(res)
       const apr = fromWei(res[0]).toNumber()
-      console.log('apr___', apr)
-      const apy = (Math.pow(1 + apr, 365) * 100).toFixed(2)
+      console.log('apr1111___', apr)
+      const apy = (Math.pow(1 + apr / 365, 365) * 100).toFixed(2)
       const staked = fromWei(res[1]).toFixed(2)
       const rewards = fromWei(res[2]).toFixed(2)
       setStakingWithoutDelegate({
@@ -195,12 +197,13 @@ export default function StakingView() {
       }
 
       multicallClient(validatorsCallList).then((res2: string[]) => {
-        console.log('res2', res2)
         for (let i = 0, ii = 0; i < validators_.length; i++) {
           const address = validators_[i]
           const apr = fromWei(res2[ii]).toNumber()
-          const apy = (Math.pow(1 + apr, 365) * 100).toFixed(2)
-          const totalSupply = fromWei(res2[ii + 1], 18).toFixed(0)
+          console.log('apr111_', apr)
+          console.log('earn_', res2[ii + 3])
+          const apy = (Math.pow(1 + apr / 365, 365) * 100).toFixed(2)
+          const totalSupply = fromWei(res2[ii + 1], 18).toFixed(6)
           let myStaked = '0'
           let myEarned = '0'
           let myStaked_ = '0'

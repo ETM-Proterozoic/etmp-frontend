@@ -92,7 +92,7 @@ export const Web3SwitchNetwork = styled.button`
     position: absolute;
     left: 0;
     top: 100%;
-    z-index: 1;
+    z-index: 2;
     width: 100%;
     padding-top: 5px;
     .switch-network-list {

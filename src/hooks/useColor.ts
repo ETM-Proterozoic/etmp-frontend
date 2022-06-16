@@ -10,7 +10,7 @@ async function getColorFromToken(token: Token): Promise<string | null> {
     return Promise.resolve('#FAAB14')
   }
 
-  const path = `https://raw.githubusercontent.com/totoroswap/default-token-list/master/icons/${token.address.toLowerCase()}.png`
+  const path = `https://raw.githubusercontent.com/ETM-Proterozoic/swap-default-token-list/main/icons/${token.address.toLowerCase()}.png`
 
   return Vibrant.from(path)
     .getPalette()

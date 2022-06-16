@@ -4,7 +4,7 @@ import { InjectedConnector } from '@web3-react/injected-connector'
 import { multicallConfig } from '../constants/multicall'
 import { ChainId } from '@etmp/sdk'
 export const injected = new InjectedConnector({
-  supportedChainIds: [ChainId.ETMP]
+  supportedChainIds: [ChainId.ETMP, ChainId.ETMPTest, ChainId.RINKEBY]
 })
 export const networkConf = {
   [ChainId.MAINNET]: {
@@ -34,11 +34,23 @@ export const networkConf = {
     },
     rpcUrls: [multicallConfig.rpc[ChainId.ETMPTest].url],
     blockExplorerUrls: ['https://testnet.etmscan.network/']
+  },
+  [97]: {
+    chainId: '0x61',
+    chainName: 'BSC Testnet',
+    nativeCurrency: {
+      name: 'BNB',
+      symbol: 'BNB',
+      decimals: 18
+    },
+    rpcUrls: [multicallConfig.rpc[97].url],
+    blockExplorerUrls: ['https://testnet.bscscan.com/']
   }
 }
 
-export const changeNetwork = chainId =>
-  new Promise(reslove => {
+export const changeNetwork = chainId => {
+  console.log('chainId', chainId)
+  return new Promise(reslove => {
     const { ethereum } = window
     if (ethereum && ethereum.isMetaMask) {
       ethereum
@@ -57,6 +69,7 @@ export const changeNetwork = chainId =>
       reslove()
     }
   })
+}
 
 export const useConnectWallet = () => {
   const { activate, deactivate, active } = useWeb3React()

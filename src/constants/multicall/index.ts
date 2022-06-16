@@ -30,13 +30,17 @@ const rpc: rpcMap = {
     address: ''
   },
   [ChainId.ETMPTest]: {
-    url: 'https://testnet-rpc.etm.network',
-    address: '0xffc5b38A7Dc497ef16121Ac948277a704a79f77b'
+    url: 'https://rpc.pioneer.etm.network/',
+    address: '0x698db914e58d666213bcb1d9bf835f6740affa01'
+  },
+  [97]: {
+    url: 'https://nd-695-514-258.p2pify.com/4fc4c466960bebcaa37f303c66c850ba',
+    address: '0x62ec15a9D2787c73A7807d240f24170Cf10b11dA'
   }
 }
 
 const configData: Config = {
-  defaultChainId: ChainId.RINKEBY,
+  defaultChainId: ChainId.ETMPTest,
   allowFailure: false,
   delay: 100,
   timeout: 20000,
