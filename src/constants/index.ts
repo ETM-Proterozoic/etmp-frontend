@@ -6,6 +6,14 @@ import { injected, walletconnect, walletlink } from '../connectors'
 
 export const ROUTER_ADDRESS = '0x7b09bFaC111D95016c14A67209028B9b88b1fD6C'
 
+export const ROUTER_ADDRESS_MAP: { [propName: string]: string } = {
+  '36': '0x7D491350E3257198D7376A7286A2b771145f5367',
+  '37': '0x7b09bFaC111D95016c14A67209028B9b88b1fD6C'
+}
+export const getRouterContractAddress = (chainId?: number) => {
+  return ROUTER_ADDRESS_MAP[chainId || ChainId.ETMP]
+}
+
 export const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000'
 
 export { PRELOADED_PROPOSALS } from './proposals'
@@ -15,12 +23,13 @@ type ChainTokenList = {
   readonly [chainId in ChainId]: Token[]
 }
 
-export const DAI = new Token(ChainId.BSC, '0x1AF3F329e8BE154074D8769D1FFa4eE058B1DBc3', 18, 'DAI', 'Dai Stablecoin')
-export const USDC = new Token(ChainId.BSC, '0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d', 18, 'USDC', 'USDC')
-export const USDT = new Token(ChainId.BSC, '0x55d398326f99059fF775485246999027B3197955', 18, 'USDT', 'Tether USD')
+export const USDC = new Token(ChainId.ETMP, '0x94C27baBD5166b7AFBc49C5919CA2De57753b4FC', 18, 'USDC', 'USDC')
+export const USDT = new Token(ChainId.ETMP, '0x97B2B4EcF9F620d6bAA57E9095F82801461C8310', 18, 'USDT', 'Tether USD')
+export const ETH = new Token(ChainId.ETMP, '0x2E1AA15B319ef5a270771F538561d0214F2224D5', 18, 'ETH', 'ETH')
+//
 export const BUSD = new Token(ChainId.BSC, '0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56', 18, 'BUSD', 'Binance USD')
+export const DAI = new Token(ChainId.BSC, '0x1AF3F329e8BE154074D8769D1FFa4eE058B1DBc3', 18, 'DAI', 'Dai Stablecoin')
 export const WBTC = new Token(ChainId.BSC, '0x7130d2A12B9BCbFAe4f2634d864A1Ee1Ce3Ead9c', 18, 'BTCB', 'Binance BTC')
-export const ETH = new Token(ChainId.BSC, '0x2170Ed0880ac9A755fd29B2688956BD959F933F8', 18, 'ETH', 'ETH')
 export const WBNB = new Token(ChainId.BSC, '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c', 18, 'WBNB', 'Wrapped BNB')
 
 // Block time here is slightly higher (~1s) than average in order to avoid ongoing proposals past the displayed time
@@ -30,7 +39,7 @@ export const PROPOSAL_LENGTH_IN_SECS = AVERAGE_BLOCK_TIME_IN_SECS * PROPOSAL_LEN
 
 export const TIMELOCK_ADDRESS = '0x73b50dA49C400e4081e92dCBCB397A01dF3497e4'
 
-const TOTORO_ADDRESS = '0xE1d731a9C7A8c599699f7E7c2d8b3e822fAABe76'
+const TOTORO_ADDRESS = '0x6367b00bB18B72Be512efeB275E0f420f2203E11'
 // A pop-up window is displayed in the breakdown of UIN, the voting authorization pop-up window, the management voting page,
 // the prompt box on the right of successful transaction, and the pool displays the liquidity list
 export const UNI: { [chainId in ChainId]: Token } = {
@@ -58,7 +67,8 @@ const WETH_ONLY: ChainTokenList = {
 // Composition is used to construct mediation pairs for transactions
 export const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
   ...WETH_ONLY,
-  [ChainId.BSC]: [...WETH_ONLY[ChainId.BSC], DAI, USDC, USDT, WBTC, ETH]
+  [ChainId.ETMP]: [...WETH_ONLY[ChainId.ETMP], USDC, USDT, ETH],
+  [ChainId.ETMPTest]: [...WETH_ONLY[ChainId.ETMPTest]]
 }
 
 export const ADDITIONAL_BASES: { [chainId in ChainId]?: { [tokenAddress: string]: Token[] } } = {

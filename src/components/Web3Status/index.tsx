@@ -22,6 +22,7 @@ import { RowBetween } from '../Row'
 import WalletModal from '../WalletModal'
 import { FlexCenter } from '../../theme'
 import { changeNetwork } from '../../utils/connectWall'
+import { ChainId } from '@etmp/sdk'
 
 const IconWrapper = styled.div<{ size?: number }>`
   ${({ theme }) => theme.flexColumnNoWrap};
@@ -92,7 +93,7 @@ export const Web3SwitchNetwork = styled.button`
     position: absolute;
     left: 0;
     top: 100%;
-    z-index: 2;
+    z-index: 3;
     width: 100%;
     padding-top: 5px;
     .switch-network-list {
@@ -143,7 +144,7 @@ const Web3StatusError = styled(Web3StatusConnect)`
     outline: none;
   }
   padding: 0 5px;
-  margin-right: 60px;
+  margin-right: 20px;
   background-color: ${({ theme }) => theme.yellow2};
   border-color: ${({ theme }) => theme.yellow2};
   color: ${({ theme }) => theme.white};
@@ -291,6 +292,12 @@ const superNetWork = [
     chainId: 37
   }
 ]
+const netWorkNameMap: { [propsName: string]: string } = {
+  '36': 'Proterozoic',
+  '37': 'Pioneer',
+  '1': 'ETH',
+  '4': 'Rinkeby'
+}
 
 export default function Web3Status() {
   const { active, account, chainId } = useWeb3React()
@@ -314,7 +321,7 @@ export default function Web3Status() {
     <>
       <Web3StatusInner />
       <Web3SwitchNetwork>
-        <span>Proterozoic</span>
+        <span>{netWorkNameMap[chainId || ChainId.ETMP]}</span>
         <img src={ArrowDown} />
         <div className="switch-network">
           <div className="switch-network-list">

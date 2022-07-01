@@ -180,7 +180,7 @@ export default function WalletModal({
 
   useEffect(() => {
     if (error instanceof UnsupportedChainIdError && walletModalOpen) {
-      changeNetwork(ChainId.ETMPTest).then(() => {
+      changeNetwork(ChainId.ETMP).then(() => {
         toggleWalletModal()
       })
     }
@@ -328,7 +328,7 @@ export default function WalletModal({
             {error instanceof UnsupportedChainIdError ? (
               <h5>
                 Please connect to the appropriate{' '}
-                <strong style={{ cursor: 'pointer', color: '#017BFF' }} onClick={() => changeNetwork(ChainId.ETMPTest)}>
+                <strong style={{ cursor: 'pointer', color: '#017BFF' }} onClick={() => changeNetwork(ChainId.ETMP)}>
                   ETM/P
                 </strong>{' '}
                 network.

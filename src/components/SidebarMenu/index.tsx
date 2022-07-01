@@ -8,9 +8,9 @@ import stakingOn from '../../assets/svg/menu/staking-on.svg'
 import tokenswapOff from '../../assets/svg/menu/tokenswap-off.svg'
 import tokenswapOffDark from '../../assets/svg/menu/tokenswap-off-dark.svg'
 import tokenswapOn from '../../assets/svg/menu/tokenswap-on.svg'
-import footerIcon from '../../assets/svg/menu/footer-icon.svg'
-import footerIconDark from '../../assets/svg/menu/footer-icon-dark.svg'
-import { SidebarMenuView, MenuItem, ShowSmall, HideSmall, MenuIcon } from './style'
+import SafeIcon from '../../assets/svg/menu/safe.svg'
+// import footerIconDark from '../../assets/svg/menu/footer-icon-dark.svg'
+import { SidebarMenuView, MenuItem, ShowSmall, HideSmall, MenuIcon, MenuItemA } from './style'
 import Drawer from '../Drawer'
 import { useCloseModals, useModalOpen } from '../../state/application/hooks'
 import { ApplicationModal } from '../../state/application/actions'
@@ -49,6 +49,14 @@ export default function SidebarMenu() {
       },
       name: 'Token Swap',
       route: '/swap'
+    },
+    {
+      icon: {
+        off: SafeIcon,
+        on: SafeIcon
+      },
+      name: 'Safe',
+      href: 'https://safe.etm.network/'
     }
     // {
     //   icon: ,
@@ -61,17 +69,20 @@ export default function SidebarMenu() {
     return (
       <SidebarMenuView>
         <div className="menu-list">
-          {sidebarMenuList.map((item, index) => (
-            <MenuItem key={index} to={item.route} onClick={() => (drawer ? toggle() : null)} src={item.icon.on}>
-              <MenuIcon src={item.icon.off} />
-              <span>{item.name}</span>
-            </MenuItem>
-          ))}
+          {sidebarMenuList.map((item, index) =>
+            item.href ? (
+              <MenuItemA href={item.href} target="_blank">
+                <MenuIcon src={item.icon.off} />
+                <span>{item.name}</span>
+              </MenuItemA>
+            ) : (
+              <MenuItem key={index} to={item.route || ''} onClick={() => (drawer ? toggle() : null)} src={item.icon.on}>
+                <MenuIcon src={item.icon.off} />
+                <span>{item.name}</span>
+              </MenuItem>
+            )
+          )}
         </div>
-        <a href={'https://testnet-app.etm3.com/'} target="_blank" className="menu-footer" rel="noreferrer">
-          <img src={isDark ? footerIconDark : footerIcon} alt="" />
-          Dev Testnet
-        </a>
       </SidebarMenuView>
     )
   }

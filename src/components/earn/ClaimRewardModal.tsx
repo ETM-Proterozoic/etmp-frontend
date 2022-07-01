@@ -24,6 +24,7 @@ interface StakingModalProps {
 }
 
 export default function ClaimRewardModal({ isOpen, onDismiss, stakingInfo }: StakingModalProps) {
+  console.log('stakingInfo', stakingInfo)
   const { account } = useActiveWeb3React()
 
   // monitor call to help UI loading state

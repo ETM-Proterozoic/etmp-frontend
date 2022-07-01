@@ -5,7 +5,7 @@ import ReactGA from 'react-ga'
 import { Text } from 'rebass'
 import styled, { ThemeContext } from 'styled-components'
 import AddressInputPanel from '../../components/AddressInputPanel'
-import { ButtonError, ButtonPrimary, ButtonConfirmed, TButtonPrimary } from '../../components/Button'
+import { ButtonConfirmed, ButtonError, ButtonPrimary, TButtonPrimary } from '../../components/Button'
 import Card, { GreyCard } from '../../components/Card'
 import Column, { AutoColumn } from '../../components/Column'
 import ConfirmSwapModal from '../../components/swap/ConfirmSwapModal'
@@ -24,7 +24,7 @@ import SwapHeader from '../../components/swap/SwapHeader'
 // import { INITIAL_ALLOWED_SLIPPAGE } from '../../constants'
 import { getTradeVersion } from '../../data/V1'
 import { useActiveWeb3React } from '../../hooks'
-import { useCurrency, useAllTokens } from '../../hooks/Tokens'
+import { useAllTokens, useCurrency } from '../../hooks/Tokens'
 import { ApprovalState, useApproveCallbackFromTrade } from '../../hooks/useApproveCallback'
 import useENSAddress from '../../hooks/useENSAddress'
 import { useSwapCallback } from '../../hooks/useSwapCallback'
@@ -38,7 +38,7 @@ import {
   useSwapActionHandlers,
   useSwapState
 } from '../../state/swap/hooks'
-import { useExpertModeManager, useUserSlippageTolerance, useUserSingleHopOnly } from '../../state/user/hooks'
+import { useExpertModeManager, useUserSingleHopOnly, useUserSlippageTolerance } from '../../state/user/hooks'
 import { FlexCenter, LinkStyledButton, TYPE } from '../../theme'
 import { maxAmountSpend } from '../../utils/maxAmountSpend'
 import { computeTradePriceBreakdown, warningSeverity } from '../../utils/prices'
@@ -56,6 +56,7 @@ import Web3 from 'web3'
 import { TOTORO_TOKEN_INFO } from '../../constants'
 import { ReactComponent as ArrowDownSvg } from '../../assets/svg/arrow_down.svg'
 import SwapBG from '../../components/SwapBG'
+import { changeNetwork } from '../../utils/connectWall'
 
 export const MarginT = styled.div`
   margin-top: 0.75rem;
@@ -115,7 +116,7 @@ export default function Swap({ history }: RouteComponentProps) {
       return !Boolean(token.address in defaultTokens)
     })
 
-  const { account } = useActiveWeb3React()
+  const { account, chainId } = useActiveWeb3React()
   const theme = useContext(ThemeContext)
 
   // toggle wallet when disconnected
@@ -521,6 +522,10 @@ export default function Swap({ history }: RouteComponentProps) {
             ) : !account ? (
               <TButtonPrimary onClick={toggleWalletModal} height="48px">
                 Connect Wallet
+              </TButtonPrimary>
+            ) : !chainId || ![ChainId.ETMP, ChainId.ETMPTest].includes(chainId) ? (
+              <TButtonPrimary onClick={() => changeNetwork(ChainId.ETMP)} height="48px">
+                Switch Network
               </TButtonPrimary>
             ) : showWrap ? (
               <ButtonPrimary disabled={Boolean(wrapInputError)} onClick={onWrap}>

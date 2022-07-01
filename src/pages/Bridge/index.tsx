@@ -40,13 +40,24 @@ const chainNameMap: {
     name: 'ETMP Testchain'
   }
 }
-
+const superChainIds: {
+  [propsName: string]: number
+} = {
+  '1': 1,
+  '4': 4,
+  '36': 36,
+  '37': 37
+}
 const getBridgeAddress = (chainId?: number) => {
   switch (chainId) {
     case ChainId.RINKEBY:
       return '0x280A50Fa8f2c1Ad50b95773ED884817F40Da3E47'
     case ChainId.ETMPTest:
       return '0x13e986488675697c8E1e5A96bd2D142CfB6f51FC'
+    case ChainId.ETMP:
+      return '0x6D247f3f66866A57308d0c588079eD8f86a7e180'
+    case ChainId.MAINNET:
+      return '0x6367b00bB18B72Be512efeB275E0f420f2203E11'
   }
   return '0x13e986488675697c8E1e5A96bd2D142CfB6f51FC'
 }
@@ -57,6 +68,10 @@ const getErc20HandlerAddress = (chainId?: number) => {
       return '0xd8277e6E465d83D1113eD3426cfEd0787Ee6993c'
     case ChainId.ETMPTest:
       return '0xaE6e282e2a730D74233Dbbf2D8d0b7b3015fd94d'
+    case ChainId.ETMP:
+      return '0x11e7564dd419495630a4429457b49E58D5EF3831'
+    case ChainId.MAINNET:
+      return '0x698DB914E58d666213bCB1D9Bf835F6740affA01'
   }
   return '0xaE6e282e2a730D74233Dbbf2D8d0b7b3015fd94d'
 }
@@ -64,104 +79,38 @@ const getErc20HandlerAddress = (chainId?: number) => {
 interface SupperChainIds {
   [propName: string]: number[]
 }
-const supperChainIds: SupperChainIds = {
-  from: [ChainId.ETMPTest, ChainId.RINKEBY],
-  to: [ChainId.ETMPTest, ChainId.RINKEBY]
+
+const DEFAULT_SUPPER_BRIDGE_CHAINIDS: SupperChainIds = {
+  from: [ChainId.MAINNET, ChainId.ETMP],
+  to: [ChainId.MAINNET, ChainId.ETMP]
+}
+
+const SUPPER_BRIDGE_CHAINIDS: {
+  [propsName: string]: SupperChainIds
+} = {
+  '1': {
+    from: [ChainId.MAINNET, ChainId.ETMP],
+    to: [ChainId.MAINNET, ChainId.ETMP]
+  },
+  '36': {
+    from: [ChainId.MAINNET, ChainId.ETMP],
+    to: [ChainId.MAINNET, ChainId.ETMP]
+  },
+  '4': {
+    from: [ChainId.ETMPTest, ChainId.RINKEBY],
+    to: [ChainId.ETMPTest, ChainId.RINKEBY]
+  },
+  '37': {
+    from: [ChainId.ETMPTest, ChainId.RINKEBY],
+    to: [ChainId.ETMPTest, ChainId.RINKEBY]
+  }
 }
 
 interface FromConfig {
   [propsName: string]: any
 }
 
-/*const fromConfig: FromConfig[] = [
-  {
-    symbol: 'ETH',
-    chainId: ChainId.RINKEBY,
-    nativos: true,
-    tokenBelong: ChainId.RINKEBY,
-    address: '0xffffffffffffffffffffffffffffffffffffffff',
-    decimals: 18,
-    correspondAddress: {
-      [ChainId.ETMPTest]: {
-        symobl: 'WETH',
-        address: '0x678Fa5e07AEbf02993B3A48E8be6E5170F231b67'
-      }
-    }
-  },
-  {
-    symbol: 'WETH',
-    chainId: ChainId.ETMPTest,
-    nativos: false,
-    address: '0x678Fa5e07AEbf02993B3A48E8be6E5170F231b67',
-    decimals: 18,
-    tokenBelong: ChainId.RINKEBY,
-    correspondAddress: {
-      [ChainId.RINKEBY]: {
-        symobl: 'ETMP',
-        nativos: true,
-        address: '0xffffffffffffffffffffffffffffffffffffffff'
-      }
-    }
-  },
-  {
-    symbol: 'ETMP',
-    chainId: ChainId.ETMPTest,
-    address: '0xffffffffffffffffffffffffffffffffffffffff',
-    decimals: 18,
-    nativos: true,
-    tokenBelong: ChainId.ETMPTest,
-    correspondAddress: {
-      [ChainId.RINKEBY]: {
-        symbol: 'WETMP',
-        address: '0x678Fa5e07AEbf02993B3A48E8be6E5170F231b67'
-      }
-    }
-  },
-  {
-    symbol: 'WETMP',
-    chainId: ChainId.RINKEBY,
-    address: '0x678Fa5e07AEbf02993B3A48E8be6E5170F231b67',
-    decimals: 18,
-    nativos: false,
-    tokenBelong: ChainId.ETMPTest,
-    correspondAddress: {
-      [ChainId.ETMPTest]: {
-        symbol: 'ETMP',
-        nativos: true,
-        address: '0xffffffffffffffffffffffffffffffffffffffff'
-      }
-    }
-  },
-  {
-    symbol: 'ERC20Custom',
-    chainId: ChainId.RINKEBY,
-    address: '0x6DD5BeF6Ca6350368e6C5167cB71B933940dC52f',
-    decimals: 18,
-    tokenBelong: ChainId.ETMPTest,
-    correspondAddress: {
-      [ChainId.ETMPTest]: {
-        symbol: 'ERC20Custom',
-        address: '0x6DD5BeF6Ca6350368e6C5167cB71B933940dC52f'
-      }
-    },
-    nativos: false
-  },
-  {
-    symbol: 'ERC20Custom',
-    chainId: ChainId.ETMPTest,
-    address: '0x6DD5BeF6Ca6350368e6C5167cB71B933940dC52f',
-    decimals: 18,
-    tokenBelong: ChainId.ETMPTest,
-    correspondAddress: {
-      [ChainId.RINKEBY]: {
-        symbol: 'ERC20Custom',
-        address: '0x6DD5BeF6Ca6350368e6C5167cB71B933940dC52f'
-      }
-    },
-    nativos: false
-  }
-]*/
-const fromConfig: FromConfig[] = [
+const fromConfigTest: FromConfig[] = [
   {
     symbol: 'ETMP',
     chainId: ChainId.RINKEBY,
@@ -306,15 +255,153 @@ const fromConfig: FromConfig[] = [
   }
 ]
 
-const fromConfigMap = fromConfig.reduce((map: { [propName: string]: any }, item) => {
+const fromConfigMain: FromConfig[] = [
+  {
+    symbol: 'ETMP',
+    chainId: ChainId.MAINNET,
+    address: '0x584E118C3E75873965D1152153A9f1e7733ab022',
+    decimals: 18,
+    tokenBelong: ChainId.ETMP,
+    correspondAddress: {
+      [ChainId.ETMP]: {
+        symbol: 'ETMP',
+        address: ADDRESS_INFINITE,
+        nativos: true
+      }
+    },
+    nativos: false
+  },
+  {
+    symbol: 'ETMP',
+    chainId: ChainId.ETMPTest,
+    address: ADDRESS_INFINITE,
+    decimals: 18,
+    tokenBelong: ChainId.ETMP,
+    correspondAddress: {
+      [ChainId.ETMP]: {
+        symbol: 'ETMP',
+        address: '0x584E118C3E75873965D1152153A9f1e7733ab022'
+      }
+    },
+    nativos: true
+  },
+  {
+    symbol: 'ETH',
+    chainId: ChainId.MAINNET,
+    tokenBelong: ChainId.MAINNET,
+    address: ADDRESS_INFINITE,
+    decimals: 18,
+    correspondAddress: {
+      [ChainId.MAINNET]: {
+        symobl: 'ETH',
+        address: '0x2E1AA15B319ef5a270771F538561d0214F2224D5'
+      }
+    },
+    nativos: true
+  },
+  {
+    symbol: 'ETH',
+    chainId: ChainId.ETMP,
+    address: '0x2E1AA15B319ef5a270771F538561d0214F2224D5',
+    decimals: 18,
+    tokenBelong: ChainId.MAINNET,
+    correspondAddress: {
+      [ChainId.MAINNET]: {
+        symobl: 'ETH',
+        nativos: true,
+        address: ADDRESS_INFINITE
+      }
+    },
+    nativos: false
+  },
+  {
+    symbol: 'USDC',
+    chainId: ChainId.MAINNET,
+    address: '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48',
+    decimals: 18,
+    tokenBelong: ChainId.MAINNET,
+    correspondAddress: {
+      [ChainId.ETMP]: {
+        symbol: 'USDC',
+        address: '0x94C27baBD5166b7AFBc49C5919CA2De57753b4FC'
+      }
+    },
+    nativos: false
+  },
+  {
+    symbol: 'USDC',
+    chainId: ChainId.ETMP,
+    address: '0x94C27baBD5166b7AFBc49C5919CA2De57753b4FC',
+    decimals: 18,
+    tokenBelong: ChainId.MAINNET,
+    correspondAddress: {
+      [ChainId.RINKEBY]: {
+        symbol: 'USDC',
+        address: '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48'
+      }
+    },
+    nativos: false
+  },
+  {
+    symbol: 'USDT',
+    chainId: ChainId.MAINNET,
+    address: '0xdAC17F958D2ee523a2206206994597C13D831ec7',
+    decimals: 18,
+    tokenBelong: ChainId.MAINNET,
+    correspondAddress: {
+      [ChainId.ETMP]: {
+        symbol: 'USDT',
+        address: '0x97B2B4EcF9F620d6bAA57E9095F82801461C8310'
+      }
+    },
+    nativos: false
+  },
+  {
+    symbol: 'USDT',
+    chainId: ChainId.ETMP,
+    address: '0x97B2B4EcF9F620d6bAA57E9095F82801461C8310',
+    decimals: 18,
+    tokenBelong: ChainId.MAINNET,
+    correspondAddress: {
+      [ChainId.MAINNET]: {
+        symbol: 'USDT',
+        address: '0xdAC17F958D2ee523a2206206994597C13D831ec7'
+      }
+    },
+    nativos: false
+  }
+]
+
+const getBridgeTokenConfig = (chainId: number) => {
+  switch (chainId) {
+    case ChainId.RINKEBY:
+    case ChainId.ETMPTest:
+      return fromConfigTest
+    case ChainId.ETMP:
+    case ChainId.MAINNET:
+      return fromConfigMain
+    default:
+      return fromConfigMain
+  }
+}
+
+const fromConfigMap = [...fromConfigTest, ...fromConfigMain].reduce((map: { [propName: string]: any }, item) => {
   map[`${item.chainId}_${item.address}`] = item
   return map
 }, {})
 
-function FromChainList({ direction, onChange }: { direction: string; onChange: Function }) {
+function FromChainList({
+  direction,
+  onChange,
+  bridgeChainIds
+}: {
+  direction: string
+  onChange: Function
+  bridgeChainIds: SupperChainIds
+}) {
   return (
     <ChainListView>
-      {supperChainIds[direction].map((chain: number) => (
+      {bridgeChainIds[direction].map((chain: number) => (
         <div key={chain} onClick={() => onChange(chain)}>
           <img src={chainNameMap[chain].icon} alt="" />
           <span>{chainNameMap[chain].name}</span>
@@ -327,15 +414,17 @@ function FromChainList({ direction, onChange }: { direction: string; onChange: F
 function ToChainList({
   fromChainId,
   fromToken,
-  onChange
+  onChange,
+  bridgeChainIds
 }: {
   fromChainId: number
   fromToken: string
   onChange: Function
+  bridgeChainIds: SupperChainIds
 }) {
   return (
     <ChainListView>
-      {supperChainIds.to.map((chain: number) => {
+      {bridgeChainIds.to.map((chain: number) => {
         if (fromConfigMap[`${fromChainId}_${fromToken}`].correspondAddress[chain]) {
           return (
             <div key={chain} onClick={() => onChange(chain)}>
@@ -350,10 +439,18 @@ function ToChainList({
   )
 }
 
-function FromTokenList({ chainId, onChange }: { chainId: number; onChange: Function }) {
+function FromTokenList({
+  chainId,
+  onChange,
+  fromConfig
+}: {
+  chainId: number
+  onChange: Function
+  fromConfig: FromConfig
+}) {
   return (
     <TokenListView>
-      {fromConfig.map((item, index) => {
+      {fromConfig.map((item: any, index: number) => {
         if (item.chainId === chainId) {
           return (
             <div key={index} onClick={() => onChange(item.address)}>
@@ -370,6 +467,12 @@ function FromTokenList({ chainId, onChange }: { chainId: number; onChange: Funct
 export default function BridgePage() {
   const [isDark] = useDarkModeManager()
   const { library, account, chainId } = useActiveWeb3React()
+  // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+  // @ts-ignore
+  const callChainId = useMemo(() => superChainIds[chainId] || ChainId.ETMP, [chainId])
+  console.log('callChainId', callChainId, chainId)
+  const fromConfig = useMemo(() => getBridgeTokenConfig(callChainId), [callChainId])
+  const bridgeChainIds = SUPPER_BRIDGE_CHAINIDS[callChainId] || DEFAULT_SUPPER_BRIDGE_CHAINIDS
   const [loading, setLoading] = useState(false)
   const [fromChainId, setFromChainId] = useState<number>(chainId || ChainId.MAINNET)
   const [toChainId, setToChainId] = useState<number>(0)
@@ -389,7 +492,9 @@ export default function BridgePage() {
         const contract = newContract(ERC20_ABI, fromConfig[i].address, fromConfig[i].chainId)
         promiseList.push(multicallClient([contract.balanceOf(account)]).then((res: string[]) => res[0]))
         promiseList.push(
-          multicallClient([contract.allowance(account, getErc20HandlerAddress(fromConfig[i].chainId))]).then((res: string[]) => res[0])
+          multicallClient([contract.allowance(account, getErc20HandlerAddress(fromConfig[i].chainId))]).then(
+            (res: string[]) => res[0]
+          )
         )
       }
     }
@@ -420,7 +525,6 @@ export default function BridgePage() {
       fromConfigMap[`${fromChainId}_${fromToken}`].nativos ||
       fromConfigMap[`${fromChainId}_${fromToken}`].correspondAddress[toChainId]?.nativos
 
-
     const tokenBelong = fromConfigMap[`${fromChainId}_${fromToken}`].tokenBelong
     const resourceAddress = involveNativos
       ? ADDRESS_INFINITE
@@ -429,7 +533,6 @@ export default function BridgePage() {
       : fromToken
 
     const resourceId = ethers.utils.hexZeroPad(resourceAddress + ethers.utils.hexlify(tokenBelong).substr(2), 32)
-
 
     console.log('resourceAddress', resourceAddress, fromChainId, fromToken, tokenBelong, resourceId)
 
@@ -504,7 +607,13 @@ export default function BridgePage() {
             <div>
               <Popover
                 placement="bottom"
-                content={<FromChainList direction="from" onChange={(chain: number) => setFromChainId(chain)} />}
+                content={
+                  <FromChainList
+                    direction="from"
+                    onChange={(chain: number) => setFromChainId(chain)}
+                    bridgeChainIds={bridgeChainIds}
+                  />
+                }
               >
                 <div className="chain-show">
                   <img src={chainNameMap[fromChainId].icon} alt="" />
@@ -524,7 +633,13 @@ export default function BridgePage() {
             <div>
               <Popover
                 placement="bottom"
-                content={<FromTokenList chainId={fromChainId} onChange={(token: string) => setFromToken(token)} />}
+                content={
+                  <FromTokenList
+                    chainId={fromChainId}
+                    onChange={(token: string) => setFromToken(token)}
+                    fromConfig={fromConfig}
+                  />
+                }
               >
                 <span style={{ cursor: 'pointer' }}>{fromConfigMap[`${fromChainId}_${fromToken}`]?.symbol}</span>
               </Popover>
@@ -554,6 +669,7 @@ export default function BridgePage() {
                 fromChainId={fromChainId}
                 fromToken={fromToken}
                 onChange={(chain: number) => setToChainId(chain)}
+                bridgeChainIds={bridgeChainIds}
               />
             }
           >

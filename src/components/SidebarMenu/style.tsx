@@ -55,6 +55,22 @@ export const MenuItem = styled(NavLink)<{ src: any }>`
     }
   }
 `
+export const MenuItemA = styled.a`
+  ${() => FlexCenterH}
+  height: 44px;
+  text-decoration: none;
+  background: ${({ theme }) => theme.bg1};
+  color: ${({ theme }) => theme.text1};
+  font-weight: 500;
+  border-radius: 8px;
+  margin: 20px 0px;
+  & > div {
+    margin: 0 12px 0 16px;
+  }
+  &:hover {
+    color: ${({ theme }) => theme.primary1};
+  }
+`
 
 export const MenuIcon = styled.div<{ src: any }>`
   width: 24px;

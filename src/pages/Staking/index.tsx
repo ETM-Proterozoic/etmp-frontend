@@ -1,50 +1,92 @@
 import React, { useMemo, useState } from 'react'
-import { BtnMoreMenu, StakingPage, CoverTo } from './style'
+import { BtnMoreMenu, CoverTo, StakingPage } from './style'
 import InfoIcon from '../../assets/svg/staking/info-icon.svg'
 import BannerBg from '../../assets/svg/staking/banner-bg.png'
 // import ArrowR from '../../assets/svg/staking/arrow-right.svg'
 import MoreSvg from '../../assets/svg/staking/more.svg'
 import MoreDarkSvg from '../../assets/svg/staking/more-dark.svg'
-import { newContract, multicallClient, multicallConfig } from '../../constants/multicall/index'
+import { multicallClient, multicallConfig, newContract } from '../../constants/multicall/index'
 import { useActiveWeb3React } from '../../hooks'
-// import StakingAbi from '../../constants/abis/Staking.json'
 import DPOSAbi from '../../constants/abis/DPOS.json'
+import StakingAbi from '../../constants/abis/Staking.json'
 import DposMineAbi from '../../constants/abis/DposMine.json'
 import { formatAddress, fromWei, numToWei, toFormat } from '../../utils/format'
 import { getWeb3Contract } from '../../utils'
 import { Input, message, Modal, Popover, Tooltip } from 'antd'
 import { ADDRESS_INFINITE, ZERO_ADDRESS } from '../../constants'
 import { useDarkModeManager } from '../../state/user/hooks'
-// import BigNumber from 'bignumber.js'
-//
-// const Staking = {
-//   address: '0x0000000000000000000000000000000000001001', // '0x230761E165EC7f6A46B42CCba786bFC0856F4C41',
-//   abi: StakingAbi
-// }
-const DPosMine = {
-  address: '0x282D78cb6d8471Fb54D8dCEA005067C50E9Ce702',
-  abi: DposMineAbi
-}
-const DPOS = {
-  address: '0x062170863e2f6284ec1C43016Bf0CCEF3d2bf2aC',
-  abi: DPOSAbi
+import { ChainId } from '@etmp/sdk'
+import lodash from 'lodash'
+
+const superChainIds: {
+  [propsName: string]: number
+} = {
+  '36': 36,
+  '37': 37
+  // '1': 1,
+  // '4': 4
 }
 
-const defaultValidators = [
-  "0x304d4303B403b15A2dCcEa36cB7Ad2d0FEA4B156",
-  "0x9007075ac4c90ADC70011813851e69fA85FA11B9",
-  "0xb1bb5DE2EA0F96ebeCF7f2d3A31E5f2B787E46A9",
-  "0x44cBbEa578a5f0b4afE25982130b1e123A9ca9dB",
-  "0x37BE1eF6a924C62077745b229D3b6e45441be143",
-  "0x266578098c78B0cF335eC9e3066BA9caC4bc2115",
-  "0xc8F2Fd8FbAc7307277C6b0010549fc322efC1962",
-  "0x10C1793852C2162825336813D9C2E28Cd849bfad",
-  "0x2dCF21F18d1828904A029141F54b7473063c32Ac"
+const STAKING_ADDRESS: {
+  [propsName: string]: string
+} = {
+  '37': '0x0000000000000000000000000000000000001001',
+  '36': '0x0000000000000000000000000000000000001001'
+}
+
+const DPOS_MINE_ADDRESS: {
+  [propsName: string]: string
+} = {
+  '37': '0x282D78cb6d8471Fb54D8dCEA005067C50E9Ce702',
+  '36': '0x5a76Cbdbc39e42CEa6C25E26Ca1B83f634074a0a'
+}
+
+const DPOS_ADDRESS: {
+  [propsName: string]: string
+} = {
+  '36': '0x5d0e45ADC36cE397c27A95D376a753f9d7b01c9F',
+  '37': '0x062170863e2f6284ec1C43016Bf0CCEF3d2bf2aC'
+}
+
+const DEFAULT_VALIDATORS: {
+  [propsName: string]: Array<string>
+} = {
+  '36': [
+    '0x7D409286BC68144fb4Aa0fEdfBd886d896fA2a86',
+    '0x653b492bb119689e33C3c8Ace65c29B9B0F8Dd26',
+    '0x224b67B83301ddb7138Ed2A83CfAF551b40be72A',
+    '0x125cCfFAd7D46408b20C9b13e1273F1FC6799C12',
+    '0xE85e78eF441e2B48330e7a14000615B3f482CB87',
+    '0xe0207E244C854b7898710511b53AeE0E40ED21B1',
+    '0x3BAcAe6565c8034ef4C2DF088349b90ed3BaB256',
+    '0x148b38b973f35afC9f9879d317EC49281dFf27D6',
+    '0xd9aace7C886895539bD3d76B524f83D8E8a8559D',
+    '0x0c4d9a7f753Ac0f0cce88EdEAc31A41211823981',
+    '0xcf81F23210B7B489d2e1113A430d67C92c478aFd',
+    '0xed6BD81b2b0de50bD9804d616B38F9d5b8FB279b',
+    '0xD003C3497AfDd0bceAdd9Cc54dAEccEb5f4dA500',
+    '0x5563A4230590235948593DBf6d5963Abab614473',
+    '0xA22A37b2b36639Ea2DA817E522d7deA023998CB1',
+    '0xfbB0aBD9E7C34Bde575aAF50f7D48ac37a065d2c',
+    '0xFc40833399e82976426C7328c426381e4c8e2414',
+    '0xfF15bFc3888Ef98D752ffE74cE6dFA48C4E00Db2',
+    '0xF00b25F4688060180E830a90F999230C032CdfD0',
+    '0xcd086Ae3A3D47b24bB5d7aF1B2673DF92C70Fc7C',
+    '0x4d281E65d3dDc14b580B98Bd4F51C790474C611C'
+  ],
+  '37': [
+    '0x304d4303B403b15A2dCcEa36cB7Ad2d0FEA4B156',
+    '0x9007075ac4c90ADC70011813851e69fA85FA11B9',
+    '0xb1bb5DE2EA0F96ebeCF7f2d3A31E5f2B787E46A9',
+    '0x44cBbEa578a5f0b4afE25982130b1e123A9ca9dB',
+    '0x37BE1eF6a924C62077745b229D3b6e45441be143',
+    '0x266578098c78B0cF335eC9e3066BA9caC4bc2115',
+    '0xc8F2Fd8FbAc7307277C6b0010549fc322efC1962',
+    '0x10C1793852C2162825336813D9C2E28Cd849bfad',
+    '0x2dCF21F18d1828904A029141F54b7473063c32Ac'
   ]
+}
 
-const dposContract = newContract(DPOS.abi, DPOS.address, multicallConfig.defaultChainId)
-console.log('dposContract', dposContract)
-const dposMineContract = newContract(DPosMine.abi, DPosMine.address, multicallConfig.defaultChainId)
 interface ValidatorsData {
   address: string
   logo: string
@@ -109,7 +151,15 @@ function CoverToView({
 }
 
 export default function StakingView() {
-  const { account, library } = useActiveWeb3React()
+  const { account, library, chainId } = useActiveWeb3React()
+  // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+  // @ts-ignore
+  const callChainId = useMemo(() => superChainIds[chainId] || ChainId.ETMP, [chainId])
+  const dposMainAddress = DPOS_MINE_ADDRESS[callChainId]
+  const dposAddress = DPOS_ADDRESS[callChainId]
+  const defaultValidators = DEFAULT_VALIDATORS[callChainId]
+  const stakingAddress = STAKING_ADDRESS[callChainId]
+
   const [blockNumber, setBlockNumber] = useState<string>('')
   const [validatorsData, setValidatorsData] = useState<ValidatorsData[]>([])
   const [compoundLoading, setCompoundLoading] = useState<boolean>(false)
@@ -133,7 +183,6 @@ export default function StakingView() {
     rewards: '0',
     rewards_: '0'
   })
-  console.log('stakingWithoutDelegate', stakingWithoutDelegate)
   const calcMyStaking = () => {
     let myAllStaking = 0
     let myAllRewards = 0
@@ -149,15 +198,14 @@ export default function StakingView() {
   const { myAllStaking, myAllRewards } = calcMyStaking()
 
   const getStakingWithoutDelegate = () => {
+    const dposContract = newContract(DPOSAbi, dposAddress, callChainId)
     const calls = [
       dposContract.APR(ADDRESS_INFINITE),
       dposContract.balanceOf(ADDRESS_INFINITE, account),
       dposContract.earned(ADDRESS_INFINITE, account)
     ]
     multicallClient(calls).then((res: any) => {
-      // console.log(res)
       const apr = fromWei(res[0]).toNumber()
-      console.log('apr1111___', apr)
       const apy = (Math.pow(1 + apr / 365, 365) * 100).toFixed(2)
       const staked = fromWei(res[1]).toFixed(2)
       const rewards = fromWei(res[2]).toFixed(2)
@@ -173,15 +221,16 @@ export default function StakingView() {
   }
 
   const getValidators = () => {
+    const dposMineContract = newContract(DposMineAbi, dposMainAddress, callChainId)
+    const dposContract = newContract(DPOSAbi, dposAddress, callChainId)
+    const stakingContract = newContract(StakingAbi, stakingAddress, callChainId)
     const calls = [
-      // stakingContract.validators(),
       dposContract.totalSupply(),
-      dposMineContract.balanceOf(ADDRESS_INFINITE)
+      dposMineContract.balanceOf(ADDRESS_INFINITE),
+      stakingContract.validators()
     ]
-    console.log('calls', calls)
     multicallClient(calls).then(async (res: any) => {
-      console.log('getValidators', res)
-      const validators_ = defaultValidators // [...res[0], ...defaultValidators]
+      const validators_ = lodash.uniq([...res[2], ...defaultValidators])
       setTotalData({
         totalSupply: fromWei(res[0], 18).toFixed(0),
         totalReward: fromWei(res[1], 18).toFixed(0)
@@ -200,8 +249,6 @@ export default function StakingView() {
         for (let i = 0, ii = 0; i < validators_.length; i++) {
           const address = validators_[i]
           const apr = fromWei(res2[ii]).toNumber()
-          console.log('apr111_', apr)
-          console.log('earn_', res2[ii + 3])
           const apy = (Math.pow(1 + apr / 365, 365) * 100).toFixed(2)
           const totalSupply = fromWei(res2[ii + 1], 18).toFixed(6)
           let myStaked = '0'
@@ -229,7 +276,6 @@ export default function StakingView() {
             myEarned_
           })
         }
-        console.log('validatorsData', validators)
         setValidatorsData(validators)
       })
     })
@@ -237,7 +283,7 @@ export default function StakingView() {
   const getBlockHeight = () => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
     // @ts-ignore
-    multicallClient.getBlockInfo(multicallConfig.defaultChainId).then((res: any) => {
+    multicallClient.getBlockInfo(callChainId).then((res: any) => {
       setBlockNumber(res.number)
     })
   }
@@ -253,7 +299,7 @@ export default function StakingView() {
       return
     }
     setCompoundLoading(true)
-    const contract = getWeb3Contract(library, DPOS.abi, DPOS.address)
+    const contract = getWeb3Contract(library, DPOSAbi, dposAddress)
     contract.methods
       .compoundAll(ADDRESS_INFINITE)
       .send({
@@ -272,9 +318,8 @@ export default function StakingView() {
       return
     }
     setStakeLoading(true)
-    const contract = getWeb3Contract(library, DPOS.abi, DPOS.address)
+    const contract = getWeb3Contract(library, DPOSAbi, dposAddress)
     const stakeValue_ = numToWei(stakeValue, 18)
-    console.log(stakeDelegate, stakeValue_)
     contract.methods
       .stake(stakeDelegate)
       .send({
@@ -294,8 +339,7 @@ export default function StakingView() {
     if (Number(value) < 0) {
       return
     }
-    const contract = getWeb3Contract(library, DPOS.abi, DPOS.address)
-    console.log(value)
+    const contract = getWeb3Contract(library, DPOSAbi, dposAddress)
     contract.methods
       .withdraw(delegate, value)
       .send({
@@ -315,7 +359,7 @@ export default function StakingView() {
     if (Number(value) <= 0) {
       return message.warn('Currently no staking')
     }
-    const contract = getWeb3Contract(library, DPOS.abi, DPOS.address)
+    const contract = getWeb3Contract(library, DPOSAbi, dposAddress)
     contract.methods
       .transfer(delegate, toDelegate, value)
       .send({
@@ -331,14 +375,14 @@ export default function StakingView() {
   }
   useMemo(() => {
     getBlockHeight()
-  }, [update])
+  }, [update, callChainId])
   useMemo(() => {
     getValidators()
     if (account) {
       getStakingWithoutDelegate()
       getETHBalance()
     }
-  }, [account, update])
+  }, [account, callChainId, update])
   return (
     <StakingPage>
       <div className="staking-page">

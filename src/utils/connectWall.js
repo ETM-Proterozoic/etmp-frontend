@@ -4,7 +4,7 @@ import { InjectedConnector } from '@web3-react/injected-connector'
 import { multicallConfig } from '../constants/multicall'
 import { ChainId } from '@etmp/sdk'
 export const injected = new InjectedConnector({
-  supportedChainIds: [ChainId.ETMP, ChainId.ETMPTest, ChainId.RINKEBY]
+  supportedChainIds: [ChainId.ETMPTest, ChainId.RINKEBY, ChainId.MAINNET, ChainId.ETMP]
 })
 export const networkConf = {
   [ChainId.MAINNET]: {

@@ -27,7 +27,7 @@ const rpc: rpcMap = {
   },
   [ChainId.ETMP]: {
     url: 'https://rpc.etm.network/',
-    address: ''
+    address: '0xE1d731a9C7A8c599699f7E7c2d8b3e822fAABe76'
   },
   [ChainId.ETMPTest]: {
     url: 'https://rpc.pioneer.etm.network/',
