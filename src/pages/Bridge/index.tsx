@@ -4,6 +4,7 @@ import { getWeb3Contract } from '../../utils/index'
 import { useActiveWeb3React } from '../../hooks'
 import BridgeAbi from '../../constants/abis/Bridge.json'
 import EthereumLog from '../../assets/images/ethereum-logo.png'
+import EtmpLog from '../../assets/images/ethtoken-logo.png'
 import { multicallClient, newContract } from '../../constants/multicall'
 import { ethers } from 'ethers'
 import { Button, Popover } from 'antd'
@@ -32,11 +33,11 @@ const chainNameMap: {
     name: 'Ethereum Chain'
   },
   [ChainId.ETMP]: {
-    icon: EthereumLog,
+    icon: EtmpLog,
     name: 'ETMP Chain'
   },
   [ChainId.ETMPTest]: {
-    icon: EthereumLog,
+    icon: EtmpLog,
     name: 'ETMP Testchain'
   }
 }
@@ -332,7 +333,7 @@ const fromConfigMain: FromConfig[] = [
     symbol: 'USDC',
     chainId: ChainId.ETMP,
     address: '0x94C27baBD5166b7AFBc49C5919CA2De57753b4FC',
-    decimals: 18,
+    decimals: 6,
     tokenBelong: ChainId.MAINNET,
     correspondAddress: {
       [ChainId.MAINNET]: {
@@ -360,7 +361,7 @@ const fromConfigMain: FromConfig[] = [
     symbol: 'USDT',
     chainId: ChainId.ETMP,
     address: '0x82b1BE1D0cC4F70fC530D5BE9f8C5e08ae0E5066',
-    decimals: 18,
+    decimals: 6,
     tokenBelong: ChainId.MAINNET,
     correspondAddress: {
       [ChainId.MAINNET]: {
@@ -624,7 +625,7 @@ export default function BridgePage() {
             <div>
               Balance{' '}
               <strong>
-                {balanceMap[`${fromChainId}_${fromToken}`] ?? '-'}
+                {balanceMap[`${fromChainId}_${fromToken}`] ?? '-'}{' '}
                 {fromConfigMap[`${fromChainId}_${fromToken}`]?.symbol}
               </strong>
             </div>
