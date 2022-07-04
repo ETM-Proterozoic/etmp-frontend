@@ -499,7 +499,6 @@ export default function BridgePage() {
       }
     }
     Promise.all(promiseList).then(res => {
-      console.log(res)
       const balancesMap_: { [propName: string]: any } = {}
       const approveMap_: { [propName: string]: any } = {}
       for (let i = 0, j = 0; i < fromConfig.length; i++, j++) {
@@ -512,7 +511,6 @@ export default function BridgePage() {
           j++
         }
       }
-      console.log('balancesMap_', balancesMap_)
       setBalanceMap(balancesMap_)
       setApproveMap(approveMap_)
     })
@@ -535,7 +533,6 @@ export default function BridgePage() {
 
     const resourceId = ethers.utils.hexZeroPad(resourceAddress + ethers.utils.hexlify(tokenBelong).substr(2), 32)
 
-    console.log('resourceAddress', resourceAddress, fromChainId, fromToken, tokenBelong, resourceId)
 
     const amount = numToWei(depositAmount, fromConfigMap[`${fromChainId}_${fromToken}`].decimals).toString()
     const data =
@@ -544,7 +541,6 @@ export default function BridgePage() {
       ethers.utils.hexZeroPad(ethers.utils.hexlify((account.length - 2) / 2), 32).substr(2) + // len(recipientAddress) (32 bytes)
       account.substr(2)
 
-    console.log(toChainId, resourceId, data, amount)
     const contract = getWeb3Contract(library, BridgeAbi, getBridgeAddress(chainId))
     contract.methods
       .deposit(toChainId, resourceId, data)

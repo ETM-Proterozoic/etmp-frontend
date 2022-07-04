@@ -106,15 +106,15 @@ function TransactionSubmittedContent({
               </Text>
             </ExternalLink>
           )}
-          {currencyToAdd && library?.provider?.isMetaMask && (
+          {false && currencyToAdd && library?.provider?.isMetaMask && (
             <ButtonLight mt="12px" padding="6px 12px" width="fit-content" onClick={addToken}>
               {!success ? (
                 <RowFixed>
-                  Add ETM to Metamask <StyledLogo src={MetaMaskLogo} />
+                  Add ETMP to Metamask <StyledLogo src={MetaMaskLogo} />
                 </RowFixed>
               ) : (
                 <RowFixed>
-                  Added ETM <CheckCircle size={'16px'} stroke={theme.green1} style={{ marginLeft: '6px' }} />
+                  Added ETMP <CheckCircle size={'16px'} stroke={theme.green1} style={{ marginLeft: '6px' }} />
                 </RowFixed>
               )}
             </ButtonLight>

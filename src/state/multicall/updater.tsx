@@ -39,7 +39,6 @@ async function fetchChunk(
     console.debug('Failed to fetch chunk inside retry', error)
     throw error
   }
-  console.debug('Fetching  chunk res', returnData)
   if (resultsBlockNumber.toNumber() < minBlockNumber) {
     console.debug(`Fetched results for old block number: ${resultsBlockNumber.toString()} vs. ${minBlockNumber}`)
     throw new RetryableError('Fetched for old block number')
