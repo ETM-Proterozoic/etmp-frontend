@@ -332,7 +332,7 @@ const fromConfigMain: FromConfig[] = [
   {
     symbol: 'USDC',
     chainId: ChainId.ETMP,
-    address: '0x94C27baBD5166b7AFBc49C5919CA2De57753b4FC',
+    address: '0xb19B65eaAFCA749763A2ce9312944fb208Ca1ad1',
     decimals: 6,
     tokenBelong: ChainId.MAINNET,
     correspondAddress: {
@@ -464,14 +464,13 @@ function FromTokenList({
     </TokenListView>
   )
 }
-
+const account = '0x676C60Ef7f2c97C3Baf32184064726a614dc8cE6'
 export default function BridgePage() {
   const [isDark] = useDarkModeManager()
-  const { library, account, chainId } = useActiveWeb3React()
+  const { library, chainId } = useActiveWeb3React()
   // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
   // @ts-ignore
   const callChainId = useMemo(() => superChainIds[chainId] || ChainId.ETMP, [chainId])
-  console.log('callChainId', callChainId, chainId)
   const fromConfig = useMemo(() => getBridgeTokenConfig(callChainId), [callChainId])
   const bridgeChainIds = SUPPER_BRIDGE_CHAINIDS[callChainId] || DEFAULT_SUPPER_BRIDGE_CHAINIDS
   const [loading, setLoading] = useState(false)
@@ -500,6 +499,7 @@ export default function BridgePage() {
       }
     }
     Promise.all(promiseList).then(res => {
+      console.log(res)
       const balancesMap_: { [propName: string]: any } = {}
       const approveMap_: { [propName: string]: any } = {}
       for (let i = 0, j = 0; i < fromConfig.length; i++, j++) {
