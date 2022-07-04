@@ -323,7 +323,7 @@ const fromConfigMain: FromConfig[] = [
     correspondAddress: {
       [ChainId.ETMP]: {
         symbol: 'USDC',
-        address: '0x94C27baBD5166b7AFBc49C5919CA2De57753b4FC'
+        address: '0xb19B65eaAFCA749763A2ce9312944fb208Ca1ad1'
       }
     },
     nativos: false
@@ -335,7 +335,7 @@ const fromConfigMain: FromConfig[] = [
     decimals: 18,
     tokenBelong: ChainId.MAINNET,
     correspondAddress: {
-      [ChainId.RINKEBY]: {
+      [ChainId.MAINNET]: {
         symbol: 'USDC',
         address: '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48'
       }
@@ -351,7 +351,7 @@ const fromConfigMain: FromConfig[] = [
     correspondAddress: {
       [ChainId.ETMP]: {
         symbol: 'USDT',
-        address: '0x97B2B4EcF9F620d6bAA57E9095F82801461C8310'
+        address: '0x82b1BE1D0cC4F70fC530D5BE9f8C5e08ae0E5066'
       }
     },
     nativos: false
@@ -359,7 +359,7 @@ const fromConfigMain: FromConfig[] = [
   {
     symbol: 'USDT',
     chainId: ChainId.ETMP,
-    address: '0x97B2B4EcF9F620d6bAA57E9095F82801461C8310',
+    address: '0x82b1BE1D0cC4F70fC530D5BE9f8C5e08ae0E5066',
     decimals: 18,
     tokenBelong: ChainId.MAINNET,
     correspondAddress: {
