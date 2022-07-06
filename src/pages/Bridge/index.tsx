@@ -274,7 +274,7 @@ const fromConfigMain: FromConfig[] = [
   },
   {
     symbol: 'ETMP',
-    chainId: ChainId.ETMPTest,
+    chainId: ChainId.ETMP,
     address: ADDRESS_INFINITE,
     decimals: 18,
     tokenBelong: ChainId.ETMP,
@@ -474,7 +474,7 @@ export default function BridgePage() {
   const fromConfig = useMemo(() => getBridgeTokenConfig(callChainId), [callChainId])
   const bridgeChainIds = SUPPER_BRIDGE_CHAINIDS[callChainId] || DEFAULT_SUPPER_BRIDGE_CHAINIDS
   const [loading, setLoading] = useState(false)
-  const [fromChainId, setFromChainId] = useState<number>(chainId || ChainId.MAINNET)
+  const [fromChainId, setFromChainId] = useState<number>(callChainId)
   const [toChainId, setToChainId] = useState<number>(0)
   const [fromToken, setFromToken] = useState<string>(ADDRESS_INFINITE)
   const [depositAmount, setDepositAmount] = useState<string | number>('')
@@ -503,7 +503,7 @@ export default function BridgePage() {
       const approveMap_: { [propName: string]: any } = {}
       for (let i = 0, j = 0; i < fromConfig.length; i++, j++) {
         const key = `${fromConfig[i].chainId}_${fromConfig[i].address}`
-        balancesMap_[key] = Number(fromWei(res[j], fromConfig[i].decimals).toFixed(4))
+        balancesMap_[key] = Number(fromWei(res[j], fromConfig[i].decimals).toFixed(4)) || 0
         if (fromConfig[i].nativos) {
           approveMap_[key] = true
         } else {
@@ -532,8 +532,6 @@ export default function BridgePage() {
       : fromToken
 
     const resourceId = ethers.utils.hexZeroPad(resourceAddress + ethers.utils.hexlify(tokenBelong).substr(2), 32)
-
-
     const amount = numToWei(depositAmount, fromConfigMap[`${fromChainId}_${fromToken}`].decimals).toString()
     const data =
       '0x' +
@@ -542,6 +540,7 @@ export default function BridgePage() {
       account.substr(2)
 
     const contract = getWeb3Contract(library, BridgeAbi, getBridgeAddress(chainId))
+    console.log('toChainId, resourceId, data', toChainId, resourceId, data)
     contract.methods
       .deposit(toChainId, resourceId, data)
       .send({
@@ -594,7 +593,7 @@ export default function BridgePage() {
     if (account) {
       getTokenInfo()
     }
-  }, [account, blockNumber])
+  }, [account, blockNumber, callChainId])
   return (
     <BridgePageView>
       <div className="bridge-page">
