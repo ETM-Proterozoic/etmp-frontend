@@ -464,10 +464,9 @@ function FromTokenList({
     </TokenListView>
   )
 }
-const account = '0x676C60Ef7f2c97C3Baf32184064726a614dc8cE6'
 export default function BridgePage() {
   const [isDark] = useDarkModeManager()
-  const { library, chainId } = useActiveWeb3React()
+  const { library, chainId, account } = useActiveWeb3React()
   // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
   // @ts-ignore
   const callChainId = useMemo(() => superChainIds[chainId] || ChainId.ETMP, [chainId])
