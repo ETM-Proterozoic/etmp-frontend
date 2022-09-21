@@ -4,11 +4,11 @@ import IOSIcon from '../assets/images/ios_icon.svg'
 import TotoroAbi from './abis/totoro.json'
 import { injected, walletconnect, walletlink } from '../connectors'
 
-export const ROUTER_ADDRESS = '0x7b09bFaC111D95016c14A67209028B9b88b1fD6C'
+export const ROUTER_ADDRESS = '0xAf3EDBcCAe958FB1b3C481494A41bB076C169caf'
 
 export const ROUTER_ADDRESS_MAP: { [propName: string]: string } = {
   '36': '0x7D491350E3257198D7376A7286A2b771145f5367',
-  '37': '0x7b09bFaC111D95016c14A67209028B9b88b1fD6C'
+  '37': '0xAf3EDBcCAe958FB1b3C481494A41bB076C169caf'
 }
 export const getRouterContractAddress = (chainId?: number) => {
   return ROUTER_ADDRESS_MAP[chainId || ChainId.ETMP]

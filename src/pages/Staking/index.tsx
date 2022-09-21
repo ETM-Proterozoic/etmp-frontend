@@ -5,7 +5,7 @@ import BannerBg from '../../assets/svg/staking/banner-bg.png'
 // import ArrowR from '../../assets/svg/staking/arrow-right.svg'
 import MoreSvg from '../../assets/svg/staking/more.svg'
 import MoreDarkSvg from '../../assets/svg/staking/more-dark.svg'
-import { multicallClient, multicallConfig, newContract } from '../../constants/multicall/index'
+import { multicallClient, newContract } from '../../constants/multicall/index'
 import { useActiveWeb3React } from '../../hooks'
 import DPOSAbi from '../../constants/abis/DPOS.json'
 import StakingAbi from '../../constants/abis/Staking.json'
@@ -37,7 +37,7 @@ const STAKING_ADDRESS: {
 const DPOS_MINE_ADDRESS: {
   [propsName: string]: string
 } = {
-  '37': '0x282D78cb6d8471Fb54D8dCEA005067C50E9Ce702',
+  '37': '0xBB232b2e4805b9A14C8d21b5A6A57c24bE54c878',
   '36': '0x5a76Cbdbc39e42CEa6C25E26Ca1B83f634074a0a'
 }
 
@@ -45,7 +45,7 @@ const DPOS_ADDRESS: {
   [propsName: string]: string
 } = {
   '36': '0x5d0e45ADC36cE397c27A95D376a753f9d7b01c9F',
-  '37': '0x062170863e2f6284ec1C43016Bf0CCEF3d2bf2aC'
+  '37': '0x45781428F92b77072de8A1A99b9285337AbF8215'
 }
 
 const DEFAULT_VALIDATORS: {
@@ -75,10 +75,10 @@ const DEFAULT_VALIDATORS: {
     '0x4d281E65d3dDc14b580B98Bd4F51C790474C611C'
   ],
   '37': [
-    '0x304d4303B403b15A2dCcEa36cB7Ad2d0FEA4B156',
-    '0x9007075ac4c90ADC70011813851e69fA85FA11B9',
-    '0xb1bb5DE2EA0F96ebeCF7f2d3A31E5f2B787E46A9',
-    '0x44cBbEa578a5f0b4afE25982130b1e123A9ca9dB'
+    '0x1645B9512c43a5A792dF86631Be18eE34397337a',
+    '0x2860fD12b5687A3fe1A1cd3CBD213d7054E53976',
+    '0x0489b78Aa10490ee0a03c65944DB56428fE7784b',
+    '0x5F73f812C2e4CAD5Ab6B81b1068a7221ABC62A38'
   ]
 }
 
@@ -195,9 +195,9 @@ export default function StakingView() {
   const getStakingWithoutDelegate = () => {
     const dposContract = newContract(DPOSAbi, dposAddress, callChainId)
     const calls = [
-      dposContract.APR(ADDRESS_INFINITE),
-      dposContract.balanceOf(ADDRESS_INFINITE, account),
-      dposContract.earned(ADDRESS_INFINITE, account)
+      dposContract.APR(ZERO_ADDRESS),
+      dposContract.balanceOf(ZERO_ADDRESS, account),
+      dposContract.earned(ZERO_ADDRESS, account)
     ]
     multicallClient(calls).then((res: any) => {
       const apr = fromWei(res[0]).toNumber()
@@ -225,7 +225,7 @@ export default function StakingView() {
       stakingContract.validators()
     ]
     multicallClient(calls).then(async (res: any) => {
-      const validators_ = lodash.uniq([...res[2], ...defaultValidators])
+      const validators_ = lodash.uniqBy([...res[2], ...defaultValidators], lodash.toLower)
       setTotalData({
         totalSupply: fromWei(res[0], 18).toFixed(0),
         totalReward: fromWei(res[1], 18).toFixed(0)
@@ -285,8 +285,9 @@ export default function StakingView() {
   const getETHBalance = () => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
     // @ts-ignore
-    multicallClient.getEthBalance(account, multicallConfig.defaultChainId).then((res: any) => {
+    multicallClient.getEthBalance(account, chainId).then((res: any) => {
       setETHBalance(Number(fromWei(res, 18).toFixed(3)))
+      console.log(account, chainId, ethBalance)
     })
   }
   const onCompoundAll = () => {
@@ -444,7 +445,7 @@ export default function StakingView() {
             </div>
             <div className="card-main-item">
               <p className="card-main-title">
-                STAKING
+                TOTAL STAKING
                 <Tooltip title="Including your staking and delegate staking.">
                   <img src={InfoIcon} alt="" />
                 </Tooltip>
@@ -453,7 +454,7 @@ export default function StakingView() {
             </div>
             <div className="card-main-item">
               <p className="card-main-title">
-                REWARDS{' '}
+                TOTAL REWARDS{' '}
                 <Tooltip title="The rewards include staking rewards and validators node gas fee rewards.">
                   <img src={InfoIcon} alt="" />
                 </Tooltip>
@@ -476,7 +477,7 @@ export default function StakingView() {
           <div className="card-main">
             <div className="card-main-item">
               <p className="card-main-title">
-                TOTAL STAKING WITHOUT DELEGATE{' '}
+                MY STAKED{' '}
                 <Tooltip title="The staking of you without delegate staking">
                   <img src={InfoIcon} alt="" />
                 </Tooltip>

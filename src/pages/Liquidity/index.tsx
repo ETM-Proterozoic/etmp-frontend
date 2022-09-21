@@ -105,7 +105,6 @@ export default function Liquidity() {
         .filter(stakingPair => stakingPair?.liquidityToken.address === v2Pair.liquidityToken.address).length === 0
     )
   })
-  console.log('allV2PairsWithLiquidity', allV2PairsWithLiquidity, stakingPairs)
   return (
     <SwapBG>
       <PageWrapper>

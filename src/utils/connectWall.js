@@ -33,7 +33,7 @@ export const networkConf = {
       decimals: 18
     },
     rpcUrls: [multicallConfig.rpc[ChainId.ETMPTest].url],
-    blockExplorerUrls: ['https://testnet.etmscan.network/']
+    blockExplorerUrls: ['https://pioneer.etmscan.network/']
   },
   [97]: {
     chainId: '0x61',

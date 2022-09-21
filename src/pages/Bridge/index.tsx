@@ -52,29 +52,29 @@ const superChainIds: {
 const getBridgeAddress = (chainId?: number) => {
   switch (chainId) {
     case ChainId.RINKEBY:
-      return '0x280A50Fa8f2c1Ad50b95773ED884817F40Da3E47'
+      return '0x8a2c042ba4bbDf02d4F61425E93C1b34898D6CAD'
     case ChainId.ETMPTest:
-      return '0x13e986488675697c8E1e5A96bd2D142CfB6f51FC'
+      return '0xc0b8b8Ac100940A083ea21bEDc8843Ad58bb10b2'
     case ChainId.ETMP:
       return '0x6D247f3f66866A57308d0c588079eD8f86a7e180'
     case ChainId.MAINNET:
       return '0x6367b00bB18B72Be512efeB275E0f420f2203E11'
   }
-  return '0x13e986488675697c8E1e5A96bd2D142CfB6f51FC'
+  return '0xc0b8b8Ac100940A083ea21bEDc8843Ad58bb10b2'
 }
 
 const getErc20HandlerAddress = (chainId?: number) => {
   switch (chainId) {
     case ChainId.RINKEBY:
-      return '0xd8277e6E465d83D1113eD3426cfEd0787Ee6993c'
+      return '0xB5e6DF8F83B7C18e54ccc9c7E1815637E52365fD'
     case ChainId.ETMPTest:
-      return '0xaE6e282e2a730D74233Dbbf2D8d0b7b3015fd94d'
+      return '0x3F77eC3157fFB17986065164901135a341616B93'
     case ChainId.ETMP:
       return '0x11e7564dd419495630a4429457b49E58D5EF3831'
     case ChainId.MAINNET:
       return '0x698DB914E58d666213bCB1D9Bf835F6740affA01'
   }
-  return '0xaE6e282e2a730D74233Dbbf2D8d0b7b3015fd94d'
+  return '0x3F77eC3157fFB17986065164901135a341616B93'
 }
 
 interface SupperChainIds {
@@ -115,7 +115,7 @@ const fromConfigTest: FromConfig[] = [
   {
     symbol: 'ETMP',
     chainId: ChainId.RINKEBY,
-    address: '0xBABcC18129a112eE7Ee84B2C9A51a0d2AecAe289',
+    address: '0xC1aE0a2BA03156e6D29569Fd15CdAFb6E885e2bb',
     decimals: 18,
     tokenBelong: ChainId.ETMPTest,
     correspondAddress: {
@@ -136,7 +136,7 @@ const fromConfigTest: FromConfig[] = [
     correspondAddress: {
       [ChainId.RINKEBY]: {
         symbol: 'ETMP',
-        address: '0xBABcC18129a112eE7Ee84B2C9A51a0d2AecAe289'
+        address: '0xC1aE0a2BA03156e6D29569Fd15CdAFb6E885e2bb'
       }
     },
     nativos: true
@@ -150,7 +150,7 @@ const fromConfigTest: FromConfig[] = [
     correspondAddress: {
       [ChainId.ETMPTest]: {
         symobl: 'ETH',
-        address: '0x4E03d0454d435ae0Ea1F794d6354EE5cE1f40299'
+        address: '0x1e60894972B15061AC9bEDbE51c687A9e94FcFe8'
       }
     },
     nativos: true
@@ -158,7 +158,7 @@ const fromConfigTest: FromConfig[] = [
   {
     symbol: 'ETH',
     chainId: ChainId.ETMPTest,
-    address: '0x4E03d0454d435ae0Ea1F794d6354EE5cE1f40299',
+    address: '0x1e60894972B15061AC9bEDbE51c687A9e94FcFe8',
     decimals: 18,
     tokenBelong: ChainId.RINKEBY,
     correspondAddress: {
@@ -173,13 +173,13 @@ const fromConfigTest: FromConfig[] = [
   {
     symbol: 'USDC',
     chainId: ChainId.RINKEBY,
-    address: '0x022eE6E65d719574eb70D11E31E5171DeA1baFC4',
-    decimals: 18,
+    address: '0x02bdB512dCF8408dB31C4012658E17E97213C71E',
+    decimals: 6,
     tokenBelong: ChainId.RINKEBY,
     correspondAddress: {
       [ChainId.ETMPTest]: {
         symbol: 'USDC',
-        address: '0x2a6A9AC9a7533D4721746fbd3D5c28e0F8e4397a'
+        address: '0x4901596a6EA8d13b768a6b0a53af0EA10b0c84E1'
       }
     },
     nativos: false
@@ -187,13 +187,13 @@ const fromConfigTest: FromConfig[] = [
   {
     symbol: 'USDC',
     chainId: ChainId.ETMPTest,
-    address: '0x2a6A9AC9a7533D4721746fbd3D5c28e0F8e4397a',
-    decimals: 18,
+    address: '0x4901596a6EA8d13b768a6b0a53af0EA10b0c84E1',
+    decimals: 6,
     tokenBelong: ChainId.RINKEBY,
     correspondAddress: {
       [ChainId.RINKEBY]: {
         symbol: 'USDC',
-        address: '0x022eE6E65d719574eb70D11E31E5171DeA1baFC4'
+        address: '0x02bdB512dCF8408dB31C4012658E17E97213C71E'
       }
     },
     nativos: false
@@ -201,13 +201,13 @@ const fromConfigTest: FromConfig[] = [
   {
     symbol: 'USDT',
     chainId: ChainId.RINKEBY,
-    address: '0xd23685FB217533B95A0f78aae1f0ea3967e12DcA',
-    decimals: 18,
+    address: '0x3cCF57C6d7FE06a41645d08ED93A269A7E02CC1F',
+    decimals: 6,
     tokenBelong: ChainId.RINKEBY,
     correspondAddress: {
       [ChainId.ETMPTest]: {
         symbol: 'USDT',
-        address: '0x5Fd09f185e3732FF9B32f4A2E62Cef574a25D30a'
+        address: '0xd555BB450615B095bEf9e25F26B540969b41F9fb'
       }
     },
     nativos: false
@@ -215,13 +215,13 @@ const fromConfigTest: FromConfig[] = [
   {
     symbol: 'USDT',
     chainId: ChainId.ETMPTest,
-    address: '0x5Fd09f185e3732FF9B32f4A2E62Cef574a25D30a',
-    decimals: 18,
+    address: '0xd555BB450615B095bEf9e25F26B540969b41F9fb',
+    decimals: 6,
     tokenBelong: ChainId.RINKEBY,
     correspondAddress: {
       [ChainId.RINKEBY]: {
         symbol: 'USDT',
-        address: '0xd23685FB217533B95A0f78aae1f0ea3967e12DcA'
+        address: '0x3cCF57C6d7FE06a41645d08ED93A269A7E02CC1F'
       }
     },
     nativos: false
@@ -229,13 +229,13 @@ const fromConfigTest: FromConfig[] = [
   {
     symbol: 'WBTC',
     chainId: ChainId.RINKEBY,
-    address: '0xAF52bA958Ef5aeDEa6185a857e53D1A68bD467d7',
-    decimals: 18,
+    address: '0x2Eac38189c22f20DFf2eC685eF3746b77d3ef1e1',
+    decimals: 8,
     tokenBelong: ChainId.RINKEBY,
     correspondAddress: {
       [ChainId.ETMPTest]: {
         symbol: 'WBTC',
-        address: '0x5a40882275ceA4CdEf15dbE12f5E52F03BdD0192'
+        address: '0x9009793a6693d801FA3cf20A5Dbf11def34C2276'
       }
     },
     nativos: false
@@ -243,13 +243,13 @@ const fromConfigTest: FromConfig[] = [
   {
     symbol: 'WBTC',
     chainId: ChainId.ETMPTest,
-    address: '0x5a40882275ceA4CdEf15dbE12f5E52F03BdD0192',
-    decimals: 18,
+    address: '0x9009793a6693d801FA3cf20A5Dbf11def34C2276',
+    decimals: 8,
     tokenBelong: ChainId.RINKEBY,
     correspondAddress: {
       [ChainId.RINKEBY]: {
         symbol: 'WBTC',
-        address: '0xAF52bA958Ef5aeDEa6185a857e53D1A68bD467d7'
+        address: '0x2Eac38189c22f20DFf2eC685eF3746b77d3ef1e1'
       }
     },
     nativos: false
@@ -530,6 +530,7 @@ export default function BridgePage() {
       ? fromConfigMap[`${fromChainId}_${fromToken}`].correspondAddress[toChainId].address
       : fromToken
 
+    console.log("resourceAddress: ", resourceAddress, "; tokenBelong: ", tokenBelong)
     const resourceId = ethers.utils.hexZeroPad(resourceAddress + ethers.utils.hexlify(tokenBelong).substr(2), 32)
     const amount = numToWei(depositAmount, fromConfigMap[`${fromChainId}_${fromToken}`].decimals).toString()
     const data =
@@ -539,7 +540,7 @@ export default function BridgePage() {
       account.substr(2)
 
     const contract = getWeb3Contract(library, BridgeAbi, getBridgeAddress(chainId))
-    console.log('toChainId, resourceId, data', toChainId, resourceId, data)
+    console.log('toChainId', toChainId, 'resourceId', resourceId, 'data', data)
     contract.methods
       .deposit(toChainId, resourceId, data)
       .send({
