@@ -13,7 +13,7 @@ import DposMineAbi from '../../constants/abis/DposMine.json'
 import { formatAddress, fromWei, numToWei, toFormat } from '../../utils/format'
 import { getWeb3Contract } from '../../utils'
 import { Input, message, Modal, Popover, Tooltip } from 'antd'
-import { ADDRESS_INFINITE, ZERO_ADDRESS } from '../../constants'
+import { ADDRESS_0, ADDRESS_INFINITE, ZERO_ADDRESS } from '../../constants'
 import { useDarkModeManager } from '../../state/user/hooks'
 import { ChainId } from '@etmp/sdk'
 import lodash from 'lodash'
@@ -195,15 +195,16 @@ export default function StakingView() {
   const getStakingWithoutDelegate = () => {
     const dposContract = newContract(DPOSAbi, dposAddress, callChainId)
     const calls = [
-      dposContract.APR(ZERO_ADDRESS),
+      dposContract.APR(ADDRESS_INFINITE),       // dexiang: 0 池表示非代理质押产生的收益！即所有给自己质押的代币总量！ （是否需要替换成-1池，保持奖励来源一致！？）
       dposContract.balanceOf(ZERO_ADDRESS, account),
-      dposContract.earned(ZERO_ADDRESS, account)
+      dposContract.earned(ADDRESS_INFINITE, account)        // dexiang: 0池 产生的收益为非代理质押产生的收益？？ 那么 -1池 产生的收益呢？
     ]
     multicallClient(calls).then((res: any) => {
-      const apr = fromWei(res[0]).toNumber()
+      const apr = fromWei(res[0]).toNumber()       // dexiang: 每个池子的apr不一样？ 
       const apy = (Math.pow(1 + apr / 365, 365) * 100).toFixed(2)
       const staked = fromWei(res[1]).toFixed(2)
       const rewards = fromWei(res[2]).toFixed(2)
+      console.log("rewards: ", res[2])
       setStakingWithoutDelegate({
         apy,
         apr: (apr * 100).toFixed(2),
@@ -221,19 +222,19 @@ export default function StakingView() {
     const stakingContract = newContract(StakingAbi, stakingAddress, callChainId)
     const calls = [
       dposContract.totalSupply(),
-      dposMineContract.balanceOf(ADDRESS_INFINITE),
+      dposMineContract.balanceOf(ADDRESS_INFINITE),      // dexiang: -1 池是当年应该增发的币，即奖励！每次用户提取后，相应需要减少！
       stakingContract.validators()
     ]
     multicallClient(calls).then(async (res: any) => {
       const validators_ = lodash.uniqBy([...res[2], ...defaultValidators], lodash.toLower)
       setTotalData({
         totalSupply: fromWei(res[0], 18).toFixed(0),
-        totalReward: fromWei(res[1], 18).toFixed(0)
+        totalReward: fromWei(res[1], 18).toFixed(0)      // dexiang: 应该为 -1 池代币的奖励？？
       })
       const validators: ValidatorsData[] = []
       const validatorsCallList = []
       for (let i = 0; i < validators_.length; i++) {
-        validatorsCallList.push(dposContract.APR(validators_[i]), dposContract.totalSupplyOf(validators_[i]))
+        validatorsCallList.push(dposContract.APR(validators_[i]), dposContract.totalSupplyOf(validators_[i]))     // dexiang: 每个validator有各自的apr，totalSupply指的是当前节点所有stake总量
         if (account) {
           validatorsCallList.push(dposContract.balanceOf(validators_[i], account))
           validatorsCallList.push(dposContract.earned(validators_[i], account))
@@ -331,6 +332,8 @@ export default function StakingView() {
         setStakeLoading(false)
       })
   }
+
+  // dexiang:  delegate=0 表示 非代理质押提币
   const withdraw = (delegate: string, value: string) => {
     if (Number(value) < 0) {
       return
@@ -531,7 +534,8 @@ export default function StakingView() {
                     >
                       <div>Convert to Delegate</div>
                     </Popover>
-                    <div onClick={() => withdraw(ADDRESS_INFINITE, stakingWithoutDelegate.staked_)}>
+                    
+                    <div onClick={() => withdraw(ADDRESS_0, stakingWithoutDelegate.staked_)}>       
                       Unstake & Claim
                     </div>
                   </BtnMoreMenu>
@@ -671,7 +675,7 @@ export default function StakingView() {
                               <div>Convert to another Delegate</div>
                             </Popover>
 
-                            <div onClick={() => withdraw(item.address, stakingWithoutDelegate.staked_)}>
+                            <div onClick={() => withdraw(item.address, item.myStaked_)}>
                               Unstake & Claim
                             </div>
                           </BtnMoreMenu>
