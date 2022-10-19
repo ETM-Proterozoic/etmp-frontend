@@ -30,14 +30,14 @@ const superChainIds: {
 const STAKING_ADDRESS: {
   [propsName: string]: string
 } = {
-  '37': '0x0000000000000000000000000000000000001001',
+  '37': '0x9A52e67067def91C8563587C9da5AAF37D2122b1',
   '36': '0x0000000000000000000000000000000000001001'
 }
 
 const DPOS_MINE_ADDRESS: {
   [propsName: string]: string
 } = {
-  '37': '0xBB232b2e4805b9A14C8d21b5A6A57c24bE54c878',
+  '37': '0x04c982Bb7c3169cA1734BCbBaBe4d7f45f437C29',
   '36': '0x5a76Cbdbc39e42CEa6C25E26Ca1B83f634074a0a'
 }
 
@@ -45,7 +45,7 @@ const DPOS_ADDRESS: {
   [propsName: string]: string
 } = {
   '36': '0x5d0e45ADC36cE397c27A95D376a753f9d7b01c9F',
-  '37': '0x45781428F92b77072de8A1A99b9285337AbF8215'
+  '37': '0x5d3399db989Be63EAd6d61ed35E34eecD23CdbFd'
 }
 
 const DEFAULT_VALIDATORS: {
@@ -231,6 +231,7 @@ export default function StakingView() {
         totalSupply: fromWei(res[0], 18).toFixed(0),
         totalReward: fromWei(res[1], 18).toFixed(0)      // dexiang: 应该为 -1 池代币的奖励？？
       })
+      console.log("TOTAL REWARD DISTRIBUTED", fromWei(res[1], 18).toFixed(6))
       const validators: ValidatorsData[] = []
       const validatorsCallList = []
       for (let i = 0; i < validators_.length; i++) {
