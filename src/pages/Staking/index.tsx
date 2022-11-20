@@ -13,7 +13,7 @@ import DposMineAbi from '../../constants/abis/DposMine.json'
 import { formatAddress, fromWei, numToWei, toFormat } from '../../utils/format'
 import { getWeb3Contract } from '../../utils'
 import { Input, message, Modal, Popover, Tooltip } from 'antd'
-import { ADDRESS_0, ADDRESS_INFINITE, ZERO_ADDRESS } from '../../constants'
+import { ADDRESS_INFINITE, ZERO_ADDRESS } from '../../constants'
 import { useDarkModeManager } from '../../state/user/hooks'
 import { ChainId } from '@etmp/sdk'
 import lodash from 'lodash'
@@ -21,8 +21,8 @@ import lodash from 'lodash'
 const superChainIds: {
   [propsName: string]: number
 } = {
-  '36': 36,
-  '37': 37
+  '48': 48,
+  '49': 49
   // '1': 1,
   // '4': 4
 }
@@ -30,28 +30,28 @@ const superChainIds: {
 const STAKING_ADDRESS: {
   [propsName: string]: string
 } = {
-  '37': '0x9A52e67067def91C8563587C9da5AAF37D2122b1',
-  '36': '0x0000000000000000000000000000000000001001'
+  '49': '0x3bF48a1881128Eeb2F11FB51018d38D205f4EeD0',
+  '48': '0x0000000000000000000000000000000000001001'
 }
 
 const DPOS_MINE_ADDRESS: {
   [propsName: string]: string
 } = {
-  '37': '0x04c982Bb7c3169cA1734BCbBaBe4d7f45f437C29',
-  '36': '0x5a76Cbdbc39e42CEa6C25E26Ca1B83f634074a0a'
+  '49': '0x531beDD082766e12CB9C3E30Acd78e6d0aCa8271',
+  '48': '0x5a76Cbdbc39e42CEa6C25E26Ca1B83f634074a0a'
 }
 
 const DPOS_ADDRESS: {
   [propsName: string]: string
 } = {
-  '36': '0x5d0e45ADC36cE397c27A95D376a753f9d7b01c9F',
-  '37': '0x5d3399db989Be63EAd6d61ed35E34eecD23CdbFd'
+  '49': '0x0463b01b30B1D1c21FfB255a370be8cBFED3c829',
+  '48': '0x5d0e45ADC36cE397c27A95D376a753f9d7b01c9F'
 }
 
 const DEFAULT_VALIDATORS: {
   [propsName: string]: Array<string>
 } = {
-  '36': [
+  '48': [
     '0x7D409286BC68144fb4Aa0fEdfBd886d896fA2a86',
     '0x653b492bb119689e33C3c8Ace65c29B9B0F8Dd26',
     '0x224b67B83301ddb7138Ed2A83CfAF551b40be72A',
@@ -74,7 +74,7 @@ const DEFAULT_VALIDATORS: {
     '0xcd086Ae3A3D47b24bB5d7aF1B2673DF92C70Fc7C',
     '0x4d281E65d3dDc14b580B98Bd4F51C790474C611C'
   ],
-  '37': [
+  '49': [
     '0x1645B9512c43a5A792dF86631Be18eE34397337a',
     '0x2860fD12b5687A3fe1A1cd3CBD213d7054E53976',
     '0x0489b78Aa10490ee0a03c65944DB56428fE7784b',
@@ -104,6 +104,7 @@ interface StakingWithoutDelegate {
 interface TotalSupply {
   totalSupply: string
   totalReward: string
+  totalRewardDistributed: string
 }
 
 function CoverToView({
@@ -167,7 +168,8 @@ export default function StakingView() {
   const [darkMode] = useDarkModeManager()
   const [totalData, setTotalData] = useState<TotalSupply>({
     totalSupply: '',
-    totalReward: ''
+    totalReward: '',
+    totalRewardDistributed: ''
   })
   const [update, setUpdate] = useState<number>(0)
   const [stakingWithoutDelegate, setStakingWithoutDelegate] = useState<StakingWithoutDelegate>({
@@ -197,13 +199,14 @@ export default function StakingView() {
     const calls = [
       dposContract.APR(ADDRESS_INFINITE),       // dexiang: 0 池表示非代理质押产生的收益！即所有给自己质押的代币总量！ （是否需要替换成-1池，保持奖励来源一致！？）
       dposContract.balanceOf(ZERO_ADDRESS, account),
-      dposContract.earned(ADDRESS_INFINITE, account)        // dexiang: 0池 产生的收益为非代理质押产生的收益？？ 那么 -1池 产生的收益呢？
+      dposContract.earnedOfNegative1(ZERO_ADDRESS, account)
     ]
     multicallClient(calls).then((res: any) => {
       const apr = fromWei(res[0]).toNumber()       // dexiang: 每个池子的apr不一样？ 
       const apy = (Math.pow(1 + apr / 365, 365) * 100).toFixed(2)
-      const staked = fromWei(res[1]).toFixed(2)
-      const rewards = fromWei(res[2]).toFixed(2)
+      console.log("without apy: ", apy)
+      const staked = fromWei(res[1], 18).toFixed(6)
+      const rewards = fromWei(res[2], 18).toFixed(6)
       console.log("rewards: ", res[2])
       setStakingWithoutDelegate({
         apy,
@@ -223,22 +226,30 @@ export default function StakingView() {
     const calls = [
       dposContract.totalSupply(),
       dposMineContract.balanceOf(ADDRESS_INFINITE),      // dexiang: -1 池是当年应该增发的币，即奖励！每次用户提取后，相应需要减少！
-      stakingContract.validators()
+      stakingContract.validators(),
+      dposContract.totalRewardsDistributedOf(ADDRESS_INFINITE)
     ]
     multicallClient(calls).then(async (res: any) => {
-      const validators_ = lodash.uniqBy([...res[2], ...defaultValidators], lodash.toLower)
+      let validatorSets = res[2]
+      if (!Array.isArray(validatorSets)) {
+        validatorSets = []
+      }
+      const validators_ = lodash.uniqBy([...validatorSets, ...defaultValidators], lodash.toLower)
       setTotalData({
         totalSupply: fromWei(res[0], 18).toFixed(0),
-        totalReward: fromWei(res[1], 18).toFixed(0)      // dexiang: 应该为 -1 池代币的奖励？？
+        totalReward: fromWei(res[1], 18).toFixed(0),     // dexiang: 应该为 -1 池代币的奖励？？
+        totalRewardDistributed: fromWei(res[3], 18).toFixed(0)
       })
-      console.log("TOTAL REWARD DISTRIBUTED", fromWei(res[1], 18).toFixed(6))
+      console.log("TOTAL REWARD REMAINING: ", fromWei(res[1], 18).toFixed(6), "TOTAL REWARD DISTRIBUTED: ", fromWei(res[3], 18).toFixed(6))
       const validators: ValidatorsData[] = []
       const validatorsCallList = []
       for (let i = 0; i < validators_.length; i++) {
         validatorsCallList.push(dposContract.APR(validators_[i]), dposContract.totalSupplyOf(validators_[i]))     // dexiang: 每个validator有各自的apr，totalSupply指的是当前节点所有stake总量
+        validatorsCallList.push(dposContract.APR(ADDRESS_INFINITE))     // dexiang: count stakingwithout delegates's apr
         if (account) {
           validatorsCallList.push(dposContract.balanceOf(validators_[i], account))
           validatorsCallList.push(dposContract.earned(validators_[i], account))
+          validatorsCallList.push(dposContract.earnedOfNegative1(validators_[i], account))
         }
       }
 
@@ -246,20 +257,27 @@ export default function StakingView() {
         for (let i = 0, ii = 0; i < validators_.length; i++) {
           const address = validators_[i]
           const apr = fromWei(res2[ii]).toNumber()
-          const apy = (Math.pow(1 + apr / 365, 365) * 100).toFixed(2)
+          // let apy = (Math.pow(1 + apr / 365, 365) * 100).toFixed(2)
+          const aprWithoutDelegate = fromWei(res2[ii + 2]).toNumber()
+          const apy = ((Math.pow(1 + (apr + aprWithoutDelegate) / 365, 365) * 100)).toFixed(2)
+
           const totalSupply = fromWei(res2[ii + 1], 18).toFixed(6)
           let myStaked = '0'
           let myEarned = '0'
           let myStaked_ = '0'
           let myEarned_ = '0'
           if (account) {
-            myStaked = fromWei(res2[ii + 2]).toFixed(2)
-            myStaked_ = res2[ii + 2]
-            myEarned = fromWei(res2[ii + 3]).toFixed(2)
-            myEarned_ = res2[ii + 3]
-            ii += 4
+            myStaked = fromWei(res2[ii + 3], 18).toFixed(6)
+            myStaked_ = res2[ii + 3]
+            
+            const earnedI = fromWei(res2[ii + 4]).toNumber()
+            const earnedII = fromWei(res2[ii + 5]).toNumber()
+            
+            myEarned = (earnedI + earnedII).toFixed(6)
+            myEarned_ = (earnedI + earnedII).toString()
+            ii += 6
           } else {
-            ii += 2
+            ii += 3
           }
           validators.push({
             address,
@@ -288,6 +306,7 @@ export default function StakingView() {
     // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
     // @ts-ignore
     multicallClient.getEthBalance(account, chainId).then((res: any) => {
+      console.log("eth balance: ", Number(fromWei(res, 18).toFixed(3)))
       setETHBalance(Number(fromWei(res, 18).toFixed(3)))
       console.log(account, chainId, ethBalance)
     })
@@ -299,7 +318,7 @@ export default function StakingView() {
     setCompoundLoading(true)
     const contract = getWeb3Contract(library, DPOSAbi, dposAddress)
     contract.methods
-      .compoundAll(ADDRESS_INFINITE)
+      .compoundAll()
       .send({
         from: account
       })
@@ -318,6 +337,7 @@ export default function StakingView() {
     setStakeLoading(true)
     const contract = getWeb3Contract(library, DPOSAbi, dposAddress)
     const stakeValue_ = numToWei(stakeValue, 18)
+    console.log("Delegate address: ", stakeDelegate)
     contract.methods
       .stake(stakeDelegate)
       .send({
@@ -341,7 +361,7 @@ export default function StakingView() {
     }
     const contract = getWeb3Contract(library, DPOSAbi, dposAddress)
     contract.methods
-      .withdraw(delegate, value)
+      .exit(delegate)
       .send({
         from: account
       })
@@ -422,7 +442,7 @@ export default function StakingView() {
             </div>
             <div className="card-main-item">
               <p className="card-main-title">TOTAL REWARD DISTRIBUTED</p>
-              <h1>{totalData.totalReward ? toFormat(totalData.totalReward) : '-'} ETMP</h1>
+              <h1>{totalData.totalRewardDistributed ? toFormat(totalData.totalRewardDistributed) : '-'} ETMP</h1>
               {/*<p className="card-desc">$</p>*/}
             </div>
             <div className="card-main-item">
@@ -536,7 +556,7 @@ export default function StakingView() {
                       <div>Convert to Delegate</div>
                     </Popover>
                     
-                    <div onClick={() => withdraw(ADDRESS_0, stakingWithoutDelegate.staked_)}>       
+                    <div onClick={() => withdraw(ZERO_ADDRESS, stakingWithoutDelegate.staked_)}>       
                       Unstake & Claim
                     </div>
                   </BtnMoreMenu>

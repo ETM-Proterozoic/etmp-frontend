@@ -4,7 +4,7 @@ import { InjectedConnector } from '@web3-react/injected-connector'
 import { multicallConfig } from '../constants/multicall'
 import { ChainId } from '@etmp/sdk'
 export const injected = new InjectedConnector({
-  supportedChainIds: [ChainId.ETMPTest, ChainId.RINKEBY, ChainId.MAINNET, ChainId.ETMP]
+  supportedChainIds: [ChainId.ETMPTest, ChainId.GÖRLI, ChainId.MAINNET, ChainId.ETMP]
 })
 export const networkConf = {
   [ChainId.MAINNET]: {
@@ -12,6 +12,9 @@ export const networkConf = {
   },
   [ChainId.RINKEBY]: {
     chainId: '0x4'
+  },
+  [ChainId.GÖRLI]: {
+    chainId: '0x5'
   },
   [ChainId.ETMP]: {
     chainId: '0x24',
@@ -55,7 +58,7 @@ export const changeNetwork = chainId => {
     if (ethereum && ethereum.isMetaMask) {
       ethereum
         .request({
-          method: [1, 4].includes(chainId) ? 'wallet_switchEthereumChain' : 'wallet_addEthereumChain',
+          method: [1, 5].includes(chainId) ? 'wallet_switchEthereumChain' : 'wallet_addEthereumChain',
           params: [
             {
               ...networkConf[chainId]

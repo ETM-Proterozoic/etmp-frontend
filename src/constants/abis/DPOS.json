@@ -7,6 +7,12 @@
         "internalType": "address",
         "name": "delegate",
         "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "bool",
+        "name": "boot",
+        "type": "bool"
       }
     ],
     "name": "AddDelegate",
@@ -211,6 +217,34 @@
         "internalType": "contract Staking",
         "name": "staking_",
         "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "maxValidators_",
+        "type": "uint256"
+      }
+    ],
+    "name": "__DPOS_init",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "contract DPosMine",
+        "name": "dposMine",
+        "type": "address"
+      },
+      {
+        "internalType": "contract Staking",
+        "name": "staking_",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "maxValidators_",
+        "type": "uint256"
       }
     ],
     "name": "__DPOS_init_unchained",
@@ -221,25 +255,24 @@
   {
     "inputs": [
       {
-        "internalType": "address",
-        "name": "governor_",
-        "type": "address"
+        "internalType": "address[]",
+        "name": "delegates_",
+        "type": "address[]"
+      },
+      {
+        "internalType": "bool",
+        "name": "boot",
+        "type": "bool"
       }
     ],
-    "name": "__Governable_init_unchained",
+    "name": "addDelegates_",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
   },
   {
-    "inputs": [
-      {
-        "internalType": "address[]",
-        "name": "delegates_",
-        "type": "address[]"
-      }
-    ],
-    "name": "addDelegates_",
+    "inputs": [],
+    "name": "adjustValidators",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -301,13 +334,7 @@
     "type": "function"
   },
   {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "delegate",
-        "type": "address"
-      }
-    ],
+    "inputs": [],
     "name": "compoundAll",
     "outputs": [],
     "stateMutability": "nonpayable",
@@ -324,6 +351,21 @@
     "name": "delegateDataOf",
     "outputs": [
       {
+        "internalType": "address",
+        "name": "prev",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "next",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "totalSupply",
+        "type": "uint256"
+      },
+      {
         "internalType": "uint256",
         "name": "lastUpdateTime",
         "type": "uint256"
@@ -331,11 +373,6 @@
       {
         "internalType": "uint256",
         "name": "rewardPerTokenStored",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "totalSupply",
         "type": "uint256"
       }
     ],
@@ -395,6 +432,30 @@
       }
     ],
     "name": "earned",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "delegate",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "account",
+        "type": "address"
+      }
+    ],
+    "name": "earnedOfNegative1",
     "outputs": [
       {
         "internalType": "uint256",
@@ -513,6 +574,30 @@
     "type": "function"
   },
   {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "delegate",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "account",
+        "type": "address"
+      }
+    ],
+    "name": "getRewardsOfNegative1",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
     "inputs": [],
     "name": "governor",
     "outputs": [
@@ -547,12 +632,44 @@
   {
     "inputs": [
       {
+        "internalType": "address",
+        "name": "delegate",
+        "type": "address"
+      }
+    ],
+    "name": "lastUpdateTimeOf",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
         "internalType": "uint256",
         "name": "",
         "type": "uint256"
       }
     ],
     "name": "lep",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "maxValidators",
     "outputs": [
       {
         "internalType": "uint256",
@@ -698,6 +815,54 @@
   {
     "inputs": [
       {
+        "internalType": "address",
+        "name": "delegate",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "account",
+        "type": "address"
+      }
+    ],
+    "name": "rewardsOf",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "name": "rewardsOfNegative1",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
         "internalType": "bytes32",
         "name": "key",
         "type": "bytes32"
@@ -823,6 +988,25 @@
     "type": "function"
   },
   {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "delegate",
+        "type": "address"
+      }
+    ],
+    "name": "totalRewardsDistributedOf",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
     "inputs": [],
     "name": "totalSupply",
     "outputs": [
@@ -927,6 +1111,24 @@
       }
     ],
     "name": "withdrawTo",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "delegate",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "value",
+        "type": "uint256"
+      }
+    ],
+    "name": "withdraw_getReward",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"

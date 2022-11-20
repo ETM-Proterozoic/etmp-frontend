@@ -25,6 +25,10 @@ const rpc: rpcMap = {
     url: 'https://rinkeby.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161',
     address: '0x5ba1e12693dc8f9c48aad8770482f4739beed696'
   },
+  [ChainId.GÖRLI]: {
+    url: 'https://goerli.infura.io/v3/89bcfbc2c0704c4586cfecc4083c112e',
+    address: '0x5ba1e12693dc8f9c48aad8770482f4739beed696'
+  },
   [ChainId.ETMP]: {
     url: 'https://rpc.etm.network/',
     address: '0xE1d731a9C7A8c599699f7E7c2d8b3e822fAABe76'

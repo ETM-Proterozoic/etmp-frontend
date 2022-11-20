@@ -285,18 +285,19 @@ function Web3StatusInner() {
 const superNetWork = [
   {
     name: 'Proterozoic',
-    chainId: 36
+    chainId: 48
   },
   {
     name: 'Pioneer',
-    chainId: 37
+    chainId: 49
   }
 ]
 const netWorkNameMap: { [propsName: string]: string } = {
-  '36': 'Proterozoic',
-  '37': 'Pioneer',
+  '48': 'Proterozoic',
+  '49': 'Pioneer',
   '1': 'ETH',
-  '4': 'Rinkeby'
+  '4': 'Rinkeby',
+  '5': 'GÖRLI'
 }
 
 export default function Web3Status() {

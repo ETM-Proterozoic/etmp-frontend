@@ -23,8 +23,10 @@ export function getEtherscanLink(
   data: string,
   type: 'transaction' | 'token' | 'address' | 'block'
 ): string {
-  const prefix = `https://etmscan.network`
-
+  let prefix = `https://etmscan.network`
+  if (chainId == ChainId.ETMPTest) {
+    prefix = `https://pioneer.etmscan.network`
+  }
   switch (type) {
     case 'transaction': {
       return `${prefix}/tx/${data}`
