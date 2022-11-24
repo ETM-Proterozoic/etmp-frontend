@@ -95,8 +95,8 @@ const SUPPER_BRIDGE_CHAINIDS: {
     to: [ChainId.MAINNET, ChainId.ETMP]
   },
   '48': {
-    from: [ChainId.MAINNET, ChainId.ETMP],
-    to: [ChainId.MAINNET, ChainId.ETMP]
+    from: [ChainId.ETMP, ChainId.MAINNET],
+    to: [ChainId.ETMP, ChainId.MAINNET]
   },
   '4': {
     from: [ChainId.ETMPTest, ChainId.RINKEBY],

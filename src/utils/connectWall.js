@@ -17,7 +17,7 @@ export const networkConf = {
     chainId: '0x5'
   },
   [ChainId.ETMP]: {
-    chainId: '0x24',
+    chainId: '0x30',
     chainName: 'ETM/P Mainnet',
     nativeCurrency: {
       name: 'ETMP',
@@ -28,7 +28,7 @@ export const networkConf = {
     blockExplorerUrls: ['https://etmscan.network/']
   },
   [ChainId.ETMPTest]: {
-    chainId: '0x25',
+    chainId: '0x31',
     chainName: 'ETM/P Testnet',
     nativeCurrency: {
       name: 'ETMP',

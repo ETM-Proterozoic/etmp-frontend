@@ -8,7 +8,6 @@ import MoreDarkSvg from '../../assets/svg/staking/more-dark.svg'
 import { multicallClient, newContract } from '../../constants/multicall/index'
 import { useActiveWeb3React } from '../../hooks'
 import DPOSAbi from '../../constants/abis/DPOS.json'
-import StakingAbi from '../../constants/abis/Staking.json'
 import DposMineAbi from '../../constants/abis/DposMine.json'
 import { formatAddress, fromWei, numToWei, toFormat } from '../../utils/format'
 import { getWeb3Contract } from '../../utils'
@@ -27,24 +26,17 @@ const superChainIds: {
   // '4': 4
 }
 
-const STAKING_ADDRESS: {
-  [propsName: string]: string
-} = {
-  '49': '0x3bF48a1881128Eeb2F11FB51018d38D205f4EeD0',
-  '48': '0x0000000000000000000000000000000000001001'
-}
-
 const DPOS_MINE_ADDRESS: {
   [propsName: string]: string
 } = {
-  '49': '0x531beDD082766e12CB9C3E30Acd78e6d0aCa8271',
+  '49': '0xBB232b2e4805b9A14C8d21b5A6A57c24bE54c878',
   '48': '0x5a76Cbdbc39e42CEa6C25E26Ca1B83f634074a0a'
 }
 
 const DPOS_ADDRESS: {
   [propsName: string]: string
 } = {
-  '49': '0x0463b01b30B1D1c21FfB255a370be8cBFED3c829',
+  '49': '0x45781428F92b77072de8A1A99b9285337AbF8215',
   '48': '0x5d0e45ADC36cE397c27A95D376a753f9d7b01c9F'
 }
 
@@ -55,24 +47,7 @@ const DEFAULT_VALIDATORS: {
     '0x7D409286BC68144fb4Aa0fEdfBd886d896fA2a86',
     '0x653b492bb119689e33C3c8Ace65c29B9B0F8Dd26',
     '0x224b67B83301ddb7138Ed2A83CfAF551b40be72A',
-    '0x125cCfFAd7D46408b20C9b13e1273F1FC6799C12',
-    '0xE85e78eF441e2B48330e7a14000615B3f482CB87',
-    '0xe0207E244C854b7898710511b53AeE0E40ED21B1',
-    '0x3BAcAe6565c8034ef4C2DF088349b90ed3BaB256',
-    '0x148b38b973f35afC9f9879d317EC49281dFf27D6',
-    '0xd9aace7C886895539bD3d76B524f83D8E8a8559D',
-    '0x0c4d9a7f753Ac0f0cce88EdEAc31A41211823981',
-    '0xcf81F23210B7B489d2e1113A430d67C92c478aFd',
-    '0xed6BD81b2b0de50bD9804d616B38F9d5b8FB279b',
-    '0xD003C3497AfDd0bceAdd9Cc54dAEccEb5f4dA500',
-    '0x5563A4230590235948593DBf6d5963Abab614473',
-    '0xA22A37b2b36639Ea2DA817E522d7deA023998CB1',
-    '0xfbB0aBD9E7C34Bde575aAF50f7D48ac37a065d2c',
-    '0xFc40833399e82976426C7328c426381e4c8e2414',
-    '0xfF15bFc3888Ef98D752ffE74cE6dFA48C4E00Db2',
-    '0xF00b25F4688060180E830a90F999230C032CdfD0',
-    '0xcd086Ae3A3D47b24bB5d7aF1B2673DF92C70Fc7C',
-    '0x4d281E65d3dDc14b580B98Bd4F51C790474C611C'
+    '0x125cCfFAd7D46408b20C9b13e1273F1FC6799C12'
   ],
   '49': [
     '0x1645B9512c43a5A792dF86631Be18eE34397337a',
@@ -154,7 +129,6 @@ export default function StakingView() {
   const dposMainAddress = DPOS_MINE_ADDRESS[callChainId]
   const dposAddress = DPOS_ADDRESS[callChainId]
   const defaultValidators = DEFAULT_VALIDATORS[callChainId]
-  const stakingAddress = STAKING_ADDRESS[callChainId]
 
   const [blockNumber, setBlockNumber] = useState<string>('')
   const [validatorsData, setValidatorsData] = useState<ValidatorsData[]>([])
@@ -197,12 +171,12 @@ export default function StakingView() {
   const getStakingWithoutDelegate = () => {
     const dposContract = newContract(DPOSAbi, dposAddress, callChainId)
     const calls = [
-      dposContract.APR(ADDRESS_INFINITE),       // dexiang: 0 池表示非代理质押产生的收益！即所有给自己质押的代币总量！ （是否需要替换成-1池，保持奖励来源一致！？）
+      dposContract.APR(ADDRESS_INFINITE),       
       dposContract.balanceOf(ZERO_ADDRESS, account),
       dposContract.earnedOfNegative1(ZERO_ADDRESS, account)
     ]
     multicallClient(calls).then((res: any) => {
-      const apr = fromWei(res[0]).toNumber()       // dexiang: 每个池子的apr不一样？ 
+      const apr = fromWei(res[0]).toNumber()       
       const apy = (Math.pow(1 + apr / 365, 365) * 100).toFixed(2)
       console.log("without apy: ", apy)
       const staked = fromWei(res[1], 18).toFixed(6)
@@ -222,11 +196,11 @@ export default function StakingView() {
   const getValidators = () => {
     const dposMineContract = newContract(DposMineAbi, dposMainAddress, callChainId)
     const dposContract = newContract(DPOSAbi, dposAddress, callChainId)
-    const stakingContract = newContract(StakingAbi, stakingAddress, callChainId)
+
     const calls = [
       dposContract.totalSupply(),
-      dposMineContract.balanceOf(ADDRESS_INFINITE),      // dexiang: -1 池是当年应该增发的币，即奖励！每次用户提取后，相应需要减少！
-      stakingContract.validators(),
+      dposMineContract.balanceOf(ADDRESS_INFINITE),     
+      dposContract.delegates(),
       dposContract.totalRewardsDistributedOf(ADDRESS_INFINITE)
     ]
     multicallClient(calls).then(async (res: any) => {
@@ -234,7 +208,11 @@ export default function StakingView() {
       if (!Array.isArray(validatorSets)) {
         validatorSets = []
       }
-      const validators_ = lodash.uniqBy([...validatorSets, ...defaultValidators], lodash.toLower)
+      console.log("validators: ", validatorSets)
+      console.log("chainID: ", chainId)
+      // const validators_ = lodash.uniqBy([...validatorSets, ...defaultValidators], lodash.toLower)
+      const validators_ = lodash.uniq([...defaultValidators, ...res[2]])
+
       setTotalData({
         totalSupply: fromWei(res[0], 18).toFixed(0),
         totalReward: fromWei(res[1], 18).toFixed(0),     // dexiang: 应该为 -1 池代币的奖励？？
@@ -244,17 +222,19 @@ export default function StakingView() {
       const validators: ValidatorsData[] = []
       const validatorsCallList = []
       for (let i = 0; i < validators_.length; i++) {
-        validatorsCallList.push(dposContract.APR(validators_[i]), dposContract.totalSupplyOf(validators_[i]))     // dexiang: 每个validator有各自的apr，totalSupply指的是当前节点所有stake总量
-        validatorsCallList.push(dposContract.APR(ADDRESS_INFINITE))     // dexiang: count stakingwithout delegates's apr
+        validatorsCallList.push(dposContract.APR(validators_[i]), dposContract.totalSupplyOf(validators_[i]))    
+        validatorsCallList.push(dposContract.APR(ADDRESS_INFINITE))   
         if (account) {
           validatorsCallList.push(dposContract.balanceOf(validators_[i], account))
           validatorsCallList.push(dposContract.earned(validators_[i], account))
           validatorsCallList.push(dposContract.earnedOfNegative1(validators_[i], account))
         }
       }
+      console.log("validators_ length: ", validators_.length)
 
-      multicallClient(validatorsCallList).then((res2: string[]) => {
+      multicallClient(validatorsCallList).then((res2: any) => {
         for (let i = 0, ii = 0; i < validators_.length; i++) {
+          console.log("account: ", account, ", validators :", validators_[i], ", apr: ", res2[i])
           const address = validators_[i]
           const apr = fromWei(res2[ii]).toNumber()
           // let apy = (Math.pow(1 + apr / 365, 365) * 100).toFixed(2)

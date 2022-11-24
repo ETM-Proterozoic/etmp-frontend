@@ -217,5 +217,5 @@ export const TOTORO_TOKEN_INFO = {
   abi: TotoroAbi
 }
 
-export const ADDRESS_INFINITE = '0xffffffffffffffffffffffffffffffffffffffff'
+export const ADDRESS_INFINITE = '0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF'
 export const ADDRESS_0 = '0x0000000000000000000000000000000000000000'
