@@ -300,7 +300,7 @@ const fromConfigMain: FromConfig[] = [
     correspondAddress: {
       [ChainId.ETMP]: {
         symobl: 'ETH',
-        address: '0x98a53d0b5529B9488a5E993755465d67340Ea7bd'
+        address: '0x2E1AA15B319ef5a270771F538561d0214F2224D5'
       }
     },
     nativos: true
@@ -308,7 +308,7 @@ const fromConfigMain: FromConfig[] = [
   {
     symbol: 'ETH',
     chainId: ChainId.ETMP,
-    address: '0x98a53d0b5529B9488a5E993755465d67340Ea7bd',
+    address: '0x2E1AA15B319ef5a270771F538561d0214F2224D5',
     decimals: 18,
     tokenBelong: ChainId.MAINNET,
     correspondAddress: {

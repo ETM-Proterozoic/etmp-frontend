@@ -40,6 +40,10 @@ const rpc: rpcMap = {
   [97]: {
     url: 'https://nd-695-514-258.p2pify.com/4fc4c466960bebcaa37f303c66c850ba',
     address: '0x62ec15a9D2787c73A7807d240f24170Cf10b11dA'
+  },
+  [ChainId.MAINNET]: {
+    url: 'https://nd-708-589-381.p2pify.com/a259ae36ba31aff13b6311587cf47c7b',
+    address: '0x5BA1e12693Dc8F9c48aAD8770482f4739bEeD696'
   }
 }
 
@@ -57,7 +61,7 @@ console.log('configData', configData, ChainId)
 // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
 // @ts-ignore
 const MULTICALL_NETWORKS: { [chainId in ChainId]: string } = {
-  [ChainId.MAINNET]: '0xeefBa1e63905eF1D7ACbA5a8513c70307C1cE441',
+  [ChainId.MAINNET]: '0x5BA1e12693Dc8F9c48aAD8770482f4739bEeD696',
   [ChainId.ROPSTEN]: '0x53C43764255c17BD724F74c4eF150724AC50a3ed',
   [ChainId.KOVAN]: '0x2cc8688C5f75E365aaEEb4ea8D6a480405A48D2A',
   [ChainId.RINKEBY]: '0x42Ad527de7d4e9d9d011aC45B31D8551f8Fe9821',

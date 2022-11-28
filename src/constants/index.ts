@@ -23,8 +23,8 @@ type ChainTokenList = {
   readonly [chainId in ChainId]: Token[]
 }
 
-export const USDC = new Token(ChainId.ETMP, '0x94C27baBD5166b7AFBc49C5919CA2De57753b4FC', 18, 'USDC', 'USDC')
-export const USDT = new Token(ChainId.ETMP, '0x97B2B4EcF9F620d6bAA57E9095F82801461C8310', 18, 'USDT', 'Tether USD')
+export const USDC = new Token(ChainId.ETMP, '0xb19B65eaAFCA749763A2ce9312944fb208Ca1ad1', 18, 'USDC', 'USDC')
+export const USDT = new Token(ChainId.ETMP, '0x82b1BE1D0cC4F70fC530D5BE9f8C5e08ae0E5066', 18, 'USDT', 'Tether USD')
 export const ETH = new Token(ChainId.ETMP, '0x2E1AA15B319ef5a270771F538561d0214F2224D5', 18, 'ETH', 'ETH')
 //
 export const BUSD = new Token(ChainId.BSC, '0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56', 18, 'BUSD', 'Binance USD')

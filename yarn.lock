@@ -1796,10 +1796,10 @@
     "@ethersproject/properties" "^5.5.0"
     "@ethersproject/strings" "^5.5.0"
 
-"@etmp/default-token-list@^1.1.9":
-  version "1.1.9"
-  resolved "https://registry.npmmirror.com/@etmp/default-token-list/-/default-token-list-1.1.9.tgz"
-  integrity sha512-0sLT460mnm6fLySRQntCNwDyypm2x83l/mqjiIUSKxrizdAK3einFC6R1VpNpzqgG+B3jvAt2rYzpPDuIVDsnQ==
+"@etmp/default-token-list@1.2.1":
+  version "1.2.1"
+  resolved "https://registry.npmmirror.com/@etmp/default-token-list/-/default-token-list-1.2.1.tgz"
+  integrity sha512-YtpTLu5JTgMwwyk/9JCfUb0Gxd/nPn7Jz//SDp4zFSIgx9qTwqyZkTqN1ZnEb3JnO7zZk/5/11eDUpbaKV0r9A==
 
 "@etmp/sdk@^1.2.1":
   version "1.2.1"
