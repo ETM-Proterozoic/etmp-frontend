@@ -35,7 +35,7 @@ const rpc: rpcMap = {
   },
   [ChainId.ETMPTest]: {
     url: 'https://rpc.pioneer.etm.network/',
-    address: '0x216b7648cec721cf01cEa7a785557ae16927a56f'
+    address: '0x7A7BCCA37cc9eCFb6932df1210EaC28eC8c4f2e7'
   },
   [97]: {
     url: 'https://nd-695-514-258.p2pify.com/4fc4c466960bebcaa37f303c66c850ba',

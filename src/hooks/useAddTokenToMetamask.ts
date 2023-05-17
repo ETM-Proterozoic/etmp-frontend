@@ -19,7 +19,7 @@ export default function useAddTokenToMetamask(
           method: 'wallet_watchAsset',
           params: {
             // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-            //@ts-ignore // need this for incorrect ethers provider type
+            // @ts-ignore  // need this for incorrect ethers provider type
             type: 'ERC20',
             options: {
               address: TOTORO_TOKEN_INFO.address,

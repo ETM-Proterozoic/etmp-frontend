@@ -536,7 +536,7 @@ export default function BridgePage() {
       ? fromConfigMap[`${fromChainId}_${fromToken}`].correspondAddress[toChainId].address
       : fromToken
 
-    console.log("resourceAddress: ", resourceAddress, "; tokenBelong: ", tokenBelong)
+    // console.log("resourceAddress: ", resourceAddress, "; tokenBelong: ", tokenBelong)
     const resourceId = ethers.utils.hexZeroPad(resourceAddress + ethers.utils.hexlify(tokenBelong).substr(2), 32)
     const amount = numToWei(depositAmount, fromConfigMap[`${fromChainId}_${fromToken}`].decimals).toString()
     const data =

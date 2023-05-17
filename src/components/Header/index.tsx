@@ -1,6 +1,5 @@
 import React from 'react'
 import { useActiveWeb3React } from '../../hooks'
-import { useContractBalances } from '../../state/wallet/hooks'
 
 import Web3Status from '../Web3Status'
 import { useDarkModeManager } from '../../state/user/hooks'
@@ -20,7 +19,7 @@ import { ApplicationModal } from '../../state/application/actions'
 export default function Header() {
   const { account } = useActiveWeb3React()
   // const { t } = useTranslation()
-  const userEthBalance = useContractBalances(account ? [account] : [])?.[account ?? '']
+  // const userEthBalance = useContractBalances(account ? [account] : [])?.[account ?? '']
   // const [isDark] = useDarkModeManager()
 
   const prettyBalance = (balance: any) => {
@@ -42,7 +41,7 @@ export default function Header() {
         <div className="header-right">
           {false && account && (
             <div className="balance">
-              {prettyBalance(userEthBalance?.toSignificant(4))} {TOTORO_TOKEN_INFO.symbol}
+              {prettyBalance(0)} {TOTORO_TOKEN_INFO.symbol}
             </div>
           )}
           <Switch

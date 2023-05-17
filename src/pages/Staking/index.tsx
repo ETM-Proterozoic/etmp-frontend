@@ -171,17 +171,17 @@ export default function StakingView() {
   const getStakingWithoutDelegate = () => {
     const dposContract = newContract(DPOSAbi, dposAddress, callChainId)
     const calls = [
-      dposContract.APR(ADDRESS_INFINITE),       
+      dposContract.APR(ADDRESS_INFINITE),
       dposContract.balanceOf(ZERO_ADDRESS, account),
       dposContract.earnedOfNegative1(ZERO_ADDRESS, account)
     ]
     multicallClient(calls).then((res: any) => {
-      const apr = fromWei(res[0]).toNumber()       
+      const apr = fromWei(res[0]).toNumber()
       const apy = (Math.pow(1 + apr / 365, 365) * 100).toFixed(2)
-      console.log("without apy: ", apy)
+      console.log('without apy: ', apy)
       const staked = fromWei(res[1], 18).toFixed(6)
       const rewards = fromWei(res[2], 18).toFixed(6)
-      console.log("rewards: ", res[2])
+      console.log('rewards: ', res[2])
       setStakingWithoutDelegate({
         apy,
         apr: (apr * 100).toFixed(2),
@@ -199,7 +199,7 @@ export default function StakingView() {
 
     const calls = [
       dposContract.totalSupply(),
-      dposMineContract.balanceOf(ADDRESS_INFINITE),     
+      dposMineContract.balanceOf(ADDRESS_INFINITE),
       dposContract.delegates(),
       dposContract.totalRewardsDistributedOf(ADDRESS_INFINITE)
     ]
@@ -208,38 +208,43 @@ export default function StakingView() {
       if (!Array.isArray(validatorSets)) {
         validatorSets = []
       }
-      console.log("validators: ", validatorSets)
-      console.log("chainID: ", chainId)
+      console.log('validators: ', validatorSets)
+      console.log('chainID: ', chainId)
       // const validators_ = lodash.uniqBy([...validatorSets, ...defaultValidators], lodash.toLower)
       const validators_ = lodash.uniq([...defaultValidators, ...res[2]])
 
       setTotalData({
         totalSupply: fromWei(res[0], 18).toFixed(0),
-        totalReward: fromWei(res[1], 18).toFixed(0),     // dexiang: 应该为 -1 池代币的奖励？？
+        totalReward: fromWei(res[1], 18).toFixed(0), // dexiang: 应该为 -1 池代币的奖励？？
         totalRewardDistributed: fromWei(res[3], 18).toFixed(0)
       })
-      console.log("TOTAL REWARD REMAINING: ", fromWei(res[1], 18).toFixed(6), "TOTAL REWARD DISTRIBUTED: ", fromWei(res[3], 18).toFixed(6))
+      console.log(
+        'TOTAL REWARD REMAINING: ',
+        fromWei(res[1], 18).toFixed(6),
+        'TOTAL REWARD DISTRIBUTED: ',
+        fromWei(res[3], 18).toFixed(6)
+      )
       const validators: ValidatorsData[] = []
       const validatorsCallList = []
       for (let i = 0; i < validators_.length; i++) {
-        validatorsCallList.push(dposContract.APR(validators_[i]), dposContract.totalSupplyOf(validators_[i]))    
-        validatorsCallList.push(dposContract.APR(ADDRESS_INFINITE))   
+        validatorsCallList.push(dposContract.APR(validators_[i]), dposContract.totalSupplyOf(validators_[i]))
+        validatorsCallList.push(dposContract.APR(ADDRESS_INFINITE))
         if (account) {
           validatorsCallList.push(dposContract.balanceOf(validators_[i], account))
           validatorsCallList.push(dposContract.earned(validators_[i], account))
           validatorsCallList.push(dposContract.earnedOfNegative1(validators_[i], account))
         }
       }
-      console.log("validators_ length: ", validators_.length)
+      console.log('validators_ length: ', validators_.length)
 
       multicallClient(validatorsCallList).then((res2: any) => {
         for (let i = 0, ii = 0; i < validators_.length; i++) {
-          console.log("account: ", account, ", validators :", validators_[i], ", apr: ", res2[i])
+          console.log('account: ', account, ', validators :', validators_[i], ', apr: ', res2[i])
           const address = validators_[i]
           const apr = fromWei(res2[ii]).toNumber()
           // let apy = (Math.pow(1 + apr / 365, 365) * 100).toFixed(2)
           const aprWithoutDelegate = fromWei(res2[ii + 2]).toNumber()
-          const apy = ((Math.pow(1 + (apr + aprWithoutDelegate) / 365, 365) * 100)).toFixed(2)
+          const apy = (Math.pow(1 + (apr + aprWithoutDelegate) / 365, 365) * 100).toFixed(2)
 
           const totalSupply = fromWei(res2[ii + 1], 18).toFixed(6)
           let myStaked = '0'
@@ -249,10 +254,10 @@ export default function StakingView() {
           if (account) {
             myStaked = fromWei(res2[ii + 3], 18).toFixed(6)
             myStaked_ = res2[ii + 3]
-            
+
             const earnedI = fromWei(res2[ii + 4]).toNumber()
             const earnedII = fromWei(res2[ii + 5]).toNumber()
-            
+
             myEarned = (earnedI + earnedII).toFixed(6)
             myEarned_ = (earnedI + earnedII).toString()
             ii += 6
@@ -286,7 +291,7 @@ export default function StakingView() {
     // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
     // @ts-ignore
     multicallClient.getEthBalance(account, chainId).then((res: any) => {
-      console.log("eth balance: ", Number(fromWei(res, 18).toFixed(3)))
+      console.log('eth balance: ', Number(fromWei(res, 18).toFixed(3)))
       setETHBalance(Number(fromWei(res, 18).toFixed(3)))
       console.log(account, chainId, ethBalance)
     })
@@ -317,7 +322,7 @@ export default function StakingView() {
     setStakeLoading(true)
     const contract = getWeb3Contract(library, DPOSAbi, dposAddress)
     const stakeValue_ = numToWei(stakeValue, 18)
-    console.log("Delegate address: ", stakeDelegate)
+    console.log('Delegate address: ', stakeDelegate)
     contract.methods
       .stake(stakeDelegate)
       .send({
@@ -535,10 +540,8 @@ export default function StakingView() {
                     >
                       <div>Convert to Delegate</div>
                     </Popover>
-                    
-                    <div onClick={() => withdraw(ZERO_ADDRESS, stakingWithoutDelegate.staked_)}>       
-                      Unstake & Claim
-                    </div>
+
+                    <div onClick={() => withdraw(ZERO_ADDRESS, stakingWithoutDelegate.staked_)}>Unstake & Claim</div>
                   </BtnMoreMenu>
                 )}
               >
@@ -676,9 +679,7 @@ export default function StakingView() {
                               <div>Convert to another Delegate</div>
                             </Popover>
 
-                            <div onClick={() => withdraw(item.address, item.myStaked_)}>
-                              Unstake & Claim
-                            </div>
+                            <div onClick={() => withdraw(item.address, item.myStaked_)}>Unstake & Claim</div>
                           </BtnMoreMenu>
                         )}
                       >
